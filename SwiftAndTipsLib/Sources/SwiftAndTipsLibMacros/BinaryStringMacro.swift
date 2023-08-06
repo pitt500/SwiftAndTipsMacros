@@ -1,3 +1,10 @@
+//
+//  BinaryStringMacro.swift
+//  
+//
+//  Created by Pedro Rojas on 05/08/23.
+//
+
 import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
@@ -29,8 +36,6 @@ public struct BinaryStringMacro: ExpressionMacro {
         
         return ExprSyntax(literal: binaryString)
     }
-    
-    
 }
 
 enum BinaryStringError: Error, CustomStringConvertible {
@@ -42,11 +47,4 @@ enum BinaryStringError: Error, CustomStringConvertible {
             return "The argument is not an Int literal"
         }
     }
-}
-
-@main
-struct SwiftAndTipsLibPlugin: CompilerPlugin {
-    let providingMacros: [Macro.Type] = [
-        BinaryStringMacro.self
-    ]
 }

@@ -11,7 +11,7 @@ let testMacros: [String: Macro.Type] = [
 ]
 #endif
 
-final class SwiftAndTipsLibTests: XCTestCase {
+final class BinaryStringTests: XCTestCase {
     
     func testBinaryStringMacro_WithIntLiteral() throws {
         #if canImport(SwiftAndTipsLibMacros)
