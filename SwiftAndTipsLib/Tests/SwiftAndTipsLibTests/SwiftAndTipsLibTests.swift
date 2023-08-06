@@ -7,45 +7,13 @@ import XCTest
 import SwiftAndTipsLibMacros
 
 let testMacros: [String: Macro.Type] = [
-    "stringify": StringifyMacro.self,
     "binaryString": BinaryStringMacro.self
 ]
 #endif
 
 final class SwiftAndTipsLibTests: XCTestCase {
-    func testMacro() throws {
-        #if canImport(SwiftAndTipsLibMacros)
-        assertMacroExpansion(
-            """
-            #stringify(a + b)
-            """,
-            expandedSource: """
-            (a + b, "a + b")
-            """,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
-    }
-
-    func testMacroWithStringLiteral() throws {
-        #if canImport(SwiftAndTipsLibMacros)
-        assertMacroExpansion(
-            #"""
-            #stringify("Hello, \(name)")
-            """#,
-            expandedSource: #"""
-            ("Hello, \(name)", #""Hello, \(name)""#)
-            """#,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
-    }
     
-    func testBinaryStringMacro() throws {
+    func testBinaryStringMacro_WithIntLiteral() throws {
         #if canImport(SwiftAndTipsLibMacros)
         assertMacroExpansion(
             """
@@ -61,7 +29,7 @@ final class SwiftAndTipsLibTests: XCTestCase {
         #endif
     }
     
-    func testMacro_using_a_string() throws {
+    func testBinaryStringMacro_WithStringLiteral() throws {
         #if canImport(SwiftAndTipsLibMacros)
         assertMacroExpansion(
             #"""
@@ -79,7 +47,7 @@ final class SwiftAndTipsLibTests: XCTestCase {
         #endif
     }
     
-    func testMacro_transforming_variable() throws {
+    func testBinaryStringMacro_WithVariableOfTypeInt() throws {
         #if canImport(SwiftAndTipsLibMacros)
         assertMacroExpansion(
             """

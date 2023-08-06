@@ -1,14 +1,11 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-/// A macro that produces both a value and a string containing the
-/// source code that generated the value. For example,
+/// A macro that transform an Int into a binary representation and returned
+/// as string. For example:
 ///
-///     #stringify(x + y)
+///     #binaryString(10)
 ///
-/// produces a tuple `(x + y, "x + y")`.
-@freestanding(expression)
-public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "SwiftAndTipsLibMacros", type: "StringifyMacro")
-
+/// produces a string `"1010"`.
 @freestanding(expression)
 public macro binaryString(_ value: Int) -> String = #externalMacro(module: "SwiftAndTipsLibMacros", type: "BinaryStringMacro")
