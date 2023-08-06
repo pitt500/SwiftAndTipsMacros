@@ -35,12 +35,11 @@ public struct SampleBuilderMacro: MemberMacro {
             throw SampleBuilderError.argumentNotGreaterThanZero
         }
 
-        let sampleType = structDecl.identifier.text
-        
         var finalString = """
-        static var sample: [\(sampleType)] { \
-            [ \
         
+        static var sample: [Self] {
+           [
+
         """
         
         for intCounter in 1...numberOfItems {
@@ -69,14 +68,14 @@ public struct SampleBuilderMacro: MemberMacro {
             }
             
             finalString += """
-                \(sampleType)(\(parameterList)), \
+                .init(\(parameterList)),
             
             """
             
         }
         
         finalString += """
-            ] \
+        ]
         }
         """
         
