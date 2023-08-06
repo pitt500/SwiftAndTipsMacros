@@ -24,7 +24,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(SwiftAndTipsLibMacros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 1)
+            @SampleBuilder(numberOfItems: 3)
             struct Example {
                 let x: Int
                 let y: String

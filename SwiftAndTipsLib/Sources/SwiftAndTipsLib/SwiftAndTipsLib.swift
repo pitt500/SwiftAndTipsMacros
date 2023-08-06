@@ -10,5 +10,5 @@
 @freestanding(expression)
 public macro binaryString(_ value: Int) -> String = #externalMacro(module: "SwiftAndTipsLibMacros", type: "BinaryStringMacro")
 
-@attached(member, names: arbitrary)
+@attached(member, names: named(sample))
 public macro SampleBuilder(numberOfItems: Int) = #externalMacro(module: "SwiftAndTipsLibMacros", type: "SampleBuilderMacro")
