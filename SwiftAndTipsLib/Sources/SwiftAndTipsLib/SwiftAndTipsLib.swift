@@ -9,3 +9,6 @@
 /// produces a string `"1010"`.
 @freestanding(expression)
 public macro binaryString(_ value: Int) -> String = #externalMacro(module: "SwiftAndTipsLibMacros", type: "BinaryStringMacro")
+
+@attached(member, names: arbitrary)
+public macro SampleBuilder(numberOfItems: Int) = #externalMacro(module: "SwiftAndTipsLibMacros", type: "SampleBuilderMacro")

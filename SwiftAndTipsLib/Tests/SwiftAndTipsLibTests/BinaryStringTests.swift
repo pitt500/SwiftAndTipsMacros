@@ -6,7 +6,7 @@ import XCTest
 #if canImport(SwiftAndTipsLibMacros)
 import SwiftAndTipsLibMacros
 
-let testMacros: [String: Macro.Type] = [
+fileprivate let testMacros: [String: Macro.Type] = [
     "binaryString": BinaryStringMacro.self
 ]
 #endif
