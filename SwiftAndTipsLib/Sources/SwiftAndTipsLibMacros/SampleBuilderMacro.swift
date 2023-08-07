@@ -21,17 +21,9 @@ public struct SampleBuilderMacro: MemberMacro {
             throw SampleBuilderError.notAnStruct
         }
         
-        guard let numberOfItems = Int(structDecl.attributes?
-            .first?.as(AttributeSyntax.self)?
-            .argument?.as(TupleExprElementListSyntax.self)?
-            .first?.expression.as(IntegerLiteralExprSyntax.self)?
-            .digits.text ?? "")
-        else {
-            fatalError("Compiler bug: Argument must exist")
-        }
-        
-        guard numberOfItems > 0
-        else {
+        let numberOfItems = getNumberOfItems(from: node)
+
+        if numberOfItems <= 0 {
             throw SampleBuilderError.argumentNotGreaterThanZero
         }
 
@@ -80,6 +72,17 @@ public struct SampleBuilderMacro: MemberMacro {
         """
         
         return [DeclSyntax(stringLiteral: finalString)]
+    }
+    
+    static func getNumberOfItems(from node: SwiftSyntax.AttributeSyntax) -> Int {
+        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first,
+              let integerExpression = argumentTuple.expression.as(IntegerLiteralExprSyntax.self),
+              let numberOfItems = Int(integerExpression.digits.text)
+        else {
+            fatalError("Compiler bug: Argument must exist")
+        }
+        
+        return numberOfItems
     }
 }
 
