@@ -38,7 +38,7 @@ public struct SampleBuilderMacro: MemberMacro {
         var finalString = """
         
         static var sample: [Self] {
-           [
+            [
 
         """
         
@@ -75,7 +75,7 @@ public struct SampleBuilderMacro: MemberMacro {
         }
         
         finalString += """
-        ]
+            ]
         }
         """
         

@@ -34,11 +34,12 @@ final class SampleBuilderTests: XCTestCase {
             struct Example {
                 let x: Int
                 let y: String
-            
                 static var sample: [Self] {
-                   [
-                           .init(name: "Hello", age: 1),
-                   ]
+                    [
+                    .init(x: 1, y: "Hello"),
+                    .init(x: 2, y: "Hello"),
+                    .init(x: 3, y: "Hello"),
+                    ]
                 }
             }
             """,
