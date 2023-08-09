@@ -14,8 +14,8 @@ let package = Package(
             targets: ["SwiftAndTipsLib"]
         ),
         .executable(
-            name: "SwiftAndTipsLibClient",
-            targets: ["SwiftAndTipsLibClient"]
+            name: "SwiftAndTipsMacrosClient",
+            targets: ["SwiftAndTipsMacrosClient"]
         ),
     ],
     dependencies: [
@@ -38,7 +38,7 @@ let package = Package(
         .target(name: "SwiftAndTipsLib", dependencies: ["Macros"]),
 
         // A client of the library, which is able to use the macro in its own code.
-        .executableTarget(name: "SwiftAndTipsLibClient", dependencies: ["SwiftAndTipsLib"]),
+        .executableTarget(name: "SwiftAndTipsMacrosClient", dependencies: ["SwiftAndTipsLib"]),
 
         // A test target used to develop the macro implementation.
         .testTarget(
