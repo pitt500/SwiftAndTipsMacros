@@ -4,7 +4,7 @@ import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 
 @main
-struct SwiftAndTipsLibPlugin: CompilerPlugin {
+struct SwiftAndTipsMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         BinaryStringMacro.self,
         SampleBuilderMacro.self,
