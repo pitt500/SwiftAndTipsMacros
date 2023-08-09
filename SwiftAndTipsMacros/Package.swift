@@ -11,7 +11,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "SwiftAndTipsMacros",
-            targets: ["SwiftAndTipsLib"]
+            targets: ["SwiftAndTipsMacros"]
         ),
         .executable(
             name: "SwiftAndTipsMacrosClient",
@@ -35,10 +35,10 @@ let package = Package(
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "SwiftAndTipsLib", dependencies: ["Macros"]),
+        .target(name: "SwiftAndTipsMacros", dependencies: ["Macros"]),
 
         // A client of the library, which is able to use the macro in its own code.
-        .executableTarget(name: "SwiftAndTipsMacrosClient", dependencies: ["SwiftAndTipsLib"]),
+        .executableTarget(name: "SwiftAndTipsMacrosClient", dependencies: ["SwiftAndTipsMacros"]),
 
         // A test target used to develop the macro implementation.
         .testTarget(
