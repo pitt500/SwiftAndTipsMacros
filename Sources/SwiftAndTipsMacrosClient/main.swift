@@ -1,4 +1,4 @@
-import SwiftAndTipsLib
+import SwiftAndTipsMacros
 
 let x = #binaryString(10)
 
