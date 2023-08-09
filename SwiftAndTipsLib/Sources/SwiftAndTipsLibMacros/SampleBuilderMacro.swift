@@ -48,9 +48,11 @@ public struct SampleBuilderMacro: MemberMacro {
                 
                 let identifier = identifierDecl.identifier
                 
-                if identifierType.text == "Int" {
+                let supportedType = SupportedType(rawValue: identifierType.text)
+                
+                if supportedType == .int {
                     parameterList += "\(identifier.text): \(intCounter)"
-                } else if identifierType.text == "String" {
+                } else if supportedType == .string {
                     parameterList += "\(identifier.text): \"Hello\""
                 }
                 
@@ -98,4 +100,9 @@ enum SampleBuilderError: Error, CustomStringConvertible {
             return "Argument is not greater than zero"
         }
     }
+}
+
+enum SupportedType: String {
+    case int = "Int"
+    case string = "String"
 }
