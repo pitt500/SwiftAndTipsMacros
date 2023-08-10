@@ -104,5 +104,52 @@ enum SampleBuilderError: Error, CustomStringConvertible {
 
 enum SupportedType: String {
     case int = "Int"
+    case int8
+    case int16
+    case int32
+    case int64
+    case uInt8
+    case uInt16
+    case uInt32
+    case uInt64
+    case float
+    case double
     case string = "String"
+    case bool
+    case data
+    case date
+    case uuid
+    case cgPoint
+    case cgRect
+    case cgSize
+    case cgVector
+    case cgFloat
+    case url
+    
+    var `default`: String {
+        switch self {
+        case .int, .int8, .int16, .int32, .int64, .uInt8, .uInt16, .uInt32, .uInt64, .double, .float, .cgFloat:
+            "0"
+        case .string:
+            "Hello World"
+        case .bool:
+            "true"
+        case .data:
+            "Data()"
+        case .date:
+            "Date()"
+        case .uuid:
+            "UUID()"
+        case .cgPoint:
+            "CGPoint()"
+        case .cgRect:
+            "CGRect()"
+        case .cgSize:
+            "CGSize()"
+        case .cgVector:
+            "CGVector()"
+        case .url:
+            #"URL(string: "https://www.apple.com")!"#
+        }
+    }
 }
