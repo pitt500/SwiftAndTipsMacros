@@ -22,7 +22,7 @@ fileprivate let testMacros: [String: Macro.Type] = [
 
 
 final class SampleBuilderTests: XCTestCase {
-    func testSampleBuilderMacro() throws{
+    func testSampleBuilderMacro_Int_and_String() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -41,6 +41,77 @@ final class SampleBuilderTests: XCTestCase {
                     .init(x: 0, y: "Hello World"),
                     .init(x: 0, y: "Hello World"),
                     .init(x: 0, y: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_supportedType() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Person {
+                let id: UUID
+                let item1: String
+                let item2: Int
+                let item3: Bool
+                let item4: Data
+                let item5: Date
+                let item6: Double
+                let item7: Float
+                let item8: Int8
+                let item9: Int16
+                let item10: Int32
+                let item11: Int64
+                let item12: UInt8
+                let item13: UInt16
+                let item14: UInt32
+                let item15: UInt64
+                let item16: URL
+                let item17: CGPoint
+                let item18: CGFloat
+                let item19: CGRect
+                let item20: CGSize
+                let item21: CGVector
+            }
+
+            """#,
+            expandedSource: """
+            struct Person {
+                let id: UUID
+                let item1: String
+                let item2: Int
+                let item3: Bool
+                let item4: Data
+                let item5: Date
+                let item6: Double
+                let item7: Float
+                let item8: Int8
+                let item9: Int16
+                let item10: Int32
+                let item11: Int64
+                let item12: UInt8
+                let item13: UInt16
+                let item14: UInt32
+                let item15: UInt64
+                let item16: URL
+                let item17: CGPoint
+                let item18: CGFloat
+                let item19: CGRect
+                let item20: CGSize
+                let item21: CGVector
+                static var sample: [Self] {
+                    [
+                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
                     ]
                 }
             }
