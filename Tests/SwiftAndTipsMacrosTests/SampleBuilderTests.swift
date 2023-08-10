@@ -10,18 +10,20 @@ import SwiftSyntaxMacrosTestSupport
 import XCTest
 
 // Macro implementations build for the host, so the corresponding module is not available when cross-compiling. Cross-compiled tests may still make use of the macro itself in end-to-end tests.
-#if canImport(SwiftAndTipsLibMacros)
+#if canImport(Macros)
 import Macros
 
 fileprivate let testMacros: [String: Macro.Type] = [
     "SampleBuilder": SampleBuilderMacro.self
 ]
+#else
+    #error("Macros library is not running")
 #endif
 
 
 final class SampleBuilderTests: XCTestCase {
     func testSampleBuilderMacro() throws{
-        #if canImport(SwiftAndTipsLibMacros)
+        #if canImport(Macros)
         assertMacroExpansion(
             #"""
             @SampleBuilder(numberOfItems: 3)
@@ -36,9 +38,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                    .init(x: 1, y: "Hello"),
-                    .init(x: 2, y: "Hello"),
-                    .init(x: 3, y: "Hello"),
+                    .init(x: 0, y: "Hello World"),
+                    .init(x: 0, y: "Hello World"),
+                    .init(x: 0, y: "Hello World"),
                     ]
                 }
             }

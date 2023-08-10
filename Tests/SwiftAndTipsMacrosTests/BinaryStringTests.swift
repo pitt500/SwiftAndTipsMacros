@@ -3,18 +3,20 @@ import SwiftSyntaxMacrosTestSupport
 import XCTest
 
 // Macro implementations build for the host, so the corresponding module is not available when cross-compiling. Cross-compiled tests may still make use of the macro itself in end-to-end tests.
-#if canImport(SwiftAndTipsLibMacros)
+#if canImport(Macros)
 import Macros
 
 fileprivate let testMacros: [String: Macro.Type] = [
     "binaryString": BinaryStringMacro.self
 ]
+#else
+    #error("Macros library is not running")
 #endif
 
 final class BinaryStringTests: XCTestCase {
     
     func testBinaryStringMacro_WithIntLiteral() throws {
-        #if canImport(SwiftAndTipsLibMacros)
+        #if canImport(Macros)
         assertMacroExpansion(
             """
             #binaryString(111)
@@ -30,7 +32,7 @@ final class BinaryStringTests: XCTestCase {
     }
     
     func testBinaryStringMacro_WithStringLiteral() throws {
-        #if canImport(SwiftAndTipsLibMacros)
+        #if canImport(Macros)
         assertMacroExpansion(
             #"""
             #binaryString("Hello")
@@ -48,7 +50,7 @@ final class BinaryStringTests: XCTestCase {
     }
     
     func testBinaryStringMacro_WithVariableOfTypeInt() throws {
-        #if canImport(SwiftAndTipsLibMacros)
+        #if canImport(Macros)
         assertMacroExpansion(
             """
             let input = 7
