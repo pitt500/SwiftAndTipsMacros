@@ -27,18 +27,18 @@ public struct SampleBuilderMacro: MemberMacro {
             throw SampleBuilderError.argumentNotGreaterThanZero
         }
 
-        var finalString = """
+        var sampleCode = """
         
         static var sample: [Self] {
             [
 
         """
         
-        for intCounter in 1...numberOfItems {
+        for _ in 1...numberOfItems {
             
             var parameterList = ""
             
-            for (index, member) in structDecl.memberBlock.members.enumerated() {
+            for member in structDecl.memberBlock.members {
                 guard let variableDecl = member.decl.as(VariableDeclSyntax.self),
                       let identifierDecl = variableDecl.bindings.first?.pattern.as(IdentifierPatternSyntax.self),
                       let identifierType = variableDecl.bindings.first?.typeAnnotation?.type.as(SimpleTypeIdentifierSyntax.self)?.name
@@ -46,34 +46,29 @@ public struct SampleBuilderMacro: MemberMacro {
                     fatalError("Compiler Bug")
                 }
                 
-                let identifier = identifierDecl.identifier
-                
-                let supportedType = SupportedType(rawValue: identifierType.text)
-                
-                if supportedType == .int {
-                    parameterList += "\(identifier.text): \(intCounter)"
-                } else if supportedType == .string {
-                    parameterList += "\(identifier.text): \"Hello\""
-                }
-                
-                if index != structDecl.memberBlock.members.count - 1 {
-                    parameterList += ", "
+                do {
+                    parameterList += try getParameterItem(
+                        identifierName: identifierDecl.identifier,
+                        identifierType: identifierType,
+                        isLast: member == structDecl.memberBlock.members.last
+                    )
+                } catch {
+                    throw error
                 }
             }
             
-            finalString += """
+            sampleCode += """
                 .init(\(parameterList)),
             
             """
-            
         }
         
-        finalString += """
+        sampleCode += """
             ]
         }
         """
         
-        return [DeclSyntax(stringLiteral: finalString)]
+        return [DeclSyntax(stringLiteral: sampleCode)]
     }
     
     static func getNumberOfItems(from node: SwiftSyntax.AttributeSyntax) -> Int {
@@ -86,11 +81,32 @@ public struct SampleBuilderMacro: MemberMacro {
         
         return numberOfItems
     }
+    
+    static func getParameterItem(
+        identifierName: TokenSyntax,
+        identifierType: TokenSyntax,
+        isLast: Bool
+    ) throws -> String {
+        
+        guard let supportedType = SupportedType(rawValue: identifierType.text)
+        else {
+            throw SampleBuilderError.typeNotSupported
+        }
+        
+        var parameterItem = "\(identifierName.text): \(supportedType.default)"
+        
+        if !isLast {
+            parameterItem += ", "
+        }
+        
+        return parameterItem
+    }
 }
 
 enum SampleBuilderError: Error, CustomStringConvertible {
     case notAnStruct
     case argumentNotGreaterThanZero
+    case typeNotSupported
     
     var description: String {
         switch self {
@@ -98,40 +114,42 @@ enum SampleBuilderError: Error, CustomStringConvertible {
             return "This macro can only be applied to structs"
         case .argumentNotGreaterThanZero:
             return "Argument is not greater than zero"
+        case .typeNotSupported:
+            return "Type is not supported"
         }
     }
 }
 
 enum SupportedType: String {
     case int = "Int"
-    case int8
-    case int16
-    case int32
-    case int64
-    case uInt8
-    case uInt16
-    case uInt32
-    case uInt64
-    case float
-    case double
+    case int8 = "Int8"
+    case int16 = "Int16"
+    case int32 = "Int32"
+    case int64 = "Int64"
+    case uInt8 = "UInt8"
+    case uInt16 = "UInt16"
+    case uInt32 = "UInt32"
+    case uInt64 = "UInt64"
+    case float = "Float"
+    case double = "Double"
     case string = "String"
-    case bool
-    case data
-    case date
-    case uuid
-    case cgPoint
-    case cgRect
-    case cgSize
-    case cgVector
-    case cgFloat
-    case url
+    case bool = "Bool"
+    case data = "Data"
+    case date = "Date"
+    case uuid = "UUID"
+    case cgPoint = "CGPoint"
+    case cgRect = "CGRect"
+    case cgSize = "CGSize"
+    case cgVector = "CGVector"
+    case cgFloat = "CGFloat"
+    case url = "URL"
     
     var `default`: String {
         switch self {
         case .int, .int8, .int16, .int32, .int64, .uInt8, .uInt16, .uInt32, .uInt64, .double, .float, .cgFloat:
             "0"
         case .string:
-            "Hello World"
+            #""Hello World""#
         case .bool:
             "true"
         case .data:
