@@ -43,3 +43,16 @@ struct Product {
     var price: Int
     var description: String
 }
+
+@SampleBuilder(numberOfItems: 3)
+struct MyStruct {
+    var array: [Product]
+    var array2: [Int]
+}
+
+/*
+ TODO:
+ - Dictionaries
+ - Enums
+ - Classes
+ */

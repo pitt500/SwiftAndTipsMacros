@@ -41,7 +41,7 @@ public struct SampleBuilderMacro: MemberMacro {
             for member in structDecl.memberBlock.members {
                 guard let variableDecl = member.decl.as(VariableDeclSyntax.self),
                       let identifierDecl = variableDecl.bindings.first?.pattern.as(IdentifierPatternSyntax.self),
-                      let identifierType = variableDecl.bindings.first?.typeAnnotation?.type.as(SimpleTypeIdentifierSyntax.self)?.name
+                      let identifierType = variableDecl.bindings.first?.typeAnnotation?.type
                 else {
                     fatalError("Compiler Bug")
                 }
@@ -84,15 +84,30 @@ public struct SampleBuilderMacro: MemberMacro {
     
     static func getParameterItem(
         identifierName: TokenSyntax,
-        identifierType: TokenSyntax,
+        identifierType: TypeSyntax,
         isLast: Bool
     ) throws -> String {
         
         var parameterItem = ""
-        if let supportedType = SupportedType(rawValue: identifierType.text) {
-            parameterItem = "\(identifierName.text): \(supportedType.default)"
+        
+        #warning("Refactor all this mess!")
+        if let arrayType = identifierType.as(ArrayTypeSyntax.self),
+            let elementType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self) {
+            
+            if let primitiveType = PrimitiveType(rawValue: elementType.name.text) {
+                parameterItem = "\(identifierName.text): [\(primitiveType.default)]"
+            } else {
+                parameterItem = "\(identifierName.text): \(elementType.name.text).sample"
+            }
+            
+        } else if let simpleType = identifierType.as(SimpleTypeIdentifierSyntax.self) {
+            if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
+                parameterItem = "\(identifierName.text): \(primitiveType.default)"
+            } else {
+                parameterItem = "\(identifierName.text): \(simpleType.name.text).sample.first!"
+            }
         } else {
-            parameterItem = "\(identifierName.text): \(identifierType.text).sample.first!"
+            throw SampleBuilderError.typeNotSupported(typeName: identifierType.description)
         }
         
         if !isLast {
@@ -106,7 +121,7 @@ public struct SampleBuilderMacro: MemberMacro {
 enum SampleBuilderError: Error, CustomStringConvertible {
     case notAnStruct
     case argumentNotGreaterThanZero
-    case typeNotSupported
+    case typeNotSupported(typeName: String)
     
     var description: String {
         switch self {
@@ -114,13 +129,13 @@ enum SampleBuilderError: Error, CustomStringConvertible {
             return "This macro can only be applied to structs"
         case .argumentNotGreaterThanZero:
             return "Argument is not greater than zero"
-        case .typeNotSupported:
-            return "Type is not supported"
+        case .typeNotSupported(let typeName):
+            return "\(typeName) is not supported"
         }
     }
 }
 
-enum SupportedType: String {
+enum PrimitiveType: String {
     case int = "Int"
     case int8 = "Int8"
     case int16 = "Int16"
