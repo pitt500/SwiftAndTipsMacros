@@ -122,4 +122,53 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    func testSampleBuilderMacro_customStruct() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Review {
+                let rating: Int
+                let time: Date
+                let product: Product
+            }
+
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+            }
+            """#,
+            expandedSource: """
+            struct Review {
+                let rating: Int
+                let time: Date
+                let product: Product
+                static var sample: [Self] {
+                    [
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    ]
+                }
+            }
+            struct Product {
+                var price: Int
+                var description: String
+                static var sample: [Self] {
+                    [
+                    .init(price: 0, description: "Hello World"),
+                    .init(price: 0, description: "Hello World"),
+                    .init(price: 0, description: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

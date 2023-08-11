@@ -88,12 +88,12 @@ public struct SampleBuilderMacro: MemberMacro {
         isLast: Bool
     ) throws -> String {
         
-        guard let supportedType = SupportedType(rawValue: identifierType.text)
-        else {
-            throw SampleBuilderError.typeNotSupported
+        var parameterItem = ""
+        if let supportedType = SupportedType(rawValue: identifierType.text) {
+            parameterItem = "\(identifierName.text): \(supportedType.default)"
+        } else {
+            parameterItem = "\(identifierName.text): \(identifierType.text).sample.first!"
         }
-        
-        var parameterItem = "\(identifierName.text): \(supportedType.default)"
         
         if !isLast {
             parameterItem += ", "
