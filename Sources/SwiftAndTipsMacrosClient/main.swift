@@ -59,16 +59,44 @@ print(x)
 //    var array2: [Int]
 //}
 
-@SampleBuilder(numberOfItems: 3)
-struct Example {
-    let x: Int
-    var y: String
-    
-    static var notAValidStoredProperty: Self {
-        .init(x: 0, y: "Hello World")
-    }
-    
-    var aComputedProperty: String {
-        "Hello"
-    }
-}
+//@SampleBuilder(numberOfItems: 3)
+//struct Example {
+//    let x: Int
+//    var y: String
+//    
+//    static var notAValidStoredProperty: Self {
+//        .init(x: 0, y: "Hello World")
+//    }
+//    
+//    var aComputedProperty: String {
+//        "Hello"
+//    }
+//}
+
+
+//@SampleBuilder(numberOfItems: 3)
+//struct Example {
+//    let x: Int
+//    private var y: String {
+//        didSet {
+//            print("didSet called")
+//        }
+//        willSet {
+//            print("willSet called")
+//        }
+//    }
+//    static var asd: Self {
+//        .init(x: 0, y: "Hello World")
+//    }
+//    var z: String {
+//        get { y }
+//    }
+//    var w: String {
+//        get {
+//            y
+//        }
+//        set {
+//            y = newValue
+//        }
+//    }
+//}
