@@ -203,4 +203,39 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_ignore_static_variable() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Example {
+                let x: Int
+                var y: String
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let x: Int
+                var y: String
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+                static var sample: [Self] {
+                    [
+                    .init(x: 0, y: "Hello World"),
+                    .init(x: 0, y: "Hello World"),
+                    .init(x: 0, y: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

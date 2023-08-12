@@ -34,11 +34,16 @@ public struct SampleBuilderMacro: MemberMacro {
 
         """
         
+        let validMembers = structDecl.memberBlock.members
+            .filter {
+                $0.decl.as(VariableDeclSyntax.self)?.isStoredProperty ?? false
+            }
+        
         for _ in 1...numberOfItems {
             
             var parameterList = ""
             
-            for member in structDecl.memberBlock.members {
+            for member in validMembers {
                 guard let variableDecl = member.decl.as(VariableDeclSyntax.self),
                       let identifierDecl = variableDecl.bindings.first?.pattern.as(IdentifierPatternSyntax.self),
                       let identifierType = variableDecl.bindings.first?.typeAnnotation?.type
@@ -50,7 +55,7 @@ public struct SampleBuilderMacro: MemberMacro {
                     parameterList += try getParameterItem(
                         identifierName: identifierDecl.identifier,
                         identifierType: identifierType,
-                        isLast: member == structDecl.memberBlock.members.last
+                        isLast: member == validMembers.last
                     )
                 } catch {
                     throw error
@@ -91,6 +96,7 @@ public struct SampleBuilderMacro: MemberMacro {
         var parameterItem = ""
         
         #warning("Refactor all this mess!")
+        
         if let arrayType = identifierType.as(ArrayTypeSyntax.self),
             let elementType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self) {
             
@@ -115,6 +121,50 @@ public struct SampleBuilderMacro: MemberMacro {
         }
         
         return parameterItem
+    }
+}
+
+extension VariableDeclSyntax {
+    var isStoredProperty: Bool {
+        // Stored properties cannot have more than 1 binding in its declaration.
+        guard bindings.count == 1
+        else {
+            return false
+        }
+        
+        guard let accesor = bindings.first?.accessor
+        else {
+            // Nothing to review. It's a valid stored property
+            return true
+        }
+        
+        switch accesor {
+        case .accessors(let accesorBlockSyntax):
+            // Observers are valid accesors only
+            let validAccesors = Set<TokenKind>([
+                .keyword(.willSet), .keyword(.didSet)
+            ])
+            
+            let hasValidAccesors = accesorBlockSyntax.accessors.contains {
+                // Other kind of accesors will make the variable a computed property
+                validAccesors.contains($0.accessorKind.tokenKind)
+            }
+            return hasValidAccesors
+        case .getter:
+            // A variable with only a getter is not valid for initialization.
+            return false
+        }
+        
+    }
+    
+    var isPublic: Bool {
+        return true
+        #warning("Missing Implementation")
+    }
+    
+    var isPrivate: Bool {
+        return true
+        #warning("Missing Implementation")
     }
 }
 
