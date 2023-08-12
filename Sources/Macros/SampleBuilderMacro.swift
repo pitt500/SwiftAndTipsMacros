@@ -158,13 +158,22 @@ extension VariableDeclSyntax {
     }
     
     var isPublic: Bool {
-        return true
-        #warning("Missing Implementation")
+        modifiers?.contains {
+            $0.name.tokenKind == .keyword(.public)
+        } ?? false
     }
     
     var isPrivate: Bool {
+        modifiers?.contains {
+            $0.name.tokenKind == .keyword(.private)
+        } ?? false
+    }
+}
+
+extension StructDeclSyntax {
+    var hasExplicitInit: Bool {
         return true
-        #warning("Missing Implementation")
+        #warning("missing implementation")
     }
 }
 
