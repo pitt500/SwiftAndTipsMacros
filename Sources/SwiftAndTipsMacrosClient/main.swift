@@ -100,3 +100,10 @@ print(x)
 //        }
 //    }
 //}
+
+@SampleBuilder(numberOfItems: 3)
+struct Example {
+    let x: Int
+    let y: String
+}
+

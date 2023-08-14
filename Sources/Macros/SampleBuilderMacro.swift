@@ -73,7 +73,94 @@ public struct SampleBuilderMacro: MemberMacro {
         }
         """
         
-        return [DeclSyntax(stringLiteral: sampleCode)]
+        #warning("Fix this test")
+        //return [DeclSyntax(stringLiteral: sampleCode)]
+        return [
+            DeclSyntax(
+                generateSampleCodeSyntax(
+                    sampleElements: generateSampleArrayElements()
+                )
+            )
+        ]
+    }
+    
+    static func generateSampleCodeSyntax(
+        sampleElements: ArrayElementListSyntax
+    ) -> VariableDeclSyntax {
+        VariableDeclSyntax(
+            modifiers: ModifierListSyntax {
+                DeclModifierSyntax(name: .keyword(.static))
+            },
+            bindingKeyword: .keyword(.var),
+            bindings: PatternBindingListSyntax {
+                PatternBindingSyntax(
+                    pattern: IdentifierPatternSyntax(identifier: .identifier("sample")
+                    ),
+                    typeAnnotation: TypeAnnotationSyntax(
+                        colon: .colonToken(),
+                        type: ArrayTypeSyntax(
+                            leftSquareBracket: .leftSquareBracketToken(),
+                            elementType: SimpleTypeIdentifierSyntax(
+                                name: .keyword(.Self)
+                            ),
+                            rightSquareBracket: .rightSquareBracketToken()
+                        )
+                    ),
+                    accessor: .getter(
+                        CodeBlockSyntax(
+                            leftBrace: .leftBraceToken(),
+                            statements: CodeBlockItemListSyntax {
+                                CodeBlockItemSyntax(
+                                    item: .expr(
+                                        ExprSyntax(
+                                            ArrayExprSyntax(
+                                                leftSquare: .leftSquareBracketToken(),
+                                                elements: sampleElements,
+                                                rightSquare: .rightSquareBracketToken()
+                                            )
+                                        )
+                                    )
+                                )
+                                
+                            },
+                            rightBrace: .rightBraceToken()
+                        )
+                    )
+                )
+            }
+        )
+    }
+    
+    static func generateSampleArrayElements() -> ArrayElementListSyntax {
+        ArrayElementListSyntax {
+            ArrayElementSyntax(
+                expression: FunctionCallExprSyntax(
+                    calledExpression: MemberAccessExprSyntax(
+                        dot: .periodToken(),
+                        name: .keyword(.`init`)
+                    ),
+                    leftParen: .leftParenToken(),
+                    argumentList: TupleExprElementListSyntax {
+                        TupleExprElementSyntax(
+                            label: .identifier("x"),
+                            colon: .colonToken(),
+                            expression: IntegerLiteralExprSyntax(
+                                digits: .integerLiteral("0")
+                            ),
+                            trailingComma: .commaToken()
+                        )
+                        TupleExprElementSyntax(
+                            label: .identifier("y"),
+                            colon: .colonToken(),
+                            expression: StringLiteralExprSyntax(content: "Hello World"),
+                            trailingComma: .commaToken()
+                        )
+                    },
+                    rightParen: .rightParenToken()
+                ),
+                trailingComma: .commaToken()
+            )
+        }
     }
     
     static func getNumberOfItems(from node: SwiftSyntax.AttributeSyntax) -> Int {
