@@ -74,14 +74,14 @@ public struct SampleBuilderMacro: MemberMacro {
         """
         
         #warning("Fix this test")
-        //return [DeclSyntax(stringLiteral: sampleCode)]
-        return [
-            DeclSyntax(
-                generateSampleCodeSyntax(
-                    sampleElements: generateSampleArrayElements()
-                )
-            )
-        ]
+        return [DeclSyntax(stringLiteral: sampleCode)]
+//        return [
+//            DeclSyntax(
+//                generateSampleCodeSyntax(
+//                    sampleElements: generateSampleArrayElements()
+//                )
+//            )
+//        ]
     }
     
     static func generateSampleCodeSyntax(
@@ -116,7 +116,7 @@ public struct SampleBuilderMacro: MemberMacro {
                                             ArrayExprSyntax(
                                                 leftSquare: .leftSquareBracketToken(),
                                                 elements: sampleElements,
-                                                rightSquare: .rightSquareBracketToken()
+                                                rightSquare: .rightSquareBracketToken(leadingTrivia: .newline)
                                             )
                                         )
                                     )
@@ -132,8 +132,9 @@ public struct SampleBuilderMacro: MemberMacro {
     }
     
     static func generateSampleArrayElements() -> ArrayElementListSyntax {
-        ArrayElementListSyntax {
+        return ArrayElementListSyntax {
             ArrayElementSyntax(
+                leadingTrivia: .newline,
                 expression: FunctionCallExprSyntax(
                     calledExpression: MemberAccessExprSyntax(
                         dot: .periodToken(),
@@ -152,15 +153,47 @@ public struct SampleBuilderMacro: MemberMacro {
                         TupleExprElementSyntax(
                             label: .identifier("y"),
                             colon: .colonToken(),
-                            expression: StringLiteralExprSyntax(content: "Hello World"),
-                            trailingComma: .commaToken()
+                            expression: StringLiteralExprSyntax(content: "Hello World")
+                            //trailingComma: .commaToken()
                         )
                     },
                     rightParen: .rightParenToken()
                 ),
                 trailingComma: .commaToken()
             )
+            ArrayElementSyntax(
+                leadingTrivia: .newline,
+                expression: FunctionCallExprSyntax(
+                    calledExpression: MemberAccessExprSyntax(
+                        dot: .periodToken(),
+                        name: .keyword(.`init`)
+                    ),
+                    leftParen: .leftParenToken(),
+                    argumentList: TupleExprElementListSyntax {
+                        TupleExprElementSyntax(
+                            label: .identifier("x"),
+                            colon: .colonToken(),
+                            expression: IntegerLiteralExprSyntax(
+                                digits: .integerLiteral("0")
+                            ),
+                            trailingComma: .commaToken()
+                        )
+                        TupleExprElementSyntax(
+                            label: .identifier("y"),
+                            colon: .colonToken(),
+                            expression: StringLiteralExprSyntax(content: "Hello World")
+                            //trailingComma: .commaToken()
+                        )
+                    },
+                    rightParen: .rightParenToken()
+                ),
+                trailingComma: .commaToken()
+                //trailingTrivia: .newline
+            )
         }
+        
+        
+        #warning("No introducir commaToken en el ultimo parametro")
     }
     
     static func getNumberOfItems(from node: SwiftSyntax.AttributeSyntax) -> Int {
