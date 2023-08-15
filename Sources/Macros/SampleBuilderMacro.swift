@@ -207,6 +207,95 @@ public struct SampleBuilderMacro: MemberMacro {
         return numberOfItems
     }
     
+    static func getSampleElementParameterList(
+        members: [MemberDeclListSyntax.Element]
+    ) throws -> ArrayElementSyntax {
+        for member in members {
+            guard let variableDecl = member.decl.as(VariableDeclSyntax.self),
+                  let identifierDecl = variableDecl.bindings.first?.pattern.as(IdentifierPatternSyntax.self),
+                  let identifierType = variableDecl.bindings.first?.typeAnnotation?.type
+            else {
+                fatalError("Compiler Bug")
+            }
+            
+//            parameterList += try getParameterItem(
+//                identifierName: identifierDecl.identifier,
+//                identifierType: identifierType,
+//                isLast: member == validMembers.last
+//            )
+            
+            
+            
+            let x = TupleExprElementSyntax(
+                label: identifierDecl.identifier,
+                colon: .colonToken(),
+                expression: IntegerLiteralExprSyntax(
+                    digits: .integerLiteral("0")
+                ),
+                trailingComma: .commaToken()
+            )
+            
+        }
+        
+        return ArrayElementSyntax(
+            leadingTrivia: .newline,
+            expression: FunctionCallExprSyntax(
+                calledExpression: MemberAccessExprSyntax(
+                    dot: .periodToken(),
+                    name: .keyword(.`init`)
+                ),
+                leftParen: .leftParenToken(),
+                argumentList: TupleExprElementListSyntax {
+                    TupleExprElementSyntax(
+                        label: .identifier("x"),
+                        colon: .colonToken(),
+                        expression: IntegerLiteralExprSyntax(
+                            digits: .integerLiteral("0")
+                        ),
+                        trailingComma: .commaToken()
+                    )
+                    TupleExprElementSyntax(
+                        label: .identifier("y"),
+                        colon: .colonToken(),
+                        expression: StringLiteralExprSyntax(content: "Hello World")
+                        //trailingComma: .commaToken()
+                    )
+                },
+                rightParen: .rightParenToken()
+            ),
+            trailingComma: .commaToken()
+        )
+    }
+    
+    static func getExprSyntax(identifierType: TypeSyntax) -> ExprSyntax {
+        if let simpleType = identifierType.as(SimpleTypeIdentifierSyntax.self) {
+            if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
+                return primitiveType.exprSyntax
+            } else {
+                return ExprSyntax(
+                    ForcedValueExprSyntax(
+                        expression: MemberAccessExprSyntax(
+                            base: MemberAccessExprSyntax(
+                                base: IdentifierExprSyntax(
+                                    identifier: simpleType.name
+                                ),
+                                dot: .periodToken(),
+                                name: .identifier("sample")
+                            ),
+                            dot: .periodToken(),
+                            name: .identifier("first")
+                        ),
+                        exclamationMark: .exclamationMarkToken()
+                    )
+                )
+            }
+        }
+        
+        
+        
+        return ""
+    }
+    
     static func getParameterItem(
         identifierName: TokenSyntax,
         identifierType: TypeSyntax,

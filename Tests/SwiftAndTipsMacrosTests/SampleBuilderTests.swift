@@ -132,6 +132,13 @@ final class SampleBuilderTests: XCTestCase {
                 let rating: Int
                 let time: Date
                 let product: Product
+                static var samplex: [Self] {
+                    [
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                    ]
+                }
             }
 
             @SampleBuilder(numberOfItems: 3)
