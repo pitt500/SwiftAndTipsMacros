@@ -364,4 +364,86 @@ enum PrimitiveType: String {
             #"URL(string: "https://www.apple.com")!"#
         }
     }
+    
+    var exprSyntax: ExprSyntax {
+        switch self {
+        case .int, .int8, .int16, .int32, .int64, .uInt8, .uInt16, .uInt32, .uInt64, .double, .float, .cgFloat:
+            ExprSyntax(
+                IntegerLiteralExprSyntax(
+                    digits: .integerLiteral("0")
+                )
+            )
+        case .string:
+            ExprSyntax(
+                StringLiteralExprSyntax(content: "Hello World")
+            )
+        case .bool:
+            ExprSyntax(
+                BooleanLiteralExprSyntax(booleanLiteral: true)
+            )
+        case .data:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("Data")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .date:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("Date")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .uuid:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("Data")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .cgPoint:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGPoint")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .cgRect:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGRect")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .cgSize:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGSize")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .cgVector:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGVector")),
+                    argumentList: TupleExprElementListSyntax()
+                )
+            )
+        case .url:
+            ExprSyntax(
+                FunctionCallExprSyntax(
+                    calledExpression: IdentifierExprSyntax(identifier: .identifier("URL")),
+                    argumentList: TupleExprElementListSyntax {
+                        TupleExprElementSyntax(
+                            label: "string",
+                            expression: StringLiteralExprSyntax(
+                                content: "https://www.apple.com"
+                            )
+                        )
+                    }
+                )
+            )
+        }
+    }
 }
