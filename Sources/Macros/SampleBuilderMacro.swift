@@ -267,33 +267,31 @@ public struct SampleBuilderMacro: MemberMacro {
         )
     }
     
-    static func getExprSyntax(identifierType: TypeSyntax) -> ExprSyntax {
-        if let simpleType = identifierType.as(SimpleTypeIdentifierSyntax.self) {
-            if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
-                return primitiveType.exprSyntax
-            } else {
-                return ExprSyntax(
-                    ForcedValueExprSyntax(
-                        expression: MemberAccessExprSyntax(
-                            base: MemberAccessExprSyntax(
-                                base: IdentifierExprSyntax(
-                                    identifier: simpleType.name
-                                ),
-                                dot: .periodToken(),
-                                name: .identifier("sample")
-                            ),
-                            dot: .periodToken(),
-                            name: .identifier("first")
-                        ),
-                        exclamationMark: .exclamationMarkToken()
-                    )
-                )
-            }
+    static func getSimpleExprSyntax(
+        simpleType: SimpleTypeIdentifierSyntax
+    ) -> ExprSyntax {
+        
+        if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
+            return primitiveType.exprSyntax
         }
         
-        
-        
-        return ""
+        // Custom type that attaches SampleBuilder in its declaration:
+        return ExprSyntax(
+            ForcedValueExprSyntax(
+                expression: MemberAccessExprSyntax(
+                    base: MemberAccessExprSyntax(
+                        base: IdentifierExprSyntax(
+                            identifier: simpleType.name
+                        ),
+                        dot: .periodToken(),
+                        name: .identifier("sample")
+                    ),
+                    dot: .periodToken(),
+                    name: .identifier("first")
+                ),
+                exclamationMark: .exclamationMarkToken()
+            )
+        )
     }
     
     static func getParameterItem(
