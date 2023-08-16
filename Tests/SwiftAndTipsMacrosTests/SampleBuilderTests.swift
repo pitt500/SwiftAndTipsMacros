@@ -38,9 +38,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
                     ]
                 }
             }
@@ -81,7 +81,6 @@ final class SampleBuilderTests: XCTestCase {
                 let item20: CGSize
                 let item21: CGVector
             }
-
             """#,
             expandedSource: """
             struct Person {
@@ -109,9 +108,9 @@ final class SampleBuilderTests: XCTestCase {
                 let item21: CGVector
                 static var sample: [Self] {
                     [
-                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
-                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
-                    .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
                     ]
                 }
             }
@@ -132,13 +131,6 @@ final class SampleBuilderTests: XCTestCase {
                 let rating: Int
                 let time: Date
                 let product: Product
-                static var samplex: [Self] {
-                    [
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
-                    ]
-                }
             }
 
             @SampleBuilder(numberOfItems: 3)
@@ -154,9 +146,9 @@ final class SampleBuilderTests: XCTestCase {
                 let product: Product
                 static var sample: [Self] {
                     [
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
-                    .init(rating: 0, time: Date(), product: Product.sample.first!),
+                        .init(rating: 0, time: Date(), product: Product.sample.first!),
+                        .init(rating: 0, time: Date(), product: Product.sample.first!),
+                        .init(rating: 0, time: Date(), product: Product.sample.first!),
                     ]
                 }
             }
@@ -165,9 +157,9 @@ final class SampleBuilderTests: XCTestCase {
                 var description: String
                 static var sample: [Self] {
                     [
-                    .init(price: 0, description: "Hello World"),
-                    .init(price: 0, description: "Hello World"),
-                    .init(price: 0, description: "Hello World"),
+                        .init(price: 0, description: "Hello World"),
+                        .init(price: 0, description: "Hello World"),
+                        .init(price: 0, description: "Hello World"),
                     ]
                 }
             }
@@ -197,9 +189,9 @@ final class SampleBuilderTests: XCTestCase {
                 let array: [Int]
                 static var sample: [Self] {
                     [
-                    .init(price: 0, description: "Hello World", array: [0]),
-                    .init(price: 0, description: "Hello World", array: [0]),
-                    .init(price: 0, description: "Hello World", array: [0]),
+                        .init(price: 0, description: "Hello World", array: [0]),
+                        .init(price: 0, description: "Hello World", array: [0]),
+                        .init(price: 0, description: "Hello World", array: [0]),
                     ]
                 }
             }
@@ -232,9 +224,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
                     ]
                 }
             }
@@ -306,9 +298,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
-                    .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
                     ]
                 }
             }

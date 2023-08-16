@@ -32,7 +32,7 @@ print(x)
 //    let item21: CGVector
 //}
 //
-@SampleBuilder(numberOfItems: 3)
+@SampleBuilder(numberOfItems: 10)
 struct Review {
     let rating: Int
     let time: Date
@@ -43,21 +43,14 @@ struct Review {
 struct Product {
     var price: Int
     var description: String
-    
-    static var samplex: [Self] {
-        [
-        .init(price: 0, description: "Hello World"),
-        .init(price: 0, description: "Hello World"),
-        .init(price: 0, description: "Hello World"),
-        ]
-    }
 }
-//
-//@SampleBuilder(numberOfItems: 3)
-//struct MyStruct {
-//    var array: [Product]
-//    var array2: [Int]
-//}
+
+
+@SampleBuilder(numberOfItems: 3)
+struct MyStruct {
+    var array: [Product]
+    var array2: [Int]
+}
 
 //@SampleBuilder(numberOfItems: 3)
 //struct Example {
