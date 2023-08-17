@@ -15,4 +15,8 @@ extension TypeSyntax {
     var isSimpleType: Bool {
         self.as(SimpleTypeIdentifierSyntax.self) != nil
     }
+    
+    var isDictionary: Bool {
+        self.as(DictionaryTypeSyntax.self) != nil
+    }
 }

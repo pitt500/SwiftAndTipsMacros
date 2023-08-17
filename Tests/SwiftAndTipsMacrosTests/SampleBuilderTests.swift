@@ -458,4 +458,87 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_dictionary_property() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+                var dict: [String: Int]
+            }
+            """#,
+            expandedSource: """
+            struct Product {
+                var price: Int
+                var description: String
+                var dict: [String: Int]
+                static var sample: [Self] {
+                    [
+                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
+                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
+                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_multiple_dictionary_properties() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Example {
+                let x: Int
+                let y: String
+            }
+
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+                var dict1: [String: Int]
+                var dict2: [String: [Int]]
+                var dict3: [String: [String: Example]]
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let x: Int
+                let y: String
+                static var sample: [Self] {
+                    [
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                    ]
+                }
+            }
+            struct Product {
+                var price: Int
+                var description: String
+                var dict1: [String: Int]
+                var dict2: [String: [Int]]
+                var dict3: [String: [String: Example]]
+                static var sample: [Self] {
+                    [
+                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
+                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
+                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

@@ -99,31 +99,17 @@ print(x)
 //    }
 //}
 
-//@SampleBuilder(numberOfItems: 3)
-//struct Example {
-//    let x: Int
-//    let y: String
-//}
-
+@SampleBuilder(numberOfItems: 3)
+struct Example {
+    let x: Int
+    let y: String
+}
 
 @SampleBuilder(numberOfItems: 3)
 struct Product {
     var price: Int
     var description: String
-    var date: Date
-    var id: UUID
-
-    init(price: Int, date: Date) {
-        self.price = price
-        self.description = ""
-        self.date = date
-        self.id = UUID()
-    }
-    
-    init(price: Int, date: Date, id: UUID, description: String) {
-        self.price = price
-        self.description = description
-        self.date = date
-        self.id = id
-    }
+    var dict1: [String: Int]
+    var dict2: [String: [Int]]
+    var dict3: [String: [String: Example]]
 }
