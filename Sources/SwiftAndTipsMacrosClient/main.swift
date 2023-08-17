@@ -32,25 +32,30 @@ print(x)
 //    let item21: CGVector
 //}
 //
-@SampleBuilder(numberOfItems: 10)
-struct Review {
-    let rating: Int
-    let time: Date
-    let product: Product
-}
+//@SampleBuilder(numberOfItems: 10)
+//struct Review {
+//    let rating: Int
+//    let time: Date
+//    let product: Product
+//}
+//
+//@SampleBuilder(numberOfItems: 3)
+//struct Product {
+//    var price: Int
+//    var description: String
+//    
+////    init(price: Int) {
+////        self.price = 0
+////        self.description = ""
+////    }
+//}
 
-@SampleBuilder(numberOfItems: 3)
-struct Product {
-    var price: Int
-    var description: String
-}
-
-
-@SampleBuilder(numberOfItems: 3)
-struct MyStruct {
-    var array: [Product]
-    var array2: [Int]
-}
+//@SampleBuilder(numberOfItems: 3)
+//struct Order {
+//    var productList: [Product]
+//    var address: String
+//    var time: Date
+//}
 
 //@SampleBuilder(numberOfItems: 3)
 //struct Example {
@@ -94,9 +99,31 @@ struct MyStruct {
 //    }
 //}
 
-@SampleBuilder(numberOfItems: 3)
-struct Example {
-    let x: Int
-    let y: String
-}
+//@SampleBuilder(numberOfItems: 3)
+//struct Example {
+//    let x: Int
+//    let y: String
+//}
 
+
+@SampleBuilder(numberOfItems: 3)
+struct Product {
+    var price: Int
+    var description: String
+    var date: Date
+    var id: UUID
+
+    init(price: Int, date: Date) {
+        self.price = price
+        self.description = ""
+        self.date = date
+        self.id = UUID()
+    }
+    
+    init(price: Int, date: Date, id: UUID, description: String) {
+        self.price = price
+        self.description = description
+        self.date = date
+        self.id = id
+    }
+}

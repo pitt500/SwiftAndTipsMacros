@@ -27,14 +27,11 @@ public struct SampleBuilderMacro: MemberMacro {
             throw SampleBuilderError.argumentNotGreaterThanZero
         }
         
-        let validMembers = structDecl.memberBlock.members
-            .filter {
-                $0.decl.as(VariableDeclSyntax.self)?.isStoredProperty ?? false
-            }
+        let validParameters = getValidParameterList(from: structDecl)
         
         let sampleCode = generateSampleCodeSyntax(
             sampleElements: generateSampleArrayElements(
-                members: validMembers,
+                parameters: validParameters,
                 numberOfItems: numberOfItems
             )
         )
@@ -44,6 +41,67 @@ public struct SampleBuilderMacro: MemberMacro {
 }
 
 extension SampleBuilderMacro {
+    
+    static func getValidParameterList(
+        from structDecl: StructDeclSyntax
+    ) -> [InitParameterItem] {
+        let storedPropertyMembers = structDecl.memberBlock.members
+            .compactMap {
+                $0.decl.as(VariableDeclSyntax.self)
+            }
+            .filter {
+                $0.isStoredProperty
+            }
+        
+        let initMembers = structDecl.memberBlock.members
+            .compactMap {
+                $0.decl.as(InitializerDeclSyntax.self)
+            }
+        
+        if initMembers.isEmpty {
+            // No custom init around. We use the memberwise initializer's properties:
+            return storedPropertyMembers.compactMap {
+                if let identifier = $0.bindings.first?
+                    .pattern
+                    .as(IdentifierPatternSyntax.self)?
+                    .identifier.text,
+                   let type = $0.bindings.first?
+                    .typeAnnotation?
+                    .type {
+                    return (identifier, type)
+                }
+                
+                return nil
+            }.map {
+                InitParameterItem(
+                    identifierName: $0.0,
+                    identifierType: $0.1
+                )
+            }
+        }
+        
+        let largestParameterList = initMembers
+            .map {
+                getParametersFromInit(initSyntax: $0)
+            }.max {
+                $0.count < $1.count
+            } ?? []
+        
+        return largestParameterList
+    }
+    
+    static func getParametersFromInit(
+        initSyntax: InitializerDeclSyntax
+    ) -> [InitParameterItem] {
+        let parameters = initSyntax.signature.input.parameterList
+        
+        return parameters.map {
+            InitParameterItem(
+                identifierName: $0.firstName.text,
+                identifierType: $0.type
+            )
+        }
+    }
     
     static func generateSampleCodeSyntax(
         sampleElements: ArrayElementListSyntax
@@ -93,10 +151,12 @@ extension SampleBuilderMacro {
     }
     
     static func generateSampleArrayElements(
-        members: [MemberDeclListSyntax.Element],
+        parameters: [InitParameterItem],
         numberOfItems: Int
     ) -> ArrayElementListSyntax {
-        let parameterList = getSampleElementParameterList(members: members)
+        let parameterListSyntax = getSampleElementParameterListSyntax(
+            parameters: parameters
+        )
         
         var arrayElementListSyntax = ArrayElementListSyntax()
         
@@ -111,7 +171,7 @@ extension SampleBuilderMacro {
                                 name: .keyword(.`init`)
                             ),
                             leftParen: .leftParenToken(),
-                            argumentList: parameterList,
+                            argumentList: parameterListSyntax,
                             rightParen: .rightParenToken()
                         ),
                         trailingComma: .commaToken()
@@ -133,32 +193,30 @@ extension SampleBuilderMacro {
         return numberOfItems
     }
     
-    static func getSampleElementParameterList(
-        members: [MemberDeclListSyntax.Element]
+    static func getSampleElementParameterListSyntax(
+        parameters: [InitParameterItem]
     ) -> TupleExprElementListSyntax {
         
         var parameterList = TupleExprElementListSyntax()
         
-        for member in members {
-            guard let variableDecl = member.decl.as(VariableDeclSyntax.self),
-                  let identifierDecl = variableDecl.bindings.first?.pattern.as(IdentifierPatternSyntax.self),
-                  let identifierType = variableDecl.bindings.first?.typeAnnotation?.type
-            else {
-                fatalError("Compiler Bug")
-            }
+        for parameter in parameters {
             
             let expressionSyntax =
-            if identifierType.isArray {
-                getArrayExprSyntax(arrayType: identifierType.as(ArrayTypeSyntax.self)!)
+            if parameter.identifierType.isArray {
+                getArrayExprSyntax(
+                    arrayType: parameter.identifierType.as(ArrayTypeSyntax.self)!
+                )
             } else {
-                getSimpleExprSyntax(simpleType: identifierType.as(SimpleTypeIdentifierSyntax.self)!)
+                getSimpleExprSyntax(simpleType: parameter.identifierType.as(SimpleTypeIdentifierSyntax.self)!)
             }
+            #warning("Add else if for dictionaries")
             
+            let isLast = parameter.identifierName == parameters.last?.identifierName
             let parameterElement = TupleExprElementSyntax(
-                label: identifierDecl.identifier,
+                label: .identifier(parameter.identifierName),
                 colon: .colonToken(),
                 expression: expressionSyntax,
-                trailingComma: member == members.last ? nil : .commaToken()
+                trailingComma: isLast ? nil : .commaToken()
             )
             
             parameterList = parameterList

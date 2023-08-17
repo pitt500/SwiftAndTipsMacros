@@ -311,4 +311,151 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_struct_with_custom_init_one_parameter() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int) {
+                    self.price = price
+                    self.description = ""
+                }
+            }
+            """#,
+            expandedSource: """
+            struct Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int) {
+                    self.price = price
+                    self.description = ""
+                }
+                static var sample: [Self] {
+                    [
+                        .init(price: 0),
+                        .init(price: 0),
+                        .init(price: 0),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_struct_with_custom_init_many_parameter() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            }
+            """#,
+            expandedSource: """
+            struct Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+                static var sample: [Self] {
+                    [
+                        .init(price: 0, date: Date()),
+                        .init(price: 0, date: Date()),
+                        .init(price: 0, date: Date()),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_struct_with_many_inits() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            
+                init(price: Int, date: Date, id: UUID, description: String) {
+                    self.price = price
+                    self.description = description
+                    self.date = date
+                    self.id = id
+                }
+            }
+            """#,
+            expandedSource: """
+            struct Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            
+                init(price: Int, date: Date, id: UUID, description: String) {
+                    self.price = price
+                    self.description = description
+                    self.date = date
+                    self.id = id
+                }
+                static var sample: [Self] {
+                    [
+                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
+                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
+                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }
