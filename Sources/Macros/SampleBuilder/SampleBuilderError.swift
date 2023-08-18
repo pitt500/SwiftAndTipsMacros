@@ -8,14 +8,14 @@
 import Foundation
 
 enum SampleBuilderError: Error, CustomStringConvertible {
-    case notAnStruct
+    case notAnStructOrEnum
     case argumentNotGreaterThanZero
     case typeNotSupported(typeName: String)
     
     var description: String {
         switch self {
-        case .notAnStruct:
-            return "This macro can only be applied to structs"
+        case .notAnStructOrEnum:
+            return "This macro can only be applied to structs and Enums"
         case .argumentNotGreaterThanZero:
             return "Argument is not greater than zero"
         case .typeNotSupported(let typeName):

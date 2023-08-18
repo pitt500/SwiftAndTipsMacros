@@ -113,3 +113,15 @@ struct Product {
     var dict2: [String: [Int]]
     var dict3: [String: [String: Example]]
 }
+
+//enum Gender {
+//    case male
+//    case female
+//    // case other(String)
+//    
+//    static var sample: Self {
+//        .male
+//    }
+//}
+//
+//Gender.sample

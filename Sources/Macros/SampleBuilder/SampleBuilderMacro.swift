@@ -17,16 +17,35 @@ public struct SampleBuilderMacro: MemberMacro {
         in context: some SwiftSyntaxMacros.MacroExpansionContext
     ) throws -> [SwiftSyntax.DeclSyntax] {
         
-        guard let structDecl = declaration.as(StructDeclSyntax.self) else {
-            throw SampleBuilderError.notAnStruct
-        }
-        
         let numberOfItems = getNumberOfItems(from: node)
         
         if numberOfItems <= 0 {
             throw SampleBuilderError.argumentNotGreaterThanZero
         }
         
+        if let structDecl = declaration.as(StructDeclSyntax.self) {
+            return SampleBuilderMacroForStruct(
+                structDecl: structDecl,
+                numberOfItems: numberOfItems
+            )
+        }
+        
+        if let enumDecl = declaration.as(EnumDeclSyntax.self) {
+            return SampleBuilderMacroForEnum(
+                enumDecl: enumDecl,
+                numberOfItems: numberOfItems
+            )
+        }
+        
+        throw SampleBuilderError.notAnStructOrEnum
+    }
+}
+
+extension SampleBuilderMacro {
+    static func SampleBuilderMacroForStruct(
+        structDecl: StructDeclSyntax,
+        numberOfItems: Int
+    ) -> [SwiftSyntax.DeclSyntax] {
         let validParameters = getValidParameterList(from: structDecl)
         
         let sampleCode = generateSampleCodeSyntax(
@@ -37,6 +56,15 @@ public struct SampleBuilderMacro: MemberMacro {
         )
         
         return [DeclSyntax(sampleCode)]
+    }
+    
+    static func SampleBuilderMacroForEnum(
+        enumDecl: EnumDeclSyntax,
+        numberOfItems: Int
+    ) -> [SwiftSyntax.DeclSyntax] {
+        
+        #warning("Missing implementation")
+        return [DeclSyntax(stringLiteral: "")]
     }
 }
 
