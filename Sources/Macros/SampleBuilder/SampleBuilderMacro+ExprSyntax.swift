@@ -25,33 +25,32 @@ extension SampleBuilderMacro {
     static func getArrayExprSyntax(
         arrayType: ArrayTypeSyntax
     ) -> ExprSyntax {
-        guard let simpleType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self)
-        else {
-            fatalError("The array element is not convertible to SimpleTypeIdentifierSyntax")
-        }
         
-        if  let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
+        if let simpleType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self),
+           PrimitiveType(rawValue: simpleType.name.text) == nil {
+            // Custom array type that attaches SampleBuilder in its declaration:
             return ExprSyntax(
-                ArrayExprSyntax(
-                    leftSquare: .leftSquareBracketToken(),
-                    elements: ArrayElementListSyntax {
-                        ArrayElementSyntax(
-                            expression: primitiveType.exprSyntax
-                        )
-                    },
-                    rightSquare: .rightSquareBracketToken()
+                MemberAccessExprSyntax(
+                    base: IdentifierExprSyntax(
+                        identifier: simpleType.name
+                    ),
+                    dot: .periodToken(),
+                    name: .identifier("sample")
                 )
             )
         }
         
-        // Custom array type that attaches SampleBuilder in its declaration:
         return ExprSyntax(
-            MemberAccessExprSyntax(
-                base: IdentifierExprSyntax(
-                    identifier: simpleType.name
-                ),
-                dot: .periodToken(),
-                name: .identifier("sample")
+            ArrayExprSyntax(
+                leftSquare: .leftSquareBracketToken(),
+                elements: ArrayElementListSyntax {
+                    ArrayElementSyntax(
+                        expression: getExpressionSyntax(
+                            from: TypeSyntax(arrayType.elementType)
+                        )
+                    )
+                },
+                rightSquare: .rightSquareBracketToken()
             )
         )
     }

@@ -760,5 +760,38 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    
+    func testSampleBuilderMacro_nested_arrays() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 6)
+            struct Test {
+                var item1: Int
+                var item2: [[String]]
+                var item3: [[[[Int]]]]
+            }
+            """#,
+            expandedSource: """
+            struct Test {
+                var item1: Int
+                var item2: [[String]]
+                var item3: [[[[Int]]]]
+                static var sample: [Self] {
+                    [
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

@@ -136,3 +136,10 @@ enum MyEnum {
     case case3(Product)
     case case4([String: Product])
 }
+
+@SampleBuilder(numberOfItems: 6)
+struct Test {
+    var item1: Int
+    var item2: [[String]]
+    var item3: [[[[Int]]]]
+}
