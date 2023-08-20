@@ -49,22 +49,9 @@ extension SampleBuilderMacro {
         let validParameters = getValidParameterList(from: structDecl)
         
         let sampleCode = generateSampleCodeSyntax(
-            sampleExpression: ExprSyntax(
-                ArrayExprSyntax(
-                    leftSquare: .leftSquareBracketToken(),
-                    elements: generateSampleArrayElements(
-                        parameters: validParameters,
-                        numberOfItems: numberOfItems
-                    ),
-                    rightSquare: .rightSquareBracketToken(leadingTrivia: .newline)
-                )
-            ),
-            returnType: ArrayTypeSyntax(
-                leftSquareBracket: .leftSquareBracketToken(),
-                elementType: SimpleTypeIdentifierSyntax(
-                    name: .keyword(.Self)
-                ),
-                rightSquareBracket: .rightSquareBracketToken()
+            sampleData: generateSampleArrayElements(
+                parameters: validParameters,
+                numberOfItems: numberOfItems
             )
         )
         
@@ -83,28 +70,13 @@ extension SampleBuilderMacro {
         if cases.isEmpty {
             throw SampleBuilderError.enumWithEmptyCases
         }
-        
-        #warning("The only difference is generateSampleArrayCases vs generateSampleArrayElements")
+
         let sampleCode = generateSampleCodeSyntax(
-            sampleExpression: ExprSyntax(
-                ArrayExprSyntax(
-                    leftSquare: .leftSquareBracketToken(),
-                    elements: generateSampleArrayCases(
-                        cases: cases,
-                        numberOfItems: numberOfItems
-                    ),
-                    rightSquare: .rightSquareBracketToken(leadingTrivia: .newline)
-                )
-            ),
-            returnType: ArrayTypeSyntax(
-                leftSquareBracket: .leftSquareBracketToken(),
-                elementType: SimpleTypeIdentifierSyntax(
-                    name: .keyword(.Self)
-                ),
-                rightSquareBracket: .rightSquareBracketToken()
+            sampleData: generateSampleArrayCases(
+                cases: cases,
+                numberOfItems: numberOfItems
             )
         )
-        
         
         return [DeclSyntax(sampleCode)]
     }
@@ -255,11 +227,18 @@ extension SampleBuilderMacro {
         }
     }
     
-    static func generateSampleCodeSyntax<T: TypeSyntaxProtocol>(
-        sampleExpression: ExprSyntax,
-        returnType: T
+    static func generateSampleCodeSyntax(
+        sampleData: ArrayElementListSyntax
     ) -> VariableDeclSyntax {
-        VariableDeclSyntax(
+        let returnType = ArrayTypeSyntax(
+            leftSquareBracket: .leftSquareBracketToken(),
+            elementType: SimpleTypeIdentifierSyntax(
+                name: .keyword(.Self)
+            ),
+            rightSquareBracket: .rightSquareBracketToken()
+        )
+        
+        return VariableDeclSyntax(
             modifiers: ModifierListSyntax {
                 DeclModifierSyntax(name: .keyword(.static))
             },
@@ -277,7 +256,15 @@ extension SampleBuilderMacro {
                             leftBrace: .leftBraceToken(),
                             statements: CodeBlockItemListSyntax {
                                 CodeBlockItemSyntax(
-                                    item: .expr(sampleExpression)
+                                    item: .expr(
+                                        ExprSyntax(
+                                            ArrayExprSyntax(
+                                                leftSquare: .leftSquareBracketToken(),
+                                                elements: sampleData,
+                                                rightSquare: .rightSquareBracketToken(leadingTrivia: .newline)
+                                            )
+                                        )
+                                    )
                                 )
                                 
                             },
