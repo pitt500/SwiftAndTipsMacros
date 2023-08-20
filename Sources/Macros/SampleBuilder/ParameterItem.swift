@@ -7,7 +7,11 @@
 
 import SwiftSyntax
 
-struct InitParameterItem {
-    let identifierName: String
+struct ParameterItem {
+    let identifierName: String?
     let identifierType: TypeSyntax
+    
+    var hasName: Bool {
+        identifierName != nil
+    }
 }

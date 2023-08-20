@@ -541,4 +541,87 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_enum() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 5)
+            enum MyEnum {
+                case case1(String)
+                case case2
+                case case3(String)
+            }
+            """#,
+            expandedSource: """
+            enum MyEnum {
+                case case1(String)
+                case case2
+                case case3(String)
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World"),
+                        .case2,
+                        .case3("Hello World"),
+                        .case1("Hello World"),
+                        .case2,
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_enum_with_indirect_case() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            struct Example {
+                let x: Int
+                let y: String
+                let myEnum: MyEnum
+            }
+
+            @SampleBuilder(numberOfItems: 1)
+            enum MyEnum {
+                indirect case case1(String, Int, String, String, Example)
+                case case2
+                case case3(String)
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let x: Int
+                let y: String
+                let myEnum: MyEnum
+                static var sample: [Self] {
+                    [
+                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
+                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
+                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
+                    ]
+                }
+            }
+            enum MyEnum {
+                indirect case case1(String, Int, String, String, Example)
+                case case2
+                case case3(String)
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World", 0, "Hello World", "Hello World", Example.sample.first!),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
 }

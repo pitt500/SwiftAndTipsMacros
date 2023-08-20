@@ -11,6 +11,7 @@ enum SampleBuilderError: Error, CustomStringConvertible {
     case notAnStructOrEnum
     case argumentNotGreaterThanZero
     case typeNotSupported(typeName: String)
+    case enumWithEmptyCases
     
     var description: String {
         switch self {
@@ -20,6 +21,8 @@ enum SampleBuilderError: Error, CustomStringConvertible {
             return "Argument is not greater than zero"
         case .typeNotSupported(let typeName):
             return "\(typeName) is not supported"
+        case .enumWithEmptyCases:
+            return "Enum must contain at least one case"
         }
     }
 }

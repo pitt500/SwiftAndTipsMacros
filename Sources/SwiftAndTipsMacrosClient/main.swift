@@ -99,29 +99,25 @@ print(x)
 //    }
 //}
 
-@SampleBuilder(numberOfItems: 3)
-struct Example {
-    let x: Int
-    let y: String
-}
-
-@SampleBuilder(numberOfItems: 3)
-struct Product {
-    var price: Int
-    var description: String
-    var dict1: [String: Int]
-    var dict2: [String: [Int]]
-    var dict3: [String: [String: Example]]
-}
-
-//enum Gender {
-//    case male
-//    case female
-//    // case other(String)
-//    
-//    static var sample: Self {
-//        .male
-//    }
+//@SampleBuilder(numberOfItems: 3)
+//struct Product {
+//    var price: Int
+//    var description: String
+//    var dict1: [String: Int]
+//    var dict2: [String: [Int]]
+//    var dict3: [String: [String: Example]]
 //}
 //
-//Gender.sample
+//@SampleBuilder(numberOfItems: 3)
+//struct Example {
+//    let x: Int
+//    let y: String
+//    let myEnum: MyEnum
+//}
+//
+@SampleBuilder(numberOfItems: 6)
+enum MyEnum {
+    indirect case case1(String, Int, String, String)
+    case case2
+    case case3(String)
+}
