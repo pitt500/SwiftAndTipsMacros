@@ -116,8 +116,23 @@ print(x)
 //}
 //
 @SampleBuilder(numberOfItems: 6)
+struct Product {
+    var item1: Int
+    var item2: String
+}
+//
+//@SampleBuilder(numberOfItems: 6)
+//enum MyEnum {
+//    indirect case case1(String, Int, String, [String])
+//    case case2
+//    case case3(String, [Product])
+//}
+
+
+@SampleBuilder(numberOfItems: 6)
 enum MyEnum {
-    indirect case case1(String, Int, String, String)
+    indirect case case1(String, Int, String, [String])
     case case2
-    case case3(String)
+    case case3(Product)
+    case case4([String: Product])
 }

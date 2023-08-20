@@ -624,4 +624,141 @@ final class SampleBuilderTests: XCTestCase {
         #endif
     }
     
+    func testSampleBuilderMacro_enum_with_arrays() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 6)
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+            }
+            """#,
+            expandedSource: """
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_enum_with_custom_associated_value() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 6)
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+            }
+            
+            @SampleBuilder(numberOfItems: 2)
+            struct Product {
+                var item1: Int
+                var item2: String
+            }
+            """#,
+            expandedSource: """
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case3(Product.sample.first!),
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case3(Product.sample.first!),
+                    ]
+                }
+            }
+            struct Product {
+                var item1: Int
+                var item2: String
+                static var sample: [Self] {
+                    [
+                        .init(item1: 0, item2: "Hello World"),
+                        .init(item1: 0, item2: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_enum_with_dictionary() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 6)
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+                case case4([String: Int])
+            }
+            
+            @SampleBuilder(numberOfItems: 2)
+            struct Product {
+                var item1: Int
+                var item2: String
+            }
+            """#,
+            expandedSource: """
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+                case case4([String: Int])
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case3(Product.sample.first!),
+                        .case4(["Hello World": 0]),
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                    ]
+                }
+            }
+            struct Product {
+                var item1: Int
+                var item2: String
+                static var sample: [Self] {
+                    [
+                        .init(item1: 0, item2: "Hello World"),
+                        .init(item1: 0, item2: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
 }
