@@ -6,12 +6,15 @@
 //
 
 import SwiftSyntax
+import SwiftSyntaxMacros
 
 // Enums
 extension SampleBuilderMacro {
     static func SampleBuilderMacroForEnum(
         enumDecl: EnumDeclSyntax,
-        numberOfItems: Int
+        numberOfItems: Int,
+        node: SwiftSyntax.AttributeSyntax,
+        context: some SwiftSyntaxMacros.MacroExpansionContext
     ) throws -> [SwiftSyntax.DeclSyntax] {
         
         let cases = enumDecl.memberBlock.members.compactMap {
@@ -19,7 +22,12 @@ extension SampleBuilderMacro {
         }
         
         if cases.isEmpty {
-            throw SampleBuilderError.enumWithEmptyCases
+            SampleBuilderDiagnostic.report(
+                diagnostic: .enumWithEmptyCases,
+                node: node,
+                context: context
+            )
+            return []
         }
 
         let sampleCode = generateSampleCodeSyntax(

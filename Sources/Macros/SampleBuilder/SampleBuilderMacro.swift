@@ -9,6 +9,7 @@ import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
+import SwiftDiagnostics
 
 public struct SampleBuilderMacro: MemberMacro {
     public static func expansion(
@@ -20,13 +21,20 @@ public struct SampleBuilderMacro: MemberMacro {
         let numberOfItems = try getNumberOfItems(from: node)
         
         if numberOfItems <= 0 {
-            throw SampleBuilderError.argumentNotGreaterThanZero
+            SampleBuilderDiagnostic.report(
+                diagnostic: .argumentNotGreaterThanZero,
+                node: node,
+                context: context
+            )
+            return []
         }
         
         if let enumDecl = declaration.as(EnumDeclSyntax.self) {
             return try SampleBuilderMacroForEnum(
                 enumDecl: enumDecl,
-                numberOfItems: numberOfItems
+                numberOfItems: numberOfItems,
+                node: node,
+                context: context
             )
         }
         
@@ -37,7 +45,12 @@ public struct SampleBuilderMacro: MemberMacro {
             )
         }
         
-        throw SampleBuilderError.notAnStructOrEnum
+        SampleBuilderDiagnostic.report(
+            diagnostic: .notAnStructOrEnum,
+            node: node,
+            context: context
+        )
+        return []
     }
 }
 

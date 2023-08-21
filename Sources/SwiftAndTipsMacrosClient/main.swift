@@ -129,15 +129,19 @@ struct Product {
 //}
 
 
-@SampleBuilder(numberOfItems: 6)
-enum MyEnum {
-    indirect case case1(String, Int, String, [String])
-    case case2
-    case case3(Product)
-    case case4([String: Product])
-}
+//@SampleBuilder(numberOfItems: 6)
+//enum MyEnum {
+//    indirect case case1(String, Int, String, [String])
+//    case case2
+//    case case3(Product)
+//    case case4([String: Product])
+//}
+//
+//@SampleBuilder(numberOfItems: 6)
+//struct Test {
+//    var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
+//}
 
-@SampleBuilder(numberOfItems: 6)
-struct Test {
-    var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
-}
+
+//@SampleBuilder(numberOfItems: 1)
+//enum EmptyEnum {}
