@@ -58,64 +58,15 @@ extension SampleBuilderMacro {
     static func getDictionaryExprSyntax(
         dictionaryType: DictionaryTypeSyntax
     ) -> ExprSyntax {
-        
-        // We are not considering other types of keys (Arrays, dictionaries)
-        guard let simpleKeyType = dictionaryType.keyType.as(SimpleTypeIdentifierSyntax.self)
-        else {
-            fatalError("The dictionary key is not convertible to SimpleTypeIdentifierSyntax")
-        }
-        
-        if dictionaryType.valueType.isArray {
-            let arrayValueType = dictionaryType.valueType.as(ArrayTypeSyntax.self)!
-            
-            return ExprSyntax(
-                DictionaryExprSyntax {
-                    DictionaryElementListSyntax {
-                        DictionaryElementSyntax(
-                            keyExpression: getSimpleExprSyntax(
-                                simpleType: simpleKeyType
-                            ),
-                            valueExpression: getArrayExprSyntax(
-                                arrayType: arrayValueType
-                            )
-                        )
-                    }
-                }
-            )
-        } else if dictionaryType.valueType.isDictionary {
-            let dictionaryValueType = dictionaryType.valueType.as(DictionaryTypeSyntax.self)!
-            
-            return ExprSyntax(
-                DictionaryExprSyntax {
-                    DictionaryElementListSyntax {
-                        DictionaryElementSyntax(
-                            keyExpression: getSimpleExprSyntax(
-                                simpleType: simpleKeyType
-                            ),
-                            valueExpression: getDictionaryExprSyntax(
-                                dictionaryType: dictionaryValueType
-                            )
-                        )
-                    }
-                }
-            )
-        }
-        
-        // Assuming is a simple type
-        guard let simpleValueType = dictionaryType.valueType.as(SimpleTypeIdentifierSyntax.self)
-        else {
-            fatalError("The dictionary value is not convertible to SimpleTypeIdentifierSyntax")
-        }
-        
-        return ExprSyntax(
+        ExprSyntax(
             DictionaryExprSyntax {
                 DictionaryElementListSyntax {
                     DictionaryElementSyntax(
-                        keyExpression: getSimpleExprSyntax(
-                            simpleType: simpleKeyType
+                        keyExpression: getExpressionSyntax(
+                            from: dictionaryType.keyType
                         ),
-                        valueExpression: getSimpleExprSyntax(
-                            simpleType: simpleValueType
+                        valueExpression: getExpressionSyntax(
+                            from: dictionaryType.valueType
                         )
                     )
                 }

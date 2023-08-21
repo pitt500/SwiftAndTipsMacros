@@ -794,4 +794,58 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_nested_dictionaries() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 6)
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+                case case4([String: Product])
+            }
+
+            @SampleBuilder(numberOfItems: 6)
+            struct Test {
+                var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
+            }
+            """#,
+            expandedSource: """
+            enum MyEnum {
+                indirect case case1(String, Int, String, [String])
+                case case2
+                case case3(Product)
+                case case4([String: Product])
+                static var sample: [Self] {
+                    [
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                        .case3(Product.sample.first!),
+                        .case4(["Hello World": Product.sample.first!]),
+                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case2,
+                    ]
+                }
+            }
+            struct Test {
+                var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
+                static var sample: [Self] {
+                    [
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

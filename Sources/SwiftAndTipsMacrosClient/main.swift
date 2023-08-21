@@ -139,7 +139,5 @@ enum MyEnum {
 
 @SampleBuilder(numberOfItems: 6)
 struct Test {
-    var item1: Int
-    var item2: [[String]]
-    var item3: [[[[Int]]]]
+    var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
 }
