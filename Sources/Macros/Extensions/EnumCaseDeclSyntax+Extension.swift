@@ -21,7 +21,9 @@ extension EnumCaseDeclSyntax {
         return caseName
     }
     
-    var parameterTypes: [TypeSyntax] {
-        self.elements.first?.associatedValue?.parameterList.map(\.type) ?? []
+    var parameters: [(TokenSyntax?, TypeSyntax)] {
+        self.elements.first?.associatedValue?.parameterList.map {
+            ($0.firstName, $0.type)
+        } ?? []
     }
 }

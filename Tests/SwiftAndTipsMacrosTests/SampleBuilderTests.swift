@@ -955,4 +955,31 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_error_enum_with_associated_values_and_argument_names() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3)
+            enum Example {
+                case response(time: Date, name: String, Data)
+            }
+            """#,
+            expandedSource: """
+            enum Example {
+                case response(time: Date, name: String, Data)
+                static var sample: [Self] {
+                    [
+                        .response(time: Date(), name: "Hello World", Data()),
+                        .response(time: Date(), name: "Hello World", Data()),
+                        .response(time: Date(), name: "Hello World", Data()),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

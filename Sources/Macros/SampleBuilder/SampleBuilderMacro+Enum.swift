@@ -51,10 +51,10 @@ extension SampleBuilderMacro {
         )
         
         for caseItem in totalNumberOfCases {
-            let parameters = caseItem.parameterTypes.map {
+            let parameters = caseItem.parameters.map {
                 ParameterItem(
-                    identifierName: nil,
-                    identifierType: $0
+                    identifierName: $0.0?.text,
+                    identifierType: $0.1
                 )
             }
             

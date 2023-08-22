@@ -147,10 +147,10 @@ struct Product {
 
 
 
-//@SampleBuilder(numberOfItems: 6)
-//enum Example {
-//    case <#your case#>
-//}
+@SampleBuilder(numberOfItems: 3)
+enum Example {
+    case response(time: Date, name: String, Data)
+}
 
 
 
