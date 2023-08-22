@@ -848,4 +848,110 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    func testSampleBuilderMacro_error_classes() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 1)
+            class MyClass {
+                
+            }
+            """#,
+            expandedSource: """
+            class MyClass {
+            
+            }
+            """,
+            diagnostics: [
+                DiagnosticSpec(
+                    message: "@SampleBuilder can only be applied to Structs and Enums",
+                    line: 1,
+                    column: 1
+                )
+            ],
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_error_numberOfItems_equal_to_zero() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 0)
+            struct Example {
+                let item: Int
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item: Int
+            }
+            """,
+            diagnostics: [
+                DiagnosticSpec(
+                    message: "'numberOfitems' argument must be greater than zero",
+                    line: 1,
+                    column: 1
+                )
+            ],
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_error_numberOfItems_less_than_zero() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: -1)
+            struct Example {
+                let item: Int
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item: Int
+            }
+            """,
+            diagnostics: [
+                DiagnosticSpec(
+                    message: "'numberOfitems' argument must be greater than zero",
+                    line: 1,
+                    column: 1
+                )
+            ],
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_error_enum_with_no_cases() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 5)
+            enum Example {
+            }
+            """#,
+            expandedSource: """
+            enum Example {
+            }
+            """,
+            diagnostics: [
+                DiagnosticSpec(
+                    message: "Enum must contain at least one case",
+                    line: 1,
+                    column: 1
+                )
+            ],
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
 }

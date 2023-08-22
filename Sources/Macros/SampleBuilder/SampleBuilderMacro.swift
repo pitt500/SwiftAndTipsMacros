@@ -108,11 +108,39 @@ extension SampleBuilderMacro {
     static func getNumberOfItems(
         from node: SwiftSyntax.AttributeSyntax
     ) throws -> Int {
-        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first,
-              let integerExpression = argumentTuple.expression.as(IntegerLiteralExprSyntax.self),
-              let numberOfItems = Int(integerExpression.digits.text)
+        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first
         else {
             fatalError("Compiler bug: Argument must exist")
+        }
+        
+        if let prefixExpression = argumentTuple
+            .expression
+            .as(PrefixOperatorExprSyntax.self) {
+            
+            return negativeNumberOfItems(expression: prefixExpression)
+        } else if let integerExpression = argumentTuple
+                .expression
+                .as(IntegerLiteralExprSyntax.self),
+                let numberOfItems = Int(integerExpression.digits.text) {
+            return numberOfItems
+        }
+        
+        return 0 // Will throw .argumentNotGreaterThanZero in Xcode
+    }
+    
+    static func negativeNumberOfItems(
+        expression: PrefixOperatorExprSyntax
+    ) -> Int {
+        guard
+            let operatorToken = expression
+                .operatorToken?
+                .text,
+            let integerExpression = expression
+                .postfixExpression
+                .as(IntegerLiteralExprSyntax.self),
+            let numberOfItems = Int(operatorToken + integerExpression.digits.text)
+        else {
+            return 0 // Will throw .argumentNotGreaterThanZero in Xcode
         }
         
         return numberOfItems

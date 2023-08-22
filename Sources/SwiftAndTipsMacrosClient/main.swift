@@ -143,5 +143,7 @@ struct Product {
 //}
 
 
-//@SampleBuilder(numberOfItems: 1)
-//enum EmptyEnum {}
+@SampleBuilder(numberOfItems: 6)
+struct MyStruct {
+    
+}
