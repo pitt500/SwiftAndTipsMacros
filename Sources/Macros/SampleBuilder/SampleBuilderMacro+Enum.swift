@@ -13,9 +13,8 @@ extension SampleBuilderMacro {
     static func SampleBuilderMacroForEnum(
         enumDecl: EnumDeclSyntax,
         numberOfItems: Int,
-        node: SwiftSyntax.AttributeSyntax,
         context: some SwiftSyntaxMacros.MacroExpansionContext
-    ) throws -> [SwiftSyntax.DeclSyntax] {
+    ) -> [SwiftSyntax.DeclSyntax] {
         
         let cases = enumDecl.memberBlock.members.compactMap {
             $0.decl.as(EnumCaseDeclSyntax.self)
@@ -24,7 +23,7 @@ extension SampleBuilderMacro {
         if cases.isEmpty {
             SampleBuilderDiagnostic.report(
                 diagnostic: .enumWithEmptyCases,
-                node: node,
+                node: enumDecl,
                 context: context
             )
             return []

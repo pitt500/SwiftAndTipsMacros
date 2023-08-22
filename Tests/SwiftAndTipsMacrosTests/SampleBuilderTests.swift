@@ -945,7 +945,8 @@ final class SampleBuilderTests: XCTestCase {
                 DiagnosticSpec(
                     message: "Enum must contain at least one case",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    fixIts: [FixItSpec(message: "add a new enum case")]
                 )
             ],
             macros: testMacros

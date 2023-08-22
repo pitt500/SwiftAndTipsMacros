@@ -23,17 +23,16 @@ public struct SampleBuilderMacro: MemberMacro {
         if numberOfItems <= 0 {
             SampleBuilderDiagnostic.report(
                 diagnostic: .argumentNotGreaterThanZero,
-                node: node,
+                node: declaration,
                 context: context
             )
             return []
         }
         
         if let enumDecl = declaration.as(EnumDeclSyntax.self) {
-            return try SampleBuilderMacroForEnum(
+            return SampleBuilderMacroForEnum(
                 enumDecl: enumDecl,
                 numberOfItems: numberOfItems,
-                node: node,
                 context: context
             )
         }
@@ -47,7 +46,7 @@ public struct SampleBuilderMacro: MemberMacro {
         
         SampleBuilderDiagnostic.report(
             diagnostic: .notAnStructOrEnum,
-            node: node,
+            node: declaration,
             context: context
         )
         return []

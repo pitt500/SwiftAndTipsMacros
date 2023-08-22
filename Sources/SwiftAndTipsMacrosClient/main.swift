@@ -143,7 +143,34 @@ struct Product {
 //}
 
 
-@SampleBuilder(numberOfItems: 6)
-struct MyStruct {
-    
-}
+
+
+
+
+//@SampleBuilder(numberOfItems: 6)
+//enum Example {
+//    case <#your case#>
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
