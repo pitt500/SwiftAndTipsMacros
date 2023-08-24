@@ -76,86 +76,22 @@ enum PrimitiveType: String {
                 BooleanLiteralExprSyntax(booleanLiteral: true)
             )
         case .data:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("Data")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "Data()")
         case .date:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("Date")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "Date()")
         case .uuid:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("UUID")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "UUID()")
         case .cgPoint:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGPoint")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "CGPoint()")
         case .cgRect:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGRect")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "CGRect()")
         case .cgSize:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGSize")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "CGSize()")
         case .cgVector:
-            ExprSyntax(
-                FunctionCallExprSyntax(
-                    calledExpression: IdentifierExprSyntax(identifier: .identifier("CGVector")),
-                    leftParen: .leftParenToken(),
-                    argumentList: TupleExprElementListSyntax(),
-                    rightParen: .rightParenToken()
-                )
-            )
+            ExprSyntax(stringLiteral: "CGVector()")
         case .url:
             ExprSyntax(
-                ForcedValueExprSyntax(
-                    expression: FunctionCallExprSyntax(
-                        calledExpression: IdentifierExprSyntax(identifier: .identifier("URL")),
-                        leftParen: .leftParenToken(),
-                        argumentList: TupleExprElementListSyntax {
-                            TupleExprElementSyntax(
-                                label: "string",
-                                expression: StringLiteralExprSyntax(
-                                    content: "https://www.apple.com"
-                                )
-                            )
-                        },
-                        rightParen: .rightParenToken()
-                    ),
-                    exclamationMark: .exclamationMarkToken()
-                )
+                stringLiteral: #"URL(string: "https://www.apple.com")!"#
             )
         }
     }
