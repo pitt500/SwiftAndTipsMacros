@@ -106,3 +106,7 @@ public extension UUID {
     }
 }
 
+public enum DataGeneratorType: String {
+    case `default`
+    case random
+}
