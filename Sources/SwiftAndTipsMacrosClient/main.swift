@@ -1,12 +1,29 @@
 import SwiftAndTipsMacros
+import Fakery
 import Foundation
+import DataGenerator
 
 let x = #binaryString(10)
 
 print(x)
 
+let faker = Faker(locale: "en-US")
+print(faker.number.increasingUniqueId())
+print(faker.number.increasingUniqueId())
+print(faker.number.increasingUniqueId())
+print(faker.number.increasingUniqueId())
 
-//@SampleBuilder(numberOfItems: 3)
+@SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+struct Example {
+    let item1: String
+}
+
+for element in Example.sample {
+    print(element.item1)
+}
+
+
+//@SampleBuilder(numberOfItems: 5)
 //struct Person {
 //    let id: UUID
 //    let item1: String
@@ -31,6 +48,8 @@ print(x)
 //    let item20: CGSize
 //    let item21: CGVector
 //}
+
+
 //
 //@SampleBuilder(numberOfItems: 10)
 //struct Review {
@@ -115,11 +134,11 @@ print(x)
 //    let myEnum: MyEnum
 //}
 //
-@SampleBuilder(numberOfItems: 6)
-struct Product {
-    var item1: Int
-    var item2: String
-}
+//@SampleBuilder(numberOfItems: 20)
+//struct Product {
+//    var item1: Int
+//    var item2: String
+//}
 //
 //@SampleBuilder(numberOfItems: 6)
 //enum MyEnum {
@@ -147,12 +166,10 @@ struct Product {
 
 
 
-@SampleBuilder(numberOfItems: 3)
-enum Example {
-    case response(time: Date, name: String, Data)
-}
-
-
+//@SampleBuilder(numberOfItems: 3)
+//enum Example {
+//    case response(time: Date, name: String, Data)
+//}
 
 
 

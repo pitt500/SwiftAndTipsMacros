@@ -26,7 +26,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Example {
                 let x: Int
                 let y: String
@@ -38,9 +38,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
                     ]
                 }
             }

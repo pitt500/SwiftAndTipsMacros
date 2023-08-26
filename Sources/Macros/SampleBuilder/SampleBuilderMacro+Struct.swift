@@ -6,18 +6,21 @@
 //
 
 import SwiftSyntax
+import DataGenerator
 
 extension SampleBuilderMacro {
     static func SampleBuilderMacroForStruct(
         structDecl: StructDeclSyntax,
-        numberOfItems: Int
+        numberOfItems: Int,
+        generatorType: DataGeneratorType
     ) -> [SwiftSyntax.DeclSyntax] {
         let validParameters = getValidParameterList(from: structDecl)
         
         let sampleCode = generateSampleCodeSyntax(
             sampleData: generateSampleData(
                 parameters: validParameters,
-                numberOfItems: numberOfItems
+                numberOfItems: numberOfItems,
+                generatorType: generatorType
             )
         )
         
@@ -87,10 +90,12 @@ extension SampleBuilderMacro {
     
     static func generateSampleData(
         parameters: [ParameterItem],
-        numberOfItems: Int
+        numberOfItems: Int,
+        generatorType: DataGeneratorType
     ) -> ArrayElementListSyntax {
         let parameterList = getParameterListForSampleElement(
-            parameters: parameters
+            parameters: parameters,
+            generatorType: generatorType
         )
         
         var arrayElementListSyntax = ArrayElementListSyntax()

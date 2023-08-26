@@ -7,12 +7,14 @@
 
 import SwiftSyntax
 import SwiftSyntaxMacros
+import DataGenerator
 
 // Enums
 extension SampleBuilderMacro {
     static func SampleBuilderMacroForEnum(
         enumDecl: EnumDeclSyntax,
         numberOfItems: Int,
+        generatorType: DataGeneratorType,
         context: some SwiftSyntaxMacros.MacroExpansionContext
     ) -> [SwiftSyntax.DeclSyntax] {
         
@@ -32,7 +34,8 @@ extension SampleBuilderMacro {
         let sampleCode = generateSampleCodeSyntax(
             sampleData: generateSampleArrayCases(
                 cases: cases,
-                numberOfItems: numberOfItems
+                numberOfItems: numberOfItems,
+                generatorType: generatorType
             )
         )
         
@@ -41,7 +44,8 @@ extension SampleBuilderMacro {
     
     static func generateSampleArrayCases(
         cases: [EnumCaseDeclSyntax],
-        numberOfItems: Int
+        numberOfItems: Int,
+        generatorType: DataGeneratorType
     ) -> ArrayElementListSyntax {
         var arrayElementListSyntax = ArrayElementListSyntax()
         
@@ -68,7 +72,8 @@ extension SampleBuilderMacro {
                         ),
                         leftParen: .leftParenToken(),
                         argumentList: getParameterListForSampleElement(
-                            parameters: parameters
+                            parameters: parameters,
+                            generatorType: generatorType
                         ),
                         rightParen: .rightParenToken()
                     )

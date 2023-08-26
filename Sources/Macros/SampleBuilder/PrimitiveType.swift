@@ -6,6 +6,7 @@
 //
 
 import SwiftSyntax
+import DataGenerator
 
 
 enum PrimitiveType: String {
@@ -31,68 +32,8 @@ enum PrimitiveType: String {
     case cgVector = "CGVector"
     case cgFloat = "CGFloat"
     case url = "URL"
-    
-    var `default`: String {
-        switch self {
-        case .int, .int8, .int16, .int32, .int64, .uInt8, .uInt16, .uInt32, .uInt64, .double, .float, .cgFloat:
-            "0"
-        case .string:
-            #""Hello World""#
-        case .bool:
-            "true"
-        case .data:
-            "Data()"
-        case .date:
-            "Date()"
-        case .uuid:
-            "UUID()"
-        case .cgPoint:
-            "CGPoint()"
-        case .cgRect:
-            "CGRect()"
-        case .cgSize:
-            "CGSize()"
-        case .cgVector:
-            "CGVector()"
-        case .url:
-            #"URL(string: "https://www.apple.com")!"#
-        }
-    }
-    
-    var exprSyntax: ExprSyntax {
-        switch self {
-        case .int, .int8, .int16, .int32, .int64, .uInt8, .uInt16, .uInt32, .uInt64, .double, .float, .cgFloat:
-            ExprSyntax(
-                IntegerLiteralExprSyntax(
-                    digits: .integerLiteral("0")
-                )
-            )
-        case .string:
-            ExprSyntax(
-                StringLiteralExprSyntax(content: "Hello World")
-            )
-        case .bool:
-            ExprSyntax(
-                BooleanLiteralExprSyntax(booleanLiteral: true)
-            )
-        case .data:
-            ExprSyntax(stringLiteral: "Data()")
-        case .date:
-            ExprSyntax(stringLiteral: "Date()")
-        case .uuid:
-            ExprSyntax(stringLiteral: "UUID()")
-        case .cgPoint:
-            ExprSyntax(stringLiteral: "CGPoint()")
-        case .cgRect:
-            ExprSyntax(stringLiteral: "CGRect()")
-        case .cgSize:
-            ExprSyntax(stringLiteral: "CGSize()")
-        case .cgVector:
-            ExprSyntax(stringLiteral: "CGVector()")
-        case .url:
-            ExprSyntax(
-                stringLiteral: #"URL(string: "https://www.apple.com")!"#
-            )
-        }
+
+    func exprSyntax(dataGeneratorType: DataGeneratorType) -> ExprSyntax {
+        ExprSyntax(stringLiteral: "DataGenerator.\(dataGeneratorType).\(self.rawValue.lowercased())()")
     }
 }
