@@ -15,5 +15,5 @@ public macro binaryString(_ value: Int) -> String = #externalMacro(module: "Macr
 @attached(member, names: named(sample))
 public macro SampleBuilder(
     numberOfItems: Int,
-    dataGeneratorType: DataGeneratorType = .random
+    dataGeneratorType: DataGeneratorType
 ) = #externalMacro(module: "Macros", type: "SampleBuilderMacro")
