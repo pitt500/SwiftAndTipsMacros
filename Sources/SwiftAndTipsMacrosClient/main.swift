@@ -22,7 +22,6 @@ for element in Example.sample {
     print(element.item1)
 }
 
-
 //@SampleBuilder(numberOfItems: 5)
 //struct Person {
 //    let id: UUID

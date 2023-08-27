@@ -38,9 +38,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
-                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
-                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
+                        .init(x: 0, y: "Hello World"),
                     ]
                 }
             }
@@ -56,7 +56,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Person {
                 let id: UUID
                 let item1: String
@@ -108,9 +108,9 @@ final class SampleBuilderTests: XCTestCase {
                 let item21: CGVector
                 static var sample: [Self] {
                     [
-                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
-                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
-                        .init(id: UUID(), item1: "Hello World", item2: 0, item3: true, item4: Data(), item5: Date(), item6: 0, item7: 0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: URL(string: "https://www.apple.com")!, item17: CGPoint(), item18: 0, item19: CGRect(), item20: CGSize(), item21: CGVector()),
+                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
                     ]
                 }
             }
@@ -126,14 +126,14 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Review {
                 let rating: Int
                 let time: Date
                 let product: Product
             }
 
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -146,9 +146,9 @@ final class SampleBuilderTests: XCTestCase {
                 let product: Product
                 static var sample: [Self] {
                     [
-                        .init(rating: 0, time: Date(), product: Product.sample.first!),
-                        .init(rating: 0, time: Date(), product: Product.sample.first!),
-                        .init(rating: 0, time: Date(), product: Product.sample.first!),
+                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
                     ]
                 }
             }
@@ -175,7 +175,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -206,7 +206,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Example {
                 let x: Int
                 private var y: String
@@ -242,7 +242,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Example {
                 let x: Int
                 private var y: String {
@@ -315,7 +315,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -354,7 +354,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -384,9 +384,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(price: 0, date: Date()),
-                        .init(price: 0, date: Date()),
-                        .init(price: 0, date: Date()),
+                        .init(price: 0, date: DataGenerator.default.date()),
+                        .init(price: 0, date: DataGenerator.default.date()),
+                        .init(price: 0, date: DataGenerator.default.date()),
                     ]
                 }
             }
@@ -401,7 +401,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -445,9 +445,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
-                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
-                        .init(price: 0, date: Date(), id: UUID(), description: "Hello World"),
+                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
+                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
+                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
                     ]
                 }
             }
@@ -462,7 +462,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -493,13 +493,13 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Example {
                 let x: Int
                 let y: String
             }
 
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Product {
                 var price: Int
                 var description: String
@@ -545,7 +545,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 5)
+            @SampleBuilder(numberOfItems: 5, dataGeneratorType: .default)
             enum MyEnum {
                 case case1(String)
                 case case2
@@ -579,14 +579,14 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             struct Example {
                 let x: Int
                 let y: String
                 let myEnum: MyEnum
             }
 
-            @SampleBuilder(numberOfItems: 1)
+            @SampleBuilder(numberOfItems: 1, dataGeneratorType: .default)
             enum MyEnum {
                 indirect case case1(String, Int, String, String, Example)
                 case case2
@@ -628,7 +628,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             enum MyEnum {
                 indirect case case1(String, Int, String, [String])
                 case case2
@@ -661,14 +661,14 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             enum MyEnum {
                 indirect case case1(String, Int, String, [String])
                 case case2
                 case case3(Product)
             }
             
-            @SampleBuilder(numberOfItems: 2)
+            @SampleBuilder(numberOfItems: 2, dataGeneratorType: .default)
             struct Product {
                 var item1: Int
                 var item2: String
@@ -712,7 +712,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             enum MyEnum {
                 indirect case case1(String, Int, String, [String])
                 case case2
@@ -720,7 +720,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case4([String: Int])
             }
             
-            @SampleBuilder(numberOfItems: 2)
+            @SampleBuilder(numberOfItems: 2, dataGeneratorType: .default)
             struct Product {
                 var item1: Int
                 var item2: String
@@ -764,7 +764,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             struct Test {
                 var item1: Int
                 var item2: [[String]]
@@ -798,7 +798,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             enum MyEnum {
                 indirect case case1(String, Int, String, [String])
                 case case2
@@ -806,7 +806,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case4([String: Product])
             }
 
-            @SampleBuilder(numberOfItems: 6)
+            @SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
             struct Test {
                 var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
             }
@@ -852,7 +852,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 1)
+            @SampleBuilder(numberOfItems: 1, dataGeneratorType: .default)
             class MyClass {
                 
             }
@@ -879,7 +879,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 0)
+            @SampleBuilder(numberOfItems: 0, dataGeneratorType: .default)
             struct Example {
                 let item: Int
             }
@@ -906,7 +906,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: -1)
+            @SampleBuilder(numberOfItems: -1, dataGeneratorType: .default)
             struct Example {
                 let item: Int
             }
@@ -933,7 +933,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 5)
+            @SampleBuilder(numberOfItems: 5, dataGeneratorType: .default)
             enum Example {
             }
             """#,
@@ -959,7 +959,7 @@ final class SampleBuilderTests: XCTestCase {
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
-            @SampleBuilder(numberOfItems: 3)
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
             enum Example {
                 case response(time: Date, name: String, Data)
             }
@@ -969,9 +969,9 @@ final class SampleBuilderTests: XCTestCase {
                 case response(time: Date, name: String, Data)
                 static var sample: [Self] {
                     [
-                        .response(time: Date(), name: "Hello World", Data()),
-                        .response(time: Date(), name: "Hello World", Data()),
-                        .response(time: Date(), name: "Hello World", Data()),
+                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
+                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
+                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
                     ]
                 }
             }
