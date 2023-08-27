@@ -34,6 +34,42 @@ enum PrimitiveType: String {
     case url = "URL"
 
     func exprSyntax(dataGeneratorType: DataGeneratorType) -> ExprSyntax {
-        ExprSyntax(stringLiteral: "DataGenerator.\(dataGeneratorType).\(self.rawValue.lowercased())()")
+        let generator = switch dataGeneratorType {
+        case .default:
+            DataGenerator.default
+        case .random:
+            DataGenerator.random
+        }
+        
+        return switch self {
+        case .int:
+            ExprSyntax(stringLiteral: "\(generator.int())")
+        case .int8:
+            ExprSyntax(stringLiteral: "\(generator.int8())")
+        case .int16:
+            ExprSyntax(stringLiteral: "\(generator.int16())")
+        case .int32:
+            ExprSyntax(stringLiteral: "\(generator.int32())")
+        case .int64:
+            ExprSyntax(stringLiteral: "\(generator.int64())")
+        case .uInt8:
+            ExprSyntax(stringLiteral: "\(generator.uint8())")
+        case .uInt16:
+            ExprSyntax(stringLiteral: "\(generator.uint16())")
+        case .uInt32:
+            ExprSyntax(stringLiteral: "\(generator.uint32())")
+        case .uInt64:
+            ExprSyntax(stringLiteral: "\(generator.uint64())")
+        case .float:
+            ExprSyntax(stringLiteral: "\(generator.float())")
+        case .double:
+            ExprSyntax(stringLiteral: "\(generator.double())")
+        case .string:
+            ExprSyntax(stringLiteral: "\"\(generator.string())\"")
+        case .bool:
+            ExprSyntax(stringLiteral: "\(generator.bool())")
+        case .data, .date, .uuid, .cgPoint, .cgRect, .cgSize, .cgVector, .cgFloat, .url:
+            ExprSyntax(stringLiteral: "DataGenerator.\(dataGeneratorType).\(self.rawValue.lowercased())()")
+        }
     }
 }
