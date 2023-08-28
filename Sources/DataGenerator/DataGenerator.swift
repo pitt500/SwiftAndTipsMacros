@@ -110,3 +110,136 @@ public enum DataGeneratorType: String {
     case `default`
     case random
 }
+
+public enum DataCategory {
+    
+    // String
+    case firstName
+    case lastName
+    case fullName
+    case email
+    case address
+    case appVersion
+    case creditCardNumber
+    case companyName
+    case username
+    
+    //Double
+    case price
+    
+    //URL
+    case image(width: Int, height: Int)
+    case url
+    
+    #warning("Review Image case")
+    init?(rawValue: String) {
+        switch rawValue {
+        case DataCategoryRawValue.firstName:
+            self = .firstName
+        case DataCategoryRawValue.lastName:
+            self = .lastName
+        case DataCategoryRawValue.fullName:
+            self = .fullName
+        case DataCategoryRawValue.email:
+            self = .email
+        case DataCategoryRawValue.address:
+            self = .address
+        case DataCategoryRawValue.appVersion:
+            self = .appVersion
+        case DataCategoryRawValue.creditCardNumber:
+            self = .creditCardNumber
+        case DataCategoryRawValue.companyName:
+            self = .companyName
+        case DataCategoryRawValue.username:
+            self = .username
+        case DataCategoryRawValue.price:
+            self = .price
+        case DataCategoryRawValue.image:
+            self = .image(width: 100, height: 100)
+        case DataCategoryRawValue.url:
+            self = .url
+        default:
+            return nil
+        }
+    }
+    
+    var rawValue: String {
+        switch self {
+        case .firstName:
+            DataCategoryRawValue.fullName
+        case .lastName:
+            DataCategoryRawValue.lastName
+        case .fullName:
+            DataCategoryRawValue.fullName
+        case .email:
+            DataCategoryRawValue.email
+        case .address:
+            DataCategoryRawValue.address
+        case .appVersion:
+            DataCategoryRawValue.appVersion
+        case .creditCardNumber:
+            DataCategoryRawValue.creditCardNumber
+        case .companyName:
+            DataCategoryRawValue.companyName
+        case .username:
+            DataCategoryRawValue.username
+        case .price:
+            DataCategoryRawValue.price
+        case .image:
+            DataCategoryRawValue.image
+        case .url:
+            DataCategoryRawValue.url
+        }
+    }
+    
+    var isStringCategory: Bool {
+        switch self {
+            case .firstName,
+                .lastName,
+                .fullName,
+                .email,
+                .address,
+                .appVersion,
+                .creditCardNumber,
+                .companyName,
+                .username:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isDoubleCategory: Bool {
+        switch self {
+        case .price:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isURLCategory: Bool {
+        switch self {
+        case .url, .image:
+            return true
+        default:
+            return false
+        }
+    }
+
+}
+
+struct DataCategoryRawValue {
+    static let firstName = "firstName"
+    static let lastName = "lastName"
+    static let fullName = "fullName"
+    static let email = "email"
+    static let address = "address"
+    static let appVersion = "appVersion"
+    static let creditCardNumber = "creditCardNumber"
+    static let companyName = "companyName"
+    static let username = "username"
+    static let price = "price"
+    static let image = "image"
+    static let url = "url"
+}
