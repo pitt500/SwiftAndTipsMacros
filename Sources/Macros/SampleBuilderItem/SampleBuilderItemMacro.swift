@@ -28,6 +28,18 @@ public struct SampleBuilderItemMacro: PeerMacro {
         
         let dataCategory = getDataCategory(from: node)
         // Verify that we are using the macro in a stored property
+        let isValidProperty = declaration.as(VariableDeclSyntax.self)?.isStoredProperty ?? false
+        
+        guard isValidProperty
+        else {
+            SampleBuilderItemDiagnostic.report(
+                diagnostic: .notAStoredProperty,
+                node: node,
+                context: context
+            )
+            return []
+        }
+        
         // Verify that category is matching variable type, else throw an error.
         
         // It does nothing, but will help SampleBuilder to support categories

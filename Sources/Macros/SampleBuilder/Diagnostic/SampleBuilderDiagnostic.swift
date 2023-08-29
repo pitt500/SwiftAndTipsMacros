@@ -47,12 +47,12 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
     ) {
         
         let fixIts = getFixIts(for: diagnostic, node: node)
-        let error = Diagnostic(
+        let diagnostic = Diagnostic(
             node: Syntax(node),
             message: diagnostic,
             fixIts: fixIts
         )
-        context.diagnose(error)
+        context.diagnose(diagnostic)
     }
     
     static func getFixIts(

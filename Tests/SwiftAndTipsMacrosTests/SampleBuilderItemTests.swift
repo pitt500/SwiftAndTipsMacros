@@ -36,7 +36,6 @@ final class SampleBuilderItemTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let item1: Int
-            
                 let item2: String
             }
             """,
