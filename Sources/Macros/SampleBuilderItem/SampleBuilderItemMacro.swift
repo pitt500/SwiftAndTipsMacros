@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 import SwiftDiagnostics
+import DataCategory
 
 public struct SampleBuilderItemMacro: PeerMacro {
     /*
@@ -24,9 +25,8 @@ public struct SampleBuilderItemMacro: PeerMacro {
         providingPeersOf declaration: some SwiftSyntax.DeclSyntaxProtocol,
         in context: some SwiftSyntaxMacros.MacroExpansionContext
     ) throws -> [SwiftSyntax.DeclSyntax] {
-        print(declaration.as(VariableDeclSyntax.self)!)
         
-        // Get Category String
+        let dataCategory = getDataCategory(from: node)
         // Verify that we are using the macro in a stored property
         // Verify that category is matching variable type, else throw an error.
         
@@ -34,23 +34,17 @@ public struct SampleBuilderItemMacro: PeerMacro {
         return []
     }
     
-
+    static func getDataCategory(from node: AttributeSyntax) -> DataCategory {
+        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first,
+              let categoryString = argumentTuple
+            .expression
+            .as(MemberAccessExprSyntax.self)?
+            .name.text,
+              let dataCategory = DataCategory(rawValue: categoryString)
+        else {
+            fatalError("Compiler bug: Argument must exist")
+        }
+        
+        return dataCategory
+    }
 }
-
-// Get category string
-
-/*
- AttributeSyntax
- ├─atSignToken: atSign
- ├─attributeName: SimpleTypeIdentifierSyntax
- │ ╰─name: identifier("SampleBuilderItem")
- ├─leftParen: leftParen
- ├─argument: TupleExprElementListSyntax
- │ ╰─[0]: TupleExprElementSyntax
- │   ├─label: identifier("category")
- │   ├─colon: colon
- │   ╰─expression: MemberAccessExprSyntax
- │     ├─dot: period
- │     ╰─name: identifier("email")
- ╰─rightParen: rightParen
- */

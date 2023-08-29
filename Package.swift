@@ -33,11 +33,13 @@ let package = Package(
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
                 .product(name: "Fakery", package: "Fakery"),
-                "DataGenerator"
+                "DataGenerator",
+                "DataCategory"
             ]
         ),
         
         .target(name: "DataGenerator", dependencies: ["Fakery"]),
+        .target(name: "DataCategory"),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
         .target(name: "SwiftAndTipsMacros", dependencies: ["Macros", "DataGenerator"]),
@@ -51,7 +53,8 @@ let package = Package(
             dependencies: [
                 "Macros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
-                "DataGenerator"
+                "DataGenerator",
+                "DataCategory",
             ]
         ),
     ]

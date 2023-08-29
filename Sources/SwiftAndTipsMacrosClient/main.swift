@@ -1,7 +1,6 @@
 import SwiftAndTipsMacros
 import Fakery
 import Foundation
-import DataGenerator
 
 let x = #binaryString(10)
 
