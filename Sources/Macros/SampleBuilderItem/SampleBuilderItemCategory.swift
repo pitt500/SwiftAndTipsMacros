@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SampleBuilderItemCategory {
+public enum SampleBuilderItemCategory {
     case firstName
     case lastName
     case fullName
