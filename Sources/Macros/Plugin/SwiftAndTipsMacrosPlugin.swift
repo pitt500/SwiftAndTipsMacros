@@ -8,5 +8,6 @@ struct SwiftAndTipsMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         BinaryStringMacro.self,
         SampleBuilderMacro.self,
+        SampleBuilderItemMacro.self,
     ]
 }

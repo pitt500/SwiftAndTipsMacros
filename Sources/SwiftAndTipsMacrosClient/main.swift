@@ -15,12 +15,13 @@ print(faker.number.increasingUniqueId())
 
 @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
 struct Example {
+    @SampleBuilderItem(category: .email)
     let item1: String
 }
 
-for element in Example.sample {
-    print(element.item1)
-}
+//for element in Example.sample {
+//    print(element.item1)
+//}
 
 //@SampleBuilder(numberOfItems: 5)
 //struct Person {
