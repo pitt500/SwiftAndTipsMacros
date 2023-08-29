@@ -17,3 +17,8 @@ public macro SampleBuilder(
     numberOfItems: Int,
     dataGeneratorType: DataGeneratorType
 ) = #externalMacro(module: "Macros", type: "SampleBuilderMacro")
+
+@attached(member)
+public macro SampleBuilderItem(
+    category: SampleBuilderItemCategory
+) = #externalMacro(module: "Macros", type: "SampleBuilderItemMacro")
