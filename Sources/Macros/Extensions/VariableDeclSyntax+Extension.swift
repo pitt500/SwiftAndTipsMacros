@@ -51,4 +51,8 @@ extension VariableDeclSyntax {
             $0.name.tokenKind == .keyword(.private)
         } ?? false
     }
+    
+    var typeName: String {
+        self.bindings.first?.typeAnnotation?.type.as(SimpleTypeIdentifierSyntax.self)?.name.text ?? ""
+    }
 }

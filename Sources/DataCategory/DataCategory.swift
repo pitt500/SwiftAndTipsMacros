@@ -46,7 +46,7 @@ public struct DataCategory: RawRepresentable {
         case .builtInValue(let value):
             return value.rawValue
         case .image(let width, let height):
-            return "image:\(width),\(height)"
+            return "image(width:\(width),height:\(height))"
         }
     }
     
@@ -56,6 +56,7 @@ public struct DataCategory: RawRepresentable {
             return
         }
         
+        #warning("Get image parameters")
         if rawValue.hasPrefix("image") {
             let width = 200
             let height = 300
@@ -64,6 +65,51 @@ public struct DataCategory: RawRepresentable {
         }
         
         return nil
+    }
+    
+    enum SupportedType: String {
+        case string
+        case url
+        case double
+    }
+    
+    public func supports(type: String) -> Bool {
+        guard let supportedType = SupportedType(rawValue: type.lowercased())
+        else {
+            return false
+        }
+
+        switch supportedType {
+        case .string:
+            let stringCategories: Set<BuiltInValue> = [
+                .firstName, .lastName, .fullName, .email,
+                .address, .appVersion, .creditCardNumber, .companyName, .username
+            ]
+            
+            guard case .builtInValue(let value) = category
+            else {
+                return false
+            }
+            
+            return stringCategories.contains(value)
+        case .url:
+            if case .image(_,_) = category {
+                return true
+            }
+            
+            if case .builtInValue(let value) = category {
+                return value == .url
+            }
+            
+            return false
+        case .double:
+            guard case .builtInValue(let value) = category
+            else {
+                return false
+            }
+            
+            return value == .price
+        }
     }
 }
 

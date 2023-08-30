@@ -8,13 +8,17 @@
 import SwiftSyntax
 import SwiftDiagnostics
 import SwiftSyntaxMacros
+import DataCategory
 
-enum SampleBuilderItemDiagnostic: String, DiagnosticMessage {
+enum SampleBuilderItemDiagnostic: DiagnosticMessage {
     case notAStoredProperty
+    case categoryNotSupported(category: DataCategory, typeName: String)
     
     var severity: DiagnosticSeverity {
         switch self {
         case .notAStoredProperty:
+            return .error
+        case .categoryNotSupported:
             return .error
         }
     }
@@ -23,11 +27,22 @@ enum SampleBuilderItemDiagnostic: String, DiagnosticMessage {
         switch self {
         case .notAStoredProperty:
             return "@SampleBuilderItem can only be applied to stored properties in structs"
+        case .categoryNotSupported(category: let category, typeName: let typeName):
+            return "'\(category.rawValue)' category is not compatible with '\(typeName)' type"
+        }
+    }
+    
+    var id: String {
+        switch self {
+        case .notAStoredProperty:
+            return "notAStoredProperty"
+        case .categoryNotSupported:
+            return "categoryNotSupported"
         }
     }
     
     var diagnosticID: MessageID {
-        return MessageID(domain: "SwiftAndTipsMacros", id: rawValue)
+        return MessageID(domain: "SwiftAndTipsMacros", id: id)
     }
     
     static func report(

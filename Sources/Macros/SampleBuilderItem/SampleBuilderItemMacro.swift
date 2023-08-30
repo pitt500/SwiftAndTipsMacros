@@ -27,10 +27,10 @@ public struct SampleBuilderItemMacro: PeerMacro {
     ) throws -> [SwiftSyntax.DeclSyntax] {
         
         let dataCategory = getDataCategory(from: node)
-        // Verify that we are using the macro in a stored property
-        let isValidProperty = declaration.as(VariableDeclSyntax.self)?.isStoredProperty ?? false
-        
-        guard isValidProperty
+
+        guard let variableDecl = declaration
+            .as(VariableDeclSyntax.self),
+              variableDecl.isStoredProperty
         else {
             SampleBuilderItemDiagnostic.report(
                 diagnostic: .notAStoredProperty,
@@ -40,23 +40,43 @@ public struct SampleBuilderItemMacro: PeerMacro {
             return []
         }
         
-        // Verify that category is matching variable type, else throw an error.
+        guard dataCategory.supports(type: variableDecl.typeName)
+        else {
+            SampleBuilderItemDiagnostic.report(
+                diagnostic: .categoryNotSupported(category: dataCategory, typeName: variableDecl.typeName),
+                node: node,
+                context: context
+            )
+            return []
+        }
         
         // It does nothing, but will help SampleBuilder to support categories
         return []
     }
     
     static func getDataCategory(from node: AttributeSyntax) -> DataCategory {
-        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first,
-              let categoryString = argumentTuple
-            .expression
-            .as(MemberAccessExprSyntax.self)?
-            .name.text,
-              let dataCategory = DataCategory(rawValue: categoryString)
+        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first
         else {
             fatalError("Compiler bug: Argument must exist")
         }
         
-        return dataCategory
+        if let simpleCategoryString = argumentTuple
+            .expression
+            .as(MemberAccessExprSyntax.self)?
+            .name.text,
+           let dataCategory = DataCategory(rawValue: simpleCategoryString) {
+            
+            return dataCategory
+        } else if let imageCategoryString = argumentTuple
+            .expression
+            .as(FunctionCallExprSyntax.self)?
+            .description
+            .dropFirst(), // it removes the dot from .image(...)
+                  let dataCategory = DataCategory(rawValue: String(imageCategoryString)) {
+            
+            return dataCategory
+        }
+        
+        fatalError("Compiler bug: Argument must exist")
     }
 }
