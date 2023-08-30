@@ -28,7 +28,7 @@ enum SampleBuilderItemDiagnostic: DiagnosticMessage {
         case .notAStoredProperty:
             return "@SampleBuilderItem can only be applied to stored properties in structs"
         case .categoryNotSupported(category: let category, typeName: let typeName):
-            return "'\(category.rawValue)' category is not compatible with '\(typeName)' type"
+            return "'\(category.rawValue)' category is not compatible with '\(typeName)' type. Use '\(category.getSupportedType().title)' type instead."
         }
     }
     

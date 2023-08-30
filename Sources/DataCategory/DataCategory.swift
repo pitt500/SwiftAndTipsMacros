@@ -51,6 +51,7 @@ public struct DataCategory: RawRepresentable {
     }
     
     public init?(rawValue: String) {
+        let rawValue = rawValue.replacingOccurrences(of: " ", with: "")
         if let value = BuiltInValue(rawValue: rawValue) {
             category = .builtInValue(value)
             return
@@ -67,10 +68,37 @@ public struct DataCategory: RawRepresentable {
         return nil
     }
     
-    enum SupportedType: String {
+    public enum SupportedType: String {
         case string
         case url
         case double
+        
+        public var title: String {
+            switch self {
+            case .string:
+                "String"
+            case .url:
+                "URL"
+            case .double:
+                "Double"
+            }
+        }
+    }
+    
+    public func getSupportedType() -> SupportedType {
+        switch self.category {
+        case .builtInValue(let value):
+            switch value {
+            case .firstName, .lastName, .fullName, .email, .address, .appVersion, .creditCardNumber, .companyName, .username:
+                return .string
+            case .price:
+                return .double
+            case .url:
+                return .url
+            }
+        case .image:
+            return .url
+        }
     }
     
     public func supports(type: String) -> Bool {
