@@ -1,26 +1,21 @@
 import SwiftAndTipsMacros
-import Fakery
 import Foundation
+import DataCategory
+import DataGenerator
 
 let x = #binaryString(10)
 
 print(x)
 
-let faker = Faker(locale: "en-US")
-print(faker.number.increasingUniqueId())
-print(faker.number.increasingUniqueId())
-print(faker.number.increasingUniqueId())
-print(faker.number.increasingUniqueId())
-
-@SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+@SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
 struct Example {
-    @SampleBuilderItem(category: .email)
-    let item1: String
+    @SampleBuilderItem(category: .image(width: 500, height: 300))
+    let item1: URL
 }
 
-//for element in Example.sample {
-//    print(element.item1)
-//}
+for element in Example.sample {
+    print(element.item1)
+}
 
 //@SampleBuilder(numberOfItems: 5)
 //struct Person {

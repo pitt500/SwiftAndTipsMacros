@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 import DataGenerator
+import DataCategory
 
 extension SampleBuilderMacro {
     static func SampleBuilderMacroForStruct(
@@ -53,14 +54,16 @@ extension SampleBuilderMacro {
                    let type = $0.bindings.first?
                     .typeAnnotation?
                     .type {
-                    return (identifier, type)
+                    
+                    return (identifier, type, getDataCategory(from: $0))
                 }
                 
                 return nil
             }.map {
                 ParameterItem(
                     identifierName: $0.0,
-                    identifierType: $0.1
+                    identifierType: $0.1,
+                    category: $0.2
                 )
             }
         }
@@ -75,6 +78,55 @@ extension SampleBuilderMacro {
         return largestParameterList
     }
     
+    static func getDataCategory(from variableDecl: VariableDeclSyntax) -> DataCategory? {
+        guard let attribute = variableDecl.attributes?
+                .first(where: {
+                    $0.as(AttributeSyntax.self)?
+                        .attributeName
+                        .as(SimpleTypeIdentifierSyntax.self)?
+                        .name.text == "SampleBuilderItem"
+                })?.as(AttributeSyntax.self)
+              
+        else {
+            return DataCategory(rawValue: "") // No Attribute
+        }
+        
+        if let simpleCategoryString = attribute // All categories except image
+            .argument?
+            .as(TupleExprElementListSyntax.self)?
+            .first?.as(TupleExprElementSyntax.self)?
+            .expression.as(MemberAccessExprSyntax.self)?
+            .name.text {
+            
+            return DataCategory(rawValue: simpleCategoryString)
+        }
+        
+        if let imageCategoryExpression = attribute
+            .argument?
+            .as(TupleExprElementListSyntax.self)?
+            .first?.as(TupleExprElementSyntax.self)?
+            .expression.as(FunctionCallExprSyntax.self),
+           
+            imageCategoryExpression
+            .calledExpression.as(MemberAccessExprSyntax.self)?
+            .name.text == "image" {
+            
+            let argumentsValues = imageCategoryExpression.argumentList.compactMap {
+                Int($0.expression.as(IntegerLiteralExprSyntax.self)?.digits.text ?? "")
+            }
+            
+            guard argumentsValues.count == 2
+            else {
+                #warning("Throw an error and clean this mess")
+                return DataCategory(rawValue: "") // No Attribute
+            }
+            
+            return DataCategory(imageWidth: argumentsValues[0], height: argumentsValues[1])
+        }
+        
+        return DataCategory(rawValue: "") // No Attribute
+    }
+    
     static func getParametersFromInit(
         initSyntax: InitializerDeclSyntax
     ) -> [ParameterItem] {
@@ -83,7 +135,8 @@ extension SampleBuilderMacro {
         return parameters.map {
             ParameterItem(
                 identifierName: $0.firstName.text,
-                identifierType: $0.type
+                identifierType: $0.type,
+                category: nil
             )
         }
     }

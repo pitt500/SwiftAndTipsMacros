@@ -32,20 +32,26 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-                .product(name: "Fakery", package: "Fakery"),
-                "DataGenerator",
-                "DataCategory"
+                "DataGenerator"
             ]
         ),
         
-        .target(name: "DataGenerator", dependencies: ["Fakery"]),
+        .target(name: "DataGenerator", dependencies: [
+            .product(name: "Fakery", package: "Fakery"),
+            "DataCategory"
+        ]),
         .target(name: "DataCategory"),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "SwiftAndTipsMacros", dependencies: ["Macros", "DataGenerator"]),
+        .target(name: "SwiftAndTipsMacros", dependencies: [
+            "Macros",
+            "DataGenerator"
+        ]),
 
         // A client of the library, which is able to use the macro in its own code.
-        .executableTarget(name: "SwiftAndTipsMacrosClient", dependencies: ["SwiftAndTipsMacros", "Fakery"]),
+        .executableTarget(name: "SwiftAndTipsMacrosClient", dependencies: [
+            "SwiftAndTipsMacros"
+        ]),
 
         // A test target used to develop the macro implementation.
         .testTarget(

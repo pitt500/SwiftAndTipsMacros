@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 import DataGenerator
+import DataCategory
 
 
 enum PrimitiveType: String {
@@ -33,43 +34,48 @@ enum PrimitiveType: String {
     case cgFloat = "CGFloat"
     case url = "URL"
 
-    func exprSyntax(dataGeneratorType: DataGeneratorType) -> ExprSyntax {
+    func exprSyntax(
+        dataGeneratorType: DataGeneratorType,
+        category: DataCategory?
+    ) -> ExprSyntax {
         let generator = switch dataGeneratorType {
         case .default:
             DataGenerator.default
         case .random:
-            DataGenerator.random
+            DataGenerator.random(dataCategory: category)
         }
         
-        return switch self {
+        switch self {
         case .int:
-            ExprSyntax(stringLiteral: "\(generator.int())")
+            return ExprSyntax(stringLiteral: "\(generator.int())")
         case .int8:
-            ExprSyntax(stringLiteral: "\(generator.int8())")
+            return ExprSyntax(stringLiteral: "\(generator.int8())")
         case .int16:
-            ExprSyntax(stringLiteral: "\(generator.int16())")
+            return ExprSyntax(stringLiteral: "\(generator.int16())")
         case .int32:
-            ExprSyntax(stringLiteral: "\(generator.int32())")
+            return ExprSyntax(stringLiteral: "\(generator.int32())")
         case .int64:
-            ExprSyntax(stringLiteral: "\(generator.int64())")
+            return ExprSyntax(stringLiteral: "\(generator.int64())")
         case .uInt8:
-            ExprSyntax(stringLiteral: "\(generator.uint8())")
+            return ExprSyntax(stringLiteral: "\(generator.uint8())")
         case .uInt16:
-            ExprSyntax(stringLiteral: "\(generator.uint16())")
+            return ExprSyntax(stringLiteral: "\(generator.uint16())")
         case .uInt32:
-            ExprSyntax(stringLiteral: "\(generator.uint32())")
+            return ExprSyntax(stringLiteral: "\(generator.uint32())")
         case .uInt64:
-            ExprSyntax(stringLiteral: "\(generator.uint64())")
+            return ExprSyntax(stringLiteral: "\(generator.uint64())")
         case .float:
-            ExprSyntax(stringLiteral: "\(generator.float())")
+            return ExprSyntax(stringLiteral: "\(generator.float())")
         case .double:
-            ExprSyntax(stringLiteral: "\(generator.double())")
-        case .string:
-            ExprSyntax(stringLiteral: "\"\(generator.string())\"")
+            return ExprSyntax(stringLiteral: "\(generator.double())")
+//        case .string:
+//            return ExprSyntax(stringLiteral: "\"\(generator.string())\"")
+            #warning("Investigate why an explicit string is not making macro be compiled")
         case .bool:
-            ExprSyntax(stringLiteral: "\(generator.bool())")
-        case .data, .date, .uuid, .cgPoint, .cgRect, .cgSize, .cgVector, .cgFloat, .url:
-            ExprSyntax(stringLiteral: "DataGenerator.\(dataGeneratorType).\(self.rawValue.lowercased())()")
+            return ExprSyntax(stringLiteral: "\(generator.bool())")
+        case .data, .date, .uuid, .cgPoint, .cgRect, .cgSize, .cgVector, .cgFloat, .url, .string:
+            let categoryParameter = if let category { "dataCategory: .init(rawValue: \"\(category.rawValue)\")" } else { "" }
+            return ExprSyntax(stringLiteral: "DataGenerator.\(dataGeneratorType)(\(categoryParameter)).\(self.rawValue.lowercased())()")
         }
     }
 }

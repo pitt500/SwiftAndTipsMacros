@@ -7,33 +7,39 @@
 
 import SwiftSyntax
 import DataGenerator
+import DataCategory
 
 extension SampleBuilderMacro {
     static func getExpressionSyntax(
         from type: TypeSyntax,
-        generatorType: DataGeneratorType
+        generatorType: DataGeneratorType,
+        category: DataCategory?
     ) -> ExprSyntax {
         if type.isArray {
             getArrayExprSyntax(
                 arrayType: type.as(ArrayTypeSyntax.self)!,
-                generatorType: generatorType
+                generatorType: generatorType, 
+                category: category
             )
         } else if type.isDictionary {
             getDictionaryExprSyntax(
                 dictionaryType: type.as(DictionaryTypeSyntax.self)!,
-                generatorType: generatorType
+                generatorType: generatorType, 
+                category: category
             )
         } else {
             getSimpleExprSyntax(
                 simpleType: type.as(SimpleTypeIdentifierSyntax.self)!,
-                generatorType: generatorType
+                generatorType: generatorType, 
+                category: category
             )
         }
     }
     
     static func getArrayExprSyntax(
         arrayType: ArrayTypeSyntax,
-        generatorType: DataGeneratorType
+        generatorType: DataGeneratorType,
+        category: DataCategory?
     ) -> ExprSyntax {
         
         if let simpleType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self),
@@ -57,7 +63,8 @@ extension SampleBuilderMacro {
                     ArrayElementSyntax(
                         expression: getExpressionSyntax(
                             from: TypeSyntax(arrayType.elementType),
-                            generatorType: generatorType
+                            generatorType: generatorType, 
+                            category: category
                         )
                     )
                 },
@@ -68,7 +75,8 @@ extension SampleBuilderMacro {
     
     static func getDictionaryExprSyntax(
         dictionaryType: DictionaryTypeSyntax,
-        generatorType: DataGeneratorType
+        generatorType: DataGeneratorType,
+        category: DataCategory?
     ) -> ExprSyntax {
         ExprSyntax(
             DictionaryExprSyntax {
@@ -76,11 +84,13 @@ extension SampleBuilderMacro {
                     DictionaryElementSyntax(
                         keyExpression: getExpressionSyntax(
                             from: dictionaryType.keyType,
-                            generatorType: generatorType
+                            generatorType: generatorType, 
+                            category: category
                         ),
                         valueExpression: getExpressionSyntax(
                             from: dictionaryType.valueType,
-                            generatorType: generatorType
+                            generatorType: generatorType, 
+                            category: category
                         )
                     )
                 }
@@ -90,11 +100,15 @@ extension SampleBuilderMacro {
     
     static func getSimpleExprSyntax(
         simpleType: SimpleTypeIdentifierSyntax,
-        generatorType: DataGeneratorType
+        generatorType: DataGeneratorType,
+        category: DataCategory?
     ) -> ExprSyntax {
         
         if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
-            return primitiveType.exprSyntax(dataGeneratorType: generatorType)
+            return primitiveType.exprSyntax(
+                dataGeneratorType: generatorType,
+                category: category
+            )
         }
         
         // Custom type that attaches SampleBuilder in its declaration:

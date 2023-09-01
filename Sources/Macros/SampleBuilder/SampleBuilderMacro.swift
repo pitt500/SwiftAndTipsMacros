@@ -181,7 +181,8 @@ extension SampleBuilderMacro {
             
             let expressionSyntax = getExpressionSyntax(
                 from: parameter.identifierType,
-                generatorType: generatorType
+                generatorType: generatorType,
+                category: parameter.category
             )
             
             let isNotLast = parameter.identifierType != parameters.last?.identifierType

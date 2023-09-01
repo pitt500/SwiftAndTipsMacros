@@ -1,7 +1,9 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-@_exported import DataGenerator
+//@_exported
+#warning("Should we use @_exported?")
+import DataGenerator
 
 /// A macro that transform an Int into a binary representation and returned
 /// as string. For example:

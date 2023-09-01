@@ -14,7 +14,8 @@ import XCTest
 import Macros
 
 fileprivate let testMacros: [String: Macro.Type] = [
-    "SampleBuilder": SampleBuilderMacro.self
+    "SampleBuilder": SampleBuilderMacro.self,
+    "SampleBuilderItem": SampleBuilderItemMacro.self
 ]
 #else
     #error("Macros library is not running")
@@ -972,6 +973,62 @@ final class SampleBuilderTests: XCTestCase {
                         .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
                         .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
                         .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_property_with_category() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                @SampleBuilderItem(category: .email)
+                let item1: String
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item1: String
+                static var sample: [Self] {
+                    [
+                        .init(item1: "Hello World"),
+                        .init(item1: "Hello World"),
+                        .init(item1: "Hello World"),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_property_with_image_category() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                @SampleBuilderItem(category: .image(width: 100, height: 100))
+                let item1: URL
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item1: String
+                static var sample: [Self] {
+                    [
+                        .init(item1: "Hello World"),
+                        .init(item1: "Hello World"),
+                        .init(item1: "Hello World"),
                     ]
                 }
             }

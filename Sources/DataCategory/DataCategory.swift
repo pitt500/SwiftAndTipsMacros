@@ -9,7 +9,7 @@ import Foundation
 
 public struct DataCategory: RawRepresentable {
     
-    enum BuiltInValue: String {
+    public enum BuiltInValue: String {
         // String
         case firstName
         case lastName
@@ -26,18 +26,18 @@ public struct DataCategory: RawRepresentable {
         case url
     }
     
-    enum Category {
+    public enum Category {
         case builtInValue(BuiltInValue)
         case image(width: Int, height: Int)
     }
     
-    var category: Category
+    public var category: Category
     
-    init(_ value: BuiltInValue) {
+    public init(_ value: BuiltInValue) {
         self.category = .builtInValue(value)
     }
     
-    init(imageWidth width: Int, height: Int) {
+    public init(imageWidth width: Int, height: Int) {
         category = .image(width: width, height: height)
     }
     
@@ -57,10 +57,8 @@ public struct DataCategory: RawRepresentable {
             return
         }
         
-        #warning("Get image parameters")
         if rawValue.hasPrefix("image") {
-            let width = 200
-            let height = 300
+            let (width, height) = DataCategory.getImageWidthAndHeight(from: rawValue)
             category = .image(width: width, height: height)
             return
         }
@@ -138,6 +136,36 @@ public struct DataCategory: RawRepresentable {
             
             return value == .price
         }
+    }
+    
+    static private func getImageWidthAndHeight(from inputString: String) -> (Int, Int) {
+
+        // 1. Create a regular expression pattern
+        let pattern = "image\\(width:(\\d+),height:(\\d+)\\)"
+
+        do {
+            // 2. Match the string against the pattern
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            if let match = regex.firstMatch(in: inputString, options: [], range: NSRange(location: 0, length: inputString.utf16.count)) {
+                
+                // 3. Extract the values
+                if let widthRange = Range(match.range(at: 1), in: inputString),
+                   let heightRange = Range(match.range(at: 2), in: inputString) {
+                    
+                    let width = Int(inputString[widthRange])!
+                    let height = Int(inputString[heightRange])!
+                    
+                    return (width, height)
+                }
+            } else {
+                print("No match found!")
+            }
+        } catch let error {
+            print("Error creating regex: \(error)")
+        }
+        
+        #warning("Is this the right approach?")
+        return (100, 100) // Default
     }
 }
 
