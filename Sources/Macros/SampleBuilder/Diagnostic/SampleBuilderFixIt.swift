@@ -32,4 +32,8 @@ extension FixItMessage where Self == SampleBuilderFixIt {
     static var addNewEnumCase: Self {
       .init("add a new enum case")
     }
+    
+    static var removeSampleBuilderItem: Self {
+      .init("remove @SampleBuilderItem")
+    }
 }

@@ -25,7 +25,7 @@ extension SampleBuilderMacro {
         if cases.isEmpty {
             SampleBuilderDiagnostic.report(
                 diagnostic: .enumWithEmptyCases,
-                node: enumDecl,
+                node: Syntax(enumDecl),
                 context: context
             )
             return []

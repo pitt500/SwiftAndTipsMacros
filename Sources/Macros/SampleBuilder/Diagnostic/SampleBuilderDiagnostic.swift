@@ -13,6 +13,7 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
     case notAnStructOrEnum
     case argumentNotGreaterThanZero
     case enumWithEmptyCases
+    case sampleBuilderItemRedundant
     
     var severity: DiagnosticSeverity {
         switch self {
@@ -22,6 +23,8 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
             return .error
         case .enumWithEmptyCases:
             return .error
+        case .sampleBuilderItemRedundant:
+            return .warning
         }
     }
     
@@ -33,6 +36,8 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
             return "'numberOfitems' argument must be greater than zero"
         case .enumWithEmptyCases:
             return "Enum must contain at least one case"
+        case .sampleBuilderItemRedundant:
+            return "@SampleBuilderItem attribute has no effect when generator type is 'default'"
         }
     }
     
@@ -42,7 +47,7 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
     
     static func report(
         diagnostic: Self,
-        node: DeclGroupSyntax,
+        node: Syntax,
         context: some SwiftSyntaxMacros.MacroExpansionContext
     ) {
         
@@ -57,7 +62,7 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
     
     static func getFixIts(
         for diagnostic: Self,
-        node: DeclGroupSyntax
+        node: Syntax
     ) -> [FixIt] {
         switch diagnostic {
         case .enumWithEmptyCases:
@@ -90,6 +95,21 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
                                     rightBrace: .rightBraceToken()
                                 )
                             )
+                        )
+                    ]
+                )
+            ]
+        case .sampleBuilderItemRedundant:
+            #warning("Add suggestion removing @SampleBuilderItem")
+            return [
+                .init(
+                    message: SampleBuilderFixIt.removeSampleBuilderItem,
+                    changes: [
+                        .replace(
+                            oldNode: Syntax(
+                                fromProtocol: node.as(AttributeSyntax.self) ?? node
+                            ),
+                            newNode: Syntax(AttributeSyntax(stringLiteral: ""))
                         )
                     ]
                 )

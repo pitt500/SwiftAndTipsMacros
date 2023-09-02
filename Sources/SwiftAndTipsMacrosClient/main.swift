@@ -7,10 +7,10 @@ let x = #binaryString(10)
 
 print(x)
 
-@SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
+@SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
 struct Example {
-    @SampleBuilderItem(category: .image(width: 500, height: 300))
-    let item1: URL
+    @SampleBuilderItem(category: .fullName)
+    let item1: String
 }
 
 for element in Example.sample {

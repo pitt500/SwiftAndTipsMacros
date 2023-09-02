@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct FakeData {
+struct FakeDataProvider {
     
 }

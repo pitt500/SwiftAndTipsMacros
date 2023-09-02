@@ -8,14 +8,20 @@
 import SwiftSyntax
 import DataGenerator
 import DataCategory
+import SwiftSyntaxMacros
 
 extension SampleBuilderMacro {
     static func SampleBuilderMacroForStruct(
         structDecl: StructDeclSyntax,
         numberOfItems: Int,
-        generatorType: DataGeneratorType
+        generatorType: DataGeneratorType,
+        context: MacroExpansionContext
     ) -> [SwiftSyntax.DeclSyntax] {
-        let validParameters = getValidParameterList(from: structDecl)
+        let validParameters = getValidParameterList(
+            from: structDecl,
+            generatorType: generatorType,
+            context: context
+        )
         
         let sampleCode = generateSampleCodeSyntax(
             sampleData: generateSampleData(
@@ -29,7 +35,9 @@ extension SampleBuilderMacro {
     }
     
     static func getValidParameterList(
-        from structDecl: StructDeclSyntax
+        from structDecl: StructDeclSyntax,
+        generatorType: DataGeneratorType,
+        context: MacroExpansionContext
     ) -> [ParameterItem] {
         let storedPropertyMembers = structDecl.memberBlock.members
             .compactMap {
@@ -55,7 +63,7 @@ extension SampleBuilderMacro {
                     .typeAnnotation?
                     .type {
                     
-                    return (identifier, type, getDataCategory(from: $0))
+                    return (identifier, type, getDataCategory(from: $0, generatorType: generatorType, context: context))
                 }
                 
                 return nil
@@ -78,7 +86,11 @@ extension SampleBuilderMacro {
         return largestParameterList
     }
     
-    static func getDataCategory(from variableDecl: VariableDeclSyntax) -> DataCategory? {
+    static func getDataCategory(
+        from variableDecl: VariableDeclSyntax,
+        generatorType: DataGeneratorType,
+        context: MacroExpansionContext
+    ) -> DataCategory? {
         guard let attribute = variableDecl.attributes?
                 .first(where: {
                     $0.as(AttributeSyntax.self)?
@@ -89,6 +101,14 @@ extension SampleBuilderMacro {
               
         else {
             return DataCategory(rawValue: "") // No Attribute
+        }
+        
+        if generatorType == .default {
+            SampleBuilderDiagnostic.report(
+                diagnostic: .sampleBuilderItemRedundant,
+                node: Syntax(attribute),
+                context: context
+            )
         }
         
         if let simpleCategoryString = attribute // All categories except image

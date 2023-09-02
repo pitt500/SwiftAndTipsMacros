@@ -24,7 +24,7 @@ public struct SampleBuilderMacro: MemberMacro {
         if numberOfItems <= 0 {
             SampleBuilderDiagnostic.report(
                 diagnostic: .argumentNotGreaterThanZero,
-                node: declaration,
+                node: Syntax(declaration),
                 context: context
             )
             return []
@@ -45,13 +45,14 @@ public struct SampleBuilderMacro: MemberMacro {
             return SampleBuilderMacroForStruct(
                 structDecl: structDecl,
                 numberOfItems: numberOfItems,
-                generatorType: generatorType
+                generatorType: generatorType, 
+                context: context
             )
         }
         
         SampleBuilderDiagnostic.report(
             diagnostic: .notAnStructOrEnum,
-            node: declaration,
+            node: Syntax(declaration),
             context: context
         )
         return []
