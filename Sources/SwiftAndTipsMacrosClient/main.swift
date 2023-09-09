@@ -7,7 +7,7 @@ let x = #binaryString(10)
 
 print(x)
 
-@SampleBuilder(numberOfItems: 6, dataGeneratorType: .default)
+@SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
 struct Example {
     @SampleBuilderItem(category: .fullName)
     let item1: String
