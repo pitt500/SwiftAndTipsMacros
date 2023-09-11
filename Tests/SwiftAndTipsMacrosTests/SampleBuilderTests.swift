@@ -39,9 +39,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -109,9 +109,9 @@ final class SampleBuilderTests: XCTestCase {
                 let item21: CGVector
                 static var sample: [Self] {
                     [
-                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
-                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
-                        .init(id: DataGenerator.default.uuid(), item1: "Hello World", item2: 0, item3: true, item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: 0.0, item7: 0.0, item8: 0, item9: 0, item10: 0, item11: 0, item12: 0, item13: 0, item14: 0, item15: 0, item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
                     ]
                 }
             }
@@ -147,9 +147,9 @@ final class SampleBuilderTests: XCTestCase {
                 let product: Product
                 static var sample: [Self] {
                     [
-                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
-                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
-                        .init(rating: 0, time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
                     ]
                 }
             }
@@ -158,9 +158,9 @@ final class SampleBuilderTests: XCTestCase {
                 var description: String
                 static var sample: [Self] {
                     [
-                        .init(price: 0, description: "Hello World"),
-                        .init(price: 0, description: "Hello World"),
-                        .init(price: 0, description: "Hello World"),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -190,9 +190,9 @@ final class SampleBuilderTests: XCTestCase {
                 let array: [Int]
                 static var sample: [Self] {
                     [
-                        .init(price: 0, description: "Hello World", array: [0]),
-                        .init(price: 0, description: "Hello World", array: [0]),
-                        .init(price: 0, description: "Hello World", array: [0]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
                     ]
                 }
             }
@@ -225,9 +225,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -299,9 +299,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -338,9 +338,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(price: 0),
-                        .init(price: 0),
-                        .init(price: 0),
+                        .init(price: DataGenerator.default.int()),
+                        .init(price: DataGenerator.default.int()),
+                        .init(price: DataGenerator.default.int()),
                     ]
                 }
             }
@@ -385,9 +385,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(price: 0, date: DataGenerator.default.date()),
-                        .init(price: 0, date: DataGenerator.default.date()),
-                        .init(price: 0, date: DataGenerator.default.date()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
                     ]
                 }
             }
@@ -446,9 +446,9 @@ final class SampleBuilderTests: XCTestCase {
                 }
                 static var sample: [Self] {
                     [
-                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
-                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
-                        .init(price: 0, date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: "Hello World"),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -477,9 +477,9 @@ final class SampleBuilderTests: XCTestCase {
                 var dict: [String: Int]
                 static var sample: [Self] {
                     [
-                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
-                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
-                        .init(price: 0, description: "Hello World", dict: ["Hello World": 0]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
                     ]
                 }
             }
@@ -515,9 +515,9 @@ final class SampleBuilderTests: XCTestCase {
                 let y: String
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
-                        .init(x: 0, y: "Hello World"),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -529,9 +529,9 @@ final class SampleBuilderTests: XCTestCase {
                 var dict3: [String: [String: Example]]
                 static var sample: [Self] {
                     [
-                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
-                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
-                        .init(price: 0, description: "Hello World", dict1: ["Hello World": 0], dict2: ["Hello World": [0]], dict3: ["Hello World": ["Hello World": Example.sample.first!]]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
                     ]
                 }
             }
@@ -560,10 +560,10 @@ final class SampleBuilderTests: XCTestCase {
                 case case3(String)
                 static var sample: [Self] {
                     [
-                        .case1("Hello World"),
+                        .case1(DataGenerator.default.string()),
                         .case2,
-                        .case3("Hello World"),
-                        .case1("Hello World"),
+                        .case3(DataGenerator.default.string()),
+                        .case1(DataGenerator.default.string()),
                         .case2,
                     ]
                 }
@@ -601,9 +601,9 @@ final class SampleBuilderTests: XCTestCase {
                 let myEnum: MyEnum
                 static var sample: [Self] {
                     [
-                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
-                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
-                        .init(x: 0, y: "Hello World", myEnum: MyEnum.sample.first!),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string(), myEnum: MyEnum.sample.first!),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string(), myEnum: MyEnum.sample.first!),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string(), myEnum: MyEnum.sample.first!),
                     ]
                 }
             }
@@ -613,7 +613,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case3(String)
                 static var sample: [Self] {
                     [
-                        .case1("Hello World", 0, "Hello World", "Hello World", Example.sample.first!),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), DataGenerator.default.string(), Example.sample.first!),
                     ]
                 }
             }
@@ -641,11 +641,11 @@ final class SampleBuilderTests: XCTestCase {
                 case case2
                 static var sample: [Self] {
                     [
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                     ]
                 }
@@ -682,10 +682,10 @@ final class SampleBuilderTests: XCTestCase {
                 case case3(Product)
                 static var sample: [Self] {
                     [
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                         .case3(Product.sample.first!),
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                         .case3(Product.sample.first!),
                     ]
@@ -696,8 +696,8 @@ final class SampleBuilderTests: XCTestCase {
                 var item2: String
                 static var sample: [Self] {
                     [
-                        .init(item1: 0, item2: "Hello World"),
-                        .init(item1: 0, item2: "Hello World"),
+                        .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
+                        .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -735,11 +735,11 @@ final class SampleBuilderTests: XCTestCase {
                 case case4([String: Int])
                 static var sample: [Self] {
                     [
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                         .case3(Product.sample.first!),
-                        .case4(["Hello World": 0]),
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case4([DataGenerator.default.string(): DataGenerator.default.int()]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                     ]
                 }
@@ -749,8 +749,8 @@ final class SampleBuilderTests: XCTestCase {
                 var item2: String
                 static var sample: [Self] {
                     [
-                        .init(item1: 0, item2: "Hello World"),
-                        .init(item1: 0, item2: "Hello World"),
+                        .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
+                        .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
                     ]
                 }
             }
@@ -779,12 +779,12 @@ final class SampleBuilderTests: XCTestCase {
                 var item3: [[[[Int]]]]
                 static var sample: [Self] {
                     [
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
-                        .init(item1: 0, item2: [["Hello World"]], item3: [[[[0]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
+                        .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
                     ]
                 }
             }
@@ -820,11 +820,11 @@ final class SampleBuilderTests: XCTestCase {
                 case case4([String: Product])
                 static var sample: [Self] {
                     [
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                         .case3(Product.sample.first!),
-                        .case4(["Hello World": Product.sample.first!]),
-                        .case1("Hello World", 0, "Hello World", ["Hello World"]),
+                        .case4([DataGenerator.default.string(): Product.sample.first!]),
+                        .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
                         .case2,
                     ]
                 }
@@ -833,12 +833,12 @@ final class SampleBuilderTests: XCTestCase {
                 var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
                 static var sample: [Self] {
                     [
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
-                        .init(item1: [[0]: [["Hello World": ["Hello World": [0: [0: MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
+                        .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
                     ]
                 }
             }
@@ -970,9 +970,9 @@ final class SampleBuilderTests: XCTestCase {
                 case response(time: Date, name: String, Data)
                 static var sample: [Self] {
                     [
-                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
-                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
-                        .response(time: DataGenerator.default.date(), name: "Hello World", DataGenerator.default.data()),
+                        .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
+                        .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
+                        .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
                     ]
                 }
             }
@@ -998,9 +998,9 @@ final class SampleBuilderTests: XCTestCase {
                 let item1: String
                 static var sample: [Self] {
                     [
-                        .init(item1: "Hello World"),
-                        .init(item1: "Hello World"),
-                        .init(item1: "Hello World"),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
                     ]
                 }
             }
@@ -1023,12 +1023,12 @@ final class SampleBuilderTests: XCTestCase {
             """#,
             expandedSource: """
             struct Example {
-                let item1: String
+                let item1: URL
                 static var sample: [Self] {
                     [
-                        .init(item1: "Hello World"),
-                        .init(item1: "Hello World"),
-                        .init(item1: "Hello World"),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
+                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
                     ]
                 }
             }
