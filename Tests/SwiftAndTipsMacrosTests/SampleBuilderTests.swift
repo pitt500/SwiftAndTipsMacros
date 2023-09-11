@@ -983,7 +983,7 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    func testSampleBuilderMacro_property_with_category() throws{
+    func testSampleBuilderMacro_property_with_email_category() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
