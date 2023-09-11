@@ -1039,4 +1039,5 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    #warning("Add tests to validate random Data category")
 }
