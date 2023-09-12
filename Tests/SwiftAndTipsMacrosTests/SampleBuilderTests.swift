@@ -52,7 +52,39 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    
+    func testSampleBuilderMacro_multiple_attributes_in_struct() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @OneAttribute(data: Data())
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            @AnotherAttribute(data: Data())
+            struct Example {
+                let x: Int
+                let y: String
+            }
+            """#,
+            expandedSource: """
+            @OneAttribute(data: Data())
+            @AnotherAttribute(data: Data())
+            struct Example {
+                let x: Int
+                let y: String
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
     func testSampleBuilderMacro_supportedType() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -1029,6 +1061,40 @@ final class SampleBuilderTests: XCTestCase {
                         .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
                         .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
                         .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
+                    ]
+                }
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_multiple_attributes_in_property() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                let x: Int
+                @MyAttribute
+                @SampleBuilderItem(category: .email)
+                @AnotherAttribute(date: Date())
+                let y: String
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let x: Int
+                @MyAttribute
+                @AnotherAttribute(date: Date())
+                let y: String
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.random().int(), y: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
+                        .init(x: DataGenerator.random().int(), y: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
+                        .init(x: DataGenerator.random().int(), y: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
                     ]
                 }
             }
