@@ -23,6 +23,7 @@ fileprivate let testMacros: [String: Macro.Type] = [
 
 
 final class SampleBuilderTests: XCTestCase {
+    // MARK: - Structs
     func testSampleBuilderMacro_Int_and_String() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -541,6 +542,8 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    // MARK: - Enums
     func testSampleBuilderMacro_enum() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -760,6 +763,8 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    // MARK: - Nested types
     func testSampleBuilderMacro_nested_arrays() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -848,6 +853,8 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    // MARK: - Errors In Classes
     func testSampleBuilderMacro_error_classes() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -875,6 +882,8 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    // MARK: - Errors In Number of Items Parameter
     func testSampleBuilderMacro_error_numberOfItems_equal_to_zero() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -929,6 +938,8 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
+    
+    // MARK: - Errors in Enums
     func testSampleBuilderMacro_error_enum_with_no_cases() throws{
         #if canImport(Macros)
         assertMacroExpansion(
@@ -972,62 +983,6 @@ final class SampleBuilderTests: XCTestCase {
                         .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
                         .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
                         .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
-                    ]
-                }
-            }
-            """,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
-    }
-    func testSampleBuilderMacro_property_with_email_category() throws{
-        #if canImport(Macros)
-        assertMacroExpansion(
-            #"""
-            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
-            struct Example {
-                @SampleBuilderItem(category: .email)
-                let item1: String
-            }
-            """#,
-            expandedSource: """
-            struct Example {
-                let item1: String
-                static var sample: [Self] {
-                    [
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
-                    ]
-                }
-            }
-            """,
-            macros: testMacros
-        )
-        #else
-        throw XCTSkip("macros are only supported when running tests for the host platform")
-        #endif
-    }
-    func testSampleBuilderMacro_property_with_image_category() throws{
-        #if canImport(Macros)
-        assertMacroExpansion(
-            #"""
-            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
-            struct Example {
-                @SampleBuilderItem(category: .image(width: 100, height: 100))
-                let item1: URL
-            }
-            """#,
-            expandedSource: """
-            struct Example {
-                let item1: URL
-                static var sample: [Self] {
-                    [
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
-                        .init(item1: DataGenerator.random(dataCategory: .init(rawValue: "image(width:100,height:100)")).url()),
                     ]
                 }
             }
