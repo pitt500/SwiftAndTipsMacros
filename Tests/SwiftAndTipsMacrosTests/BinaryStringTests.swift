@@ -38,6 +38,7 @@ final class BinaryStringTests: XCTestCase {
             #binaryString("Hello")
             """#,
             expandedSource: """
+            #binaryString("Hello")
             """,
             diagnostics: [
                 DiagnosticSpec(message: "The argument is not an Int literal", line: 1, column: 1)
@@ -58,9 +59,10 @@ final class BinaryStringTests: XCTestCase {
             """,
             expandedSource: #"""
             let input = 7
+            #binaryString(input)
             """#,
             diagnostics: [
-                DiagnosticSpec(message: "The argument is not an Int literal", line: 1, column: 1)
+                DiagnosticSpec(message: "The argument is not an Int literal", line: 2, column: 1)
             ],
             macros: testMacros
         )

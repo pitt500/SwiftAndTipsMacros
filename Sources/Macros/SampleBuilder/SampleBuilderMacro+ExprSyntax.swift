@@ -29,7 +29,7 @@ extension SampleBuilderMacro {
             )
         } else {
             getSimpleExprSyntax(
-                simpleType: type.as(SimpleTypeIdentifierSyntax.self)!,
+                simpleType: type.as(IdentifierTypeSyntax.self)!,
                 generatorType: generatorType, 
                 category: category
             )
@@ -42,15 +42,15 @@ extension SampleBuilderMacro {
         category: DataCategory?
     ) -> ExprSyntax {
         
-        if let simpleType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self),
+        if let simpleType = arrayType.element.as(IdentifierTypeSyntax.self),
            SupportedType(rawValue: simpleType.name.text) == nil {
             // Custom array type that attaches SampleBuilder in its declaration:
             return ExprSyntax(
                 MemberAccessExprSyntax(
-                    base: IdentifierExprSyntax(
-                        identifier: simpleType.name
+                    base: DeclReferenceExprSyntax(
+                        baseName: simpleType.name
                     ),
-                    dot: .periodToken(),
+                    period: .periodToken(),
                     name: .identifier("sample")
                 )
             )
@@ -58,17 +58,17 @@ extension SampleBuilderMacro {
         
         return ExprSyntax(
             ArrayExprSyntax(
-                leftSquare: .leftSquareBracketToken(),
+                leftSquare: .leftSquareToken(),
                 elements: ArrayElementListSyntax {
                     ArrayElementSyntax(
                         expression: getExpressionSyntax(
-                            from: TypeSyntax(arrayType.elementType),
+                            from: TypeSyntax(arrayType.element),
                             generatorType: generatorType, 
                             category: category
                         )
                     )
                 },
-                rightSquare: .rightSquareBracketToken()
+                rightSquare: .rightSquareToken()
             )
         )
     }
@@ -82,13 +82,13 @@ extension SampleBuilderMacro {
             DictionaryExprSyntax {
                 DictionaryElementListSyntax {
                     DictionaryElementSyntax(
-                        keyExpression: getExpressionSyntax(
-                            from: dictionaryType.keyType,
+                        key: getExpressionSyntax(
+                            from: dictionaryType.key,
                             generatorType: generatorType, 
                             category: category
                         ),
-                        valueExpression: getExpressionSyntax(
-                            from: dictionaryType.valueType,
+                        value: getExpressionSyntax(
+                            from: dictionaryType.value,
                             generatorType: generatorType, 
                             category: category
                         )
@@ -99,7 +99,7 @@ extension SampleBuilderMacro {
     }
     
     static func getSimpleExprSyntax(
-        simpleType: SimpleTypeIdentifierSyntax,
+        simpleType: IdentifierTypeSyntax,
         generatorType: DataGeneratorType,
         category: DataCategory?
     ) -> ExprSyntax {
@@ -113,16 +113,16 @@ extension SampleBuilderMacro {
         
         // Custom type that attaches SampleBuilder in its declaration:
         return ExprSyntax(
-            ForcedValueExprSyntax(
+            ForceUnwrapExprSyntax(
                 expression: MemberAccessExprSyntax(
                     base: MemberAccessExprSyntax(
-                        base: IdentifierExprSyntax(
-                            identifier: simpleType.name
+                        base: DeclReferenceExprSyntax(
+                            baseName: simpleType.name
                         ),
-                        dot: .periodToken(),
+                        period: .periodToken(),
                         name: .identifier("sample")
                     ),
-                    dot: .periodToken(),
+                    period: .periodToken(),
                     name: .identifier("first")
                 ),
                 exclamationMark: .exclamationMarkToken()

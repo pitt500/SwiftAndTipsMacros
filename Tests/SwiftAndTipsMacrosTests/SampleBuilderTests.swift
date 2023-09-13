@@ -38,6 +38,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Example {
                 let x: Int
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
@@ -107,6 +108,7 @@ final class SampleBuilderTests: XCTestCase {
                 let item19: CGRect
                 let item20: CGSize
                 let item21: CGVector
+            
                 static var sample: [Self] {
                     [
                         .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
@@ -145,6 +147,7 @@ final class SampleBuilderTests: XCTestCase {
                 let rating: Int
                 let time: Date
                 let product: Product
+            
                 static var sample: [Self] {
                     [
                         .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
@@ -156,6 +159,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Product {
                 var price: Int
                 var description: String
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
@@ -188,6 +192,7 @@ final class SampleBuilderTests: XCTestCase {
                 var price: Int
                 var description: String
                 let array: [Int]
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
@@ -223,6 +228,7 @@ final class SampleBuilderTests: XCTestCase {
                 static var asd: Self {
                     .init(x: 0, y: "Hello World")
                 }
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
@@ -285,9 +291,7 @@ final class SampleBuilderTests: XCTestCase {
                     .init(x: 0, y: "Hello World")
                 }
                 var z: String {
-                    get {
-                        y
-                    }
+                    get { y }
                 }
                 var w: String {
                     get {
@@ -297,6 +301,7 @@ final class SampleBuilderTests: XCTestCase {
                         y = newValue
                     }
                 }
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
@@ -336,6 +341,7 @@ final class SampleBuilderTests: XCTestCase {
                     self.price = price
                     self.description = ""
                 }
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int()),
@@ -383,6 +389,7 @@ final class SampleBuilderTests: XCTestCase {
                     self.date = date
                     self.id = UUID()
                 }
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
@@ -444,6 +451,7 @@ final class SampleBuilderTests: XCTestCase {
                     self.date = date
                     self.id = id
                 }
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
@@ -475,6 +483,7 @@ final class SampleBuilderTests: XCTestCase {
                 var price: Int
                 var description: String
                 var dict: [String: Int]
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
@@ -513,6 +522,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Example {
                 let x: Int
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
@@ -527,6 +537,7 @@ final class SampleBuilderTests: XCTestCase {
                 var dict1: [String: Int]
                 var dict2: [String: [Int]]
                 var dict3: [String: [String: Example]]
+            
                 static var sample: [Self] {
                     [
                         .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
@@ -560,6 +571,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case1(String)
                 case case2
                 case case3(String)
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string()),
@@ -601,6 +613,7 @@ final class SampleBuilderTests: XCTestCase {
                 let x: Int
                 let y: String
                 let myEnum: MyEnum
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string(), myEnum: MyEnum.sample.first!),
@@ -613,6 +626,7 @@ final class SampleBuilderTests: XCTestCase {
                 indirect case case1(String, Int, String, String, Example)
                 case case2
                 case case3(String)
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), DataGenerator.default.string(), Example.sample.first!),
@@ -641,6 +655,7 @@ final class SampleBuilderTests: XCTestCase {
             enum MyEnum {
                 indirect case case1(String, Int, String, [String])
                 case case2
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
@@ -682,6 +697,7 @@ final class SampleBuilderTests: XCTestCase {
                 indirect case case1(String, Int, String, [String])
                 case case2
                 case case3(Product)
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
@@ -696,6 +712,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Product {
                 var item1: Int
                 var item2: String
+            
                 static var sample: [Self] {
                     [
                         .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
@@ -735,6 +752,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case2
                 case case3(Product)
                 case case4([String: Int])
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
@@ -749,6 +767,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Product {
                 var item1: Int
                 var item2: String
+            
                 static var sample: [Self] {
                     [
                         .init(item1: DataGenerator.default.int(), item2: DataGenerator.default.string()),
@@ -781,6 +800,7 @@ final class SampleBuilderTests: XCTestCase {
                 var item1: Int
                 var item2: [[String]]
                 var item3: [[[[Int]]]]
+            
                 static var sample: [Self] {
                     [
                         .init(item1: DataGenerator.default.int(), item2: [[DataGenerator.default.string()]], item3: [[[[DataGenerator.default.int()]]]]),
@@ -822,6 +842,7 @@ final class SampleBuilderTests: XCTestCase {
                 case case2
                 case case3(Product)
                 case case4([String: Product])
+            
                 static var sample: [Self] {
                     [
                         .case1(DataGenerator.default.string(), DataGenerator.default.int(), DataGenerator.default.string(), [DataGenerator.default.string()]),
@@ -835,6 +856,7 @@ final class SampleBuilderTests: XCTestCase {
             }
             struct Test {
                 var item1: [[Int]: [[String: [String: [Int: [Int: MyEnum]]]]]]
+            
                 static var sample: [Self] {
                     [
                         .init(item1: [[DataGenerator.default.int()]: [[DataGenerator.default.string(): [DataGenerator.default.string(): [DataGenerator.default.int(): [DataGenerator.default.int(): MyEnum.sample.first!]]]]]]),
@@ -866,7 +888,7 @@ final class SampleBuilderTests: XCTestCase {
             """#,
             expandedSource: """
             class MyClass {
-            
+                
             }
             """,
             diagnostics: [
@@ -978,6 +1000,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             enum Example {
                 case response(time: Date, name: String, Data)
+            
                 static var sample: [Self] {
                     [
                         .response(time: DataGenerator.default.date(), name: DataGenerator.default.string(), DataGenerator.default.data()),
@@ -1013,6 +1036,7 @@ final class SampleBuilderTests: XCTestCase {
             struct Example {
                 let x: Int
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
@@ -1047,6 +1071,7 @@ final class SampleBuilderTests: XCTestCase {
                 @MyAttribute
                 @AnotherAttribute(date: Date())
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(x: DataGenerator.random().int(), y: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
@@ -1077,6 +1102,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "email")).string()),
@@ -1103,6 +1129,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "firstName")).string()),
@@ -1129,6 +1156,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "lastName")).string()),
@@ -1155,6 +1183,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "address")).string()),
@@ -1181,6 +1210,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "appVersion")).string()),
@@ -1207,6 +1237,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "creditCardNumber")).string()),
@@ -1233,6 +1264,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "companyName")).string()),
@@ -1259,6 +1291,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: String
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "username")).string()),
@@ -1285,6 +1318,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: Double
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "price")).double()),
@@ -1311,6 +1345,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: URL
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "url")).url()),
@@ -1337,6 +1372,7 @@ final class SampleBuilderTests: XCTestCase {
             expandedSource: """
             struct Example {
                 let y: URL
+            
                 static var sample: [Self] {
                     [
                         .init(y: DataGenerator.random(dataCategory: .init(rawValue: "image(width:243,height:123)")).url()),

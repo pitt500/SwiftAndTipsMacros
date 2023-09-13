@@ -65,45 +65,45 @@ extension SampleBuilderMacro {
         sampleData: ArrayElementListSyntax
     ) -> VariableDeclSyntax {
         let returnType = ArrayTypeSyntax(
-            leftSquareBracket: .leftSquareBracketToken(),
-            elementType: SimpleTypeIdentifierSyntax(
+            leftSquare: .leftSquareToken(),
+            element: IdentifierTypeSyntax(
                 name: .keyword(.Self)
             ),
-            rightSquareBracket: .rightSquareBracketToken()
+            rightSquare: .rightSquareToken()
         )
         
         return VariableDeclSyntax(
-            modifiers: ModifierListSyntax {
+            modifiers: DeclModifierListSyntax {
                 DeclModifierSyntax(name: .keyword(.static))
             },
-            bindingKeyword: .keyword(.var),
+            bindingSpecifier: .keyword(.var),
             bindings: PatternBindingListSyntax {
                 PatternBindingSyntax(
                     pattern: IdentifierPatternSyntax(identifier: .identifier("sample")
-                    ),
+                                                    ),
                     typeAnnotation: TypeAnnotationSyntax(
                         colon: .colonToken(),
                         type: returnType
                     ),
-                    accessor: .getter(
-                        CodeBlockSyntax(
-                            leftBrace: .leftBraceToken(),
-                            statements: CodeBlockItemListSyntax {
+                    accessorBlock: AccessorBlockSyntax(
+                        leftBrace: .leftBraceToken(),
+                        accessors: .getter(
+                            CodeBlockItemListSyntax {
                                 CodeBlockItemSyntax(
                                     item: .expr(
                                         ExprSyntax(
                                             ArrayExprSyntax(
-                                                leftSquare: .leftSquareBracketToken(),
+                                                leftSquare: .leftSquareToken(),
                                                 elements: sampleData,
-                                                rightSquare: .rightSquareBracketToken(leadingTrivia: .newline)
+                                                rightSquare: .rightSquareToken(leadingTrivia: .newline)
                                             )
                                         )
                                     )
                                 )
                                 
-                            },
-                            rightBrace: .rightBraceToken()
-                        )
+                            }
+                        ),
+                        rightBrace: .rightBraceToken()
                     )
                 )
             }
@@ -113,13 +113,13 @@ extension SampleBuilderMacro {
     static func getDataGeneratorType(
         from node: SwiftSyntax.AttributeSyntax
     ) -> DataGeneratorType {
-        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)
+        guard let argumentTuple = node.arguments?.as(LabeledExprListSyntax.self)
         else {
             fatalError("Compiler bug: Argument must exist")
         }
 
-        guard let generatorArgument = argumentTuple.first(where: { $0.as(TupleExprElementSyntax.self)?.label?.text == "dataGeneratorType" }),
-              let argumentValue = generatorArgument.expression.as(MemberAccessExprSyntax.self)?.name,
+        guard let generatorArgument = argumentTuple.first(where: { $0.as(LabeledExprSyntax.self)?.label?.text == "dataGeneratorType" }),
+              let argumentValue = generatorArgument.expression.as(MemberAccessExprSyntax.self)?.declName.baseName,
               let generatorType = DataGeneratorType(rawValue: argumentValue.text)
         else {
             // return default generator type
@@ -132,7 +132,7 @@ extension SampleBuilderMacro {
     static func getNumberOfItems(
         from node: SwiftSyntax.AttributeSyntax
     ) throws -> Int {
-        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first
+        guard let argumentTuple = node.arguments?.as(LabeledExprListSyntax.self)?.first
         else {
             fatalError("Compiler bug: Argument must exist")
         }
@@ -145,7 +145,7 @@ extension SampleBuilderMacro {
         } else if let integerExpression = argumentTuple
                 .expression
                 .as(IntegerLiteralExprSyntax.self),
-                let numberOfItems = Int(integerExpression.digits.text) {
+                  let numberOfItems = Int(integerExpression.literal.text) {
             return numberOfItems
         }
         
@@ -155,14 +155,15 @@ extension SampleBuilderMacro {
     static func negativeNumberOfItems(
         expression: PrefixOperatorExprSyntax
     ) -> Int {
+        let operatorToken = expression
+            .operator
+            .text
+        
         guard
-            let operatorToken = expression
-                .operatorToken?
-                .text,
             let integerExpression = expression
-                .postfixExpression
+                .expression
                 .as(IntegerLiteralExprSyntax.self),
-            let numberOfItems = Int(operatorToken + integerExpression.digits.text)
+            let numberOfItems = Int(operatorToken + integerExpression.literal.text)
         else {
             return 0 // Will throw .argumentNotGreaterThanZero in Xcode
         }
@@ -174,9 +175,9 @@ extension SampleBuilderMacro {
     static func getParameterListForSampleElement(
         parameters: [ParameterItem],
         generatorType: DataGeneratorType
-    ) -> TupleExprElementListSyntax {
+    ) -> LabeledExprListSyntax {
         
-        var parameterList = TupleExprElementListSyntax()
+        var parameterList = LabeledExprListSyntax()
         
         for parameter in parameters {
             
@@ -187,15 +188,14 @@ extension SampleBuilderMacro {
             )
             
             let isNotLast = parameter.identifierType != parameters.last?.identifierType
-            let parameterElement = TupleExprElementSyntax(
+            let parameterElement = LabeledExprSyntax(
                 label: parameter.hasName ? .identifier(parameter.identifierName!) : nil,
                 colon: parameter.hasName ? .colonToken() : nil,
                 expression: expressionSyntax,
                 trailingComma: isNotLast ? .commaToken() : nil
             )
             
-            parameterList = parameterList
-                .appending(parameterElement)
+            parameterList.append(parameterElement)
         }
         
         return parameterList

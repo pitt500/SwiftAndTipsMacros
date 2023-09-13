@@ -15,22 +15,22 @@ extension VariableDeclSyntax {
             return false
         }
         
-        guard let accesor = bindings.first?.accessor
+        guard let accesor = bindings.first?.accessorBlock
         else {
             // Nothing to review. It's a valid stored property
             return true
         }
         
-        switch accesor {
+        switch accesor.accessors {
         case .accessors(let accesorBlockSyntax):
             // Observers are valid accesors only
             let validAccesors = Set<TokenKind>([
                 .keyword(.willSet), .keyword(.didSet)
             ])
             
-            let hasValidAccesors = accesorBlockSyntax.accessors.contains {
+            let hasValidAccesors = accesorBlockSyntax.contains {
                 // Other kind of accesors will make the variable a computed property
-                validAccesors.contains($0.accessorKind.tokenKind)
+                validAccesors.contains($0.accessorSpecifier.tokenKind)
             }
             return hasValidAccesors
         case .getter:
@@ -41,18 +41,18 @@ extension VariableDeclSyntax {
     }
     
     var isPublic: Bool {
-        modifiers?.contains {
+        modifiers.contains {
             $0.name.tokenKind == .keyword(.public)
-        } ?? false
+        }
     }
     
     var isPrivate: Bool {
-        modifiers?.contains {
+        modifiers.contains {
             $0.name.tokenKind == .keyword(.private)
-        } ?? false
+        }
     }
     
     var typeName: String {
-        self.bindings.first?.typeAnnotation?.type.as(SimpleTypeIdentifierSyntax.self)?.name.text ?? ""
+        self.bindings.first?.typeAnnotation?.type.as(IdentifierTypeSyntax.self)?.name.text ?? ""
     }
 }

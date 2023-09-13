@@ -93,11 +93,11 @@ extension SampleBuilderMacro {
     ) -> DataCategory? {
         
         // Check if SampleBuilderItem is used.
-        guard let attribute = variableDecl.attributes?
+        guard let attribute = variableDecl.attributes
                 .first(where: {
                     $0.as(AttributeSyntax.self)?
                         .attributeName
-                        .as(SimpleTypeIdentifierSyntax.self)?
+                        .as(IdentifierTypeSyntax.self)?
                         .name.text == "SampleBuilderItem"
                 })?.as(AttributeSyntax.self)
               
@@ -116,28 +116,28 @@ extension SampleBuilderMacro {
         }
         
         if let simpleCategoryString = attribute // All categories except image
-            .argument?
-            .as(TupleExprElementListSyntax.self)?
-            .first?.as(TupleExprElementSyntax.self)?
+            .arguments?
+            .as(LabeledExprListSyntax.self)?
+            .first?.as(LabeledExprSyntax.self)?
             .expression.as(MemberAccessExprSyntax.self)?
-            .name.text {
+            .declName.baseName.text {
             
             return DataCategory(rawValue: simpleCategoryString)
         }
         
         if let imageCategoryExpression = attribute
-            .argument?
-            .as(TupleExprElementListSyntax.self)?
-            .first?.as(TupleExprElementSyntax.self)?
+            .arguments?
+            .as(LabeledExprListSyntax.self)?
+            .first?.as(LabeledExprSyntax.self)?
             .expression.as(FunctionCallExprSyntax.self),
            
             imageCategoryExpression
             .calledExpression.as(MemberAccessExprSyntax.self)?
-            .name.text == "image" {
+            .declName.baseName.text == "image" {
             
             // Image's width and height
-            let argumentsValues = imageCategoryExpression.argumentList.compactMap {
-                Int($0.expression.as(IntegerLiteralExprSyntax.self)?.digits.text ?? "")
+            let argumentsValues = imageCategoryExpression.arguments.compactMap {
+                Int($0.expression.as(IntegerLiteralExprSyntax.self)?.literal.text ?? "")
             }
             
             guard argumentsValues.count == 2
@@ -154,7 +154,7 @@ extension SampleBuilderMacro {
     static func getParametersFromInit(
         initSyntax: InitializerDeclSyntax
     ) -> [ParameterItem] {
-        let parameters = initSyntax.signature.input.parameterList
+        let parameters = initSyntax.signature.parameterClause.parameters
         
         return parameters.map {
             ParameterItem(
@@ -178,17 +178,17 @@ extension SampleBuilderMacro {
         var arrayElementListSyntax = ArrayElementListSyntax()
         
         for _ in 1...numberOfItems {
-            arrayElementListSyntax = arrayElementListSyntax
-                .appending(
+            arrayElementListSyntax
+                .append(
                     ArrayElementSyntax(
                         leadingTrivia: .newline,
                         expression: FunctionCallExprSyntax(
                             calledExpression: MemberAccessExprSyntax(
-                                dot: .periodToken(),
+                                period: .periodToken(),
                                 name: .keyword(.`init`)
                             ),
                             leftParen: .leftParenToken(),
-                            argumentList: parameterList,
+                            arguments: parameterList,
                             rightParen: .rightParenToken()
                         ),
                         trailingComma: .commaToken()
