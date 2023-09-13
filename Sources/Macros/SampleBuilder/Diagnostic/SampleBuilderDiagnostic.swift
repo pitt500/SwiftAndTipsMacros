@@ -100,7 +100,6 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
                 )
             ]
         case .sampleBuilderItemRedundant:
-            #warning("Add suggestion removing @SampleBuilderItem")
             return [
                 .init(
                     message: SampleBuilderFixIt.removeSampleBuilderItem,
