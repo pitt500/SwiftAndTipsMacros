@@ -142,30 +142,22 @@ public struct DataCategory: RawRepresentable {
 
         // 1. Create a regular expression pattern
         let pattern = "image\\(width:(\\d+),height:(\\d+)\\)"
-
-        do {
-            // 2. Match the string against the pattern
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
-            if let match = regex.firstMatch(in: inputString, options: [], range: NSRange(location: 0, length: inputString.utf16.count)) {
-                
+        
+        // 2. Match the string against the pattern
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
+              let match = regex.firstMatch(in: inputString, options: [], range: NSRange(location: 0, length: inputString.utf16.count)),
+              
                 // 3. Extract the values
-                if let widthRange = Range(match.range(at: 1), in: inputString),
-                   let heightRange = Range(match.range(at: 2), in: inputString) {
-                    
-                    let width = Int(inputString[widthRange])!
-                    let height = Int(inputString[heightRange])!
-                    
-                    return (width, height)
-                }
-            } else {
-                print("No match found!")
-            }
-        } catch let error {
-            print("Error creating regex: \(error)")
+              let widthRange = Range(match.range(at: 1), in: inputString),
+              let heightRange = Range(match.range(at: 2), in: inputString),
+              let width = Int(inputString[widthRange]),
+              let height = Int(inputString[heightRange])
+        else {
+            print("No match found for '\(inputString)'. Please report this issue!")
+            return (100, 100) // Default in case of any issue
         }
         
-        #warning("Is this the right approach?")
-        return (100, 100) // Default
+        return (width, height)
     }
 }
 

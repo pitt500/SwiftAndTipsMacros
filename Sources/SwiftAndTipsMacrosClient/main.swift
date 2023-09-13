@@ -9,8 +9,8 @@ print(x)
 
 @SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
 struct Example {
-    @SampleBuilderItem(category: .fullName)
-    let item1: String
+    @SampleBuilderItem(category: .image(width: 300, height: 523))
+    let item1: URL
 }
 
 for element in Example.sample {
