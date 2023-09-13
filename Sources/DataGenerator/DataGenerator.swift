@@ -10,7 +10,6 @@ import DataCategory
 import Fakery
 
 // Keep all method names in lowercase.
-#warning("Create Macro to keep all properties in lowercase.")
 public struct DataGenerator {
     public var int: () -> Int
     public var int8: () -> Int8
