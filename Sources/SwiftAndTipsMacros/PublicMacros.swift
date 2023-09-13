@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 
 //@_exported
-#warning("Should we use @_exported?")
+// Should we use @_exported here?
 import DataGenerator
 
 /// A macro that transform an Int into a binary representation and returned
