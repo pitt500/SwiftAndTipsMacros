@@ -43,7 +43,7 @@ extension SampleBuilderMacro {
     ) -> ExprSyntax {
         
         if let simpleType = arrayType.elementType.as(SimpleTypeIdentifierSyntax.self),
-           PrimitiveType(rawValue: simpleType.name.text) == nil {
+           SupportedType(rawValue: simpleType.name.text) == nil {
             // Custom array type that attaches SampleBuilder in its declaration:
             return ExprSyntax(
                 MemberAccessExprSyntax(
@@ -104,8 +104,8 @@ extension SampleBuilderMacro {
         category: DataCategory?
     ) -> ExprSyntax {
         
-        if let primitiveType = PrimitiveType(rawValue: simpleType.name.text) {
-            return primitiveType.exprSyntax(
+        if let supportedType = SupportedType(rawValue: simpleType.name.text) {
+            return supportedType.exprSyntax(
                 dataGeneratorType: generatorType,
                 category: category
             )

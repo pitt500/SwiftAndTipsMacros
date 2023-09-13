@@ -1,5 +1,5 @@
 //
-//  PrimitiveType.swift
+//  SupportedType.swift
 //  
 //
 //  Created by Pedro Rojas on 15/08/23.
@@ -10,7 +10,7 @@ import DataGenerator
 import DataCategory
 
 
-enum PrimitiveType: String {
+enum SupportedType: String {
     case int = "Int"
     case int8 = "Int8"
     case int16 = "Int16"
