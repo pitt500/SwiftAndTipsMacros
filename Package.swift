@@ -13,10 +13,6 @@ let package = Package(
             name: "SwiftAndTipsMacros",
             targets: ["SwiftAndTipsMacros"]
         ),
-        .executable(
-            name: "SwiftAndTipsMacrosClient",
-            targets: ["SwiftAndTipsMacrosClient"]
-        ),
     ],
     dependencies: [
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
