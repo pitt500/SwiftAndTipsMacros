@@ -55,7 +55,7 @@ public struct SampleBuilderItemMacro: PeerMacro {
     }
     
     static func getDataCategory(from node: AttributeSyntax) -> DataCategory {
-        guard let argumentTuple = node.argument?.as(TupleExprElementListSyntax.self)?.first
+        guard let argumentTuple = node.arguments?.as(LabeledExprListSyntax.self)?.first
         else {
             fatalError("Compiler bug: Argument must exist")
         }
@@ -63,7 +63,7 @@ public struct SampleBuilderItemMacro: PeerMacro {
         if let simpleCategoryString = argumentTuple
             .expression
             .as(MemberAccessExprSyntax.self)?
-            .name.text,
+            .declName.baseName.text,
            let dataCategory = DataCategory(rawValue: simpleCategoryString) {
             
             return dataCategory

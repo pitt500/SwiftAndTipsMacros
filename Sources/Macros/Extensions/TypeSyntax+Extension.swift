@@ -13,7 +13,7 @@ extension TypeSyntax {
     }
     
     var isSimpleType: Bool {
-        self.as(SimpleTypeIdentifierSyntax.self) != nil
+        self.as(IdentifierTypeSyntax.self) != nil
     }
     
     var isDictionary: Bool {

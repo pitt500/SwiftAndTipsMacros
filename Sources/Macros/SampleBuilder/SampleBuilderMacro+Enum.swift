@@ -68,11 +68,11 @@ extension SampleBuilderMacro {
                 ExprSyntax(
                     FunctionCallExprSyntax(
                         calledExpression: MemberAccessExprSyntax(
-                            dot: .periodToken(),
+                            period: .periodToken(),
                             name: .identifier(caseItem.name)
                         ),
                         leftParen: .leftParenToken(),
-                        argumentList: getParameterListForSampleElement(
+                        arguments: getParameterListForSampleElement(
                             parameters: parameters,
                             generatorType: generatorType
                         ),
@@ -82,13 +82,13 @@ extension SampleBuilderMacro {
             } else {
                 ExprSyntax(
                     MemberAccessExprSyntax(
-                        dot: .periodToken(),
+                        period: .periodToken(),
                         name: .identifier(caseItem.name)
                     )
                 )
             }
             
-            arrayElementListSyntax = arrayElementListSyntax.appending(
+            arrayElementListSyntax.append(
                 ArrayElementSyntax(
                     leadingTrivia: .newline,
                     expression: caseExpression,

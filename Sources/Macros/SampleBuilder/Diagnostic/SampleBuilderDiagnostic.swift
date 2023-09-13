@@ -75,17 +75,17 @@ enum SampleBuilderDiagnostic: String, DiagnosticMessage {
                                 fromProtocol: node.as(EnumDeclSyntax.self)?.memberBlock ?? node
                             ),
                             newNode: Syntax(
-                                MemberDeclBlockSyntax(
+                                MemberBlockSyntax(
                                     leftBrace: .leftBraceToken(),
-                                    members: MemberDeclListSyntax {
-                                        MemberDeclListItemSyntax(
+                                    members: MemberBlockItemListSyntax {
+                                        MemberBlockItemSyntax(
                                             decl: EnumCaseDeclSyntax(
                                                 leadingTrivia: .newline,
                                                 caseKeyword: .keyword(.case),
                                                 elements: EnumCaseElementListSyntax {
                                                     EnumCaseElementSyntax(
                                                         leadingTrivia: .space,
-                                                        identifier: .identifier("<#your case#>")
+                                                        name: .identifier("<#your case#>")
                                                     )
                                                 },
                                                 trailingTrivia: .newline
