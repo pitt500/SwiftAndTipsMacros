@@ -32,6 +32,7 @@ public struct DataCategory: RawRepresentable {
     }
     
     public var category: Category
+    public static let noCategory = DataCategory(rawValue: "") 
     
     public init(_ value: BuiltInValue) {
         self.category = .builtInValue(value)

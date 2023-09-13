@@ -91,6 +91,8 @@ extension SampleBuilderMacro {
         generatorType: DataGeneratorType,
         context: MacroExpansionContext
     ) -> DataCategory? {
+        
+        // Check if SampleBuilderItem is used.
         guard let attribute = variableDecl.attributes?
                 .first(where: {
                     $0.as(AttributeSyntax.self)?
@@ -100,10 +102,12 @@ extension SampleBuilderMacro {
                 })?.as(AttributeSyntax.self)
               
         else {
-            return DataCategory(rawValue: "") // No Attribute
+            return DataCategory.noCategory
         }
         
         if generatorType == .default {
+            // Since default will always the return the same value,
+            // Using SampleBuilderItem is useless and will throw a warning.
             SampleBuilderDiagnostic.report(
                 diagnostic: .sampleBuilderItemRedundant,
                 node: Syntax(attribute),
@@ -131,20 +135,20 @@ extension SampleBuilderMacro {
             .calledExpression.as(MemberAccessExprSyntax.self)?
             .name.text == "image" {
             
+            // Image's width and height
             let argumentsValues = imageCategoryExpression.argumentList.compactMap {
                 Int($0.expression.as(IntegerLiteralExprSyntax.self)?.digits.text ?? "")
             }
             
             guard argumentsValues.count == 2
             else {
-                #warning("Throw an error and clean this mess")
-                return DataCategory(rawValue: "") // No Attribute
+                return DataCategory.noCategory
             }
             
             return DataCategory(imageWidth: argumentsValues[0], height: argumentsValues[1])
         }
         
-        return DataCategory(rawValue: "") // No Attribute
+        return DataCategory.noCategory
     }
     
     static func getParametersFromInit(
