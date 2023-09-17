@@ -2,13 +2,23 @@
 This repository contains a list of Swift Macros to make your coding live on Apple ecosystem simpler and more productive.
 
 ## Content
-* [\#binaryString](#\#binaryString)
-* [@SampleBuilder](#samplebuilder)
-    * [@SampleBuilderItem](#samplebuilderitem)
-* [Limitations](#limitations)
-* [Future Work](#future-work)
-* [Contributing](#contributing)
-* [Contact](#contact)
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [SwiftAndTipsMacros](#swiftandtipsmacros)
+  - [Content](#content)
+  - [#binaryString](#binarystring)
+  - [@SampleBuilder](#samplebuilder)
+    - [@SampleBuilderItem](#samplebuilderitem)
+  - [Add the package to your project](#add-the-package-to-your-project)
+  - [Limitations](#limitations)
+  - [Future Work](#future-work)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
+
+<!-- /code_chunk_output -->
+
 
 ## #binaryString
 **\#binaryString** is a freestanding macro that will convert an Integer literal into a binary string representation:
@@ -28,11 +38,14 @@ TBD
 ### @SampleBuilderItem
 TBD
 
+## Add the package to your project
+TBD
+
 ## Limitations
 * Conflict with #Preview and expanded sample code.
 
 ## Future Work
-TBD
+* Adding support to CGPoint and more types in random generator mode.
 
 ## Contributing
 TBD
