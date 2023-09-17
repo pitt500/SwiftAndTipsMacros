@@ -7,7 +7,8 @@
 
 import Foundation
 import DataCategory
-import Fakery
+
+fileprivate typealias Provider = FakeDataProvider
 
 // Keep all method names in lowercase.
 public struct DataGenerator {
@@ -59,47 +60,51 @@ public extension DataGenerator {
         data: { Data() },
         date: { Date(timeIntervalSinceReferenceDate: 0) },
         uuid: { UUID.increasingUUID },
-        cgpoint: { .zero },
-        cgrect: { .zero },
-        cgsize: { .zero },
-        cgvector: { .zero },
-        cgfloat: { .zero },
+        cgpoint: { CGPoint() },
+        cgrect: { CGRect() },
+        cgsize: { CGSize() },
+        cgvector: { CGVector() },
+        cgfloat: { CGFloat() },
         url: { URL(string: "https://www.apple.com")! }
     )
     static func random(dataCategory: DataCategory? = nil) -> Self {
         Self(
-            int: { Faker().number.randomInt() },
-            int8: { Int8(Faker().number.randomInt(min: 0, max: Int(Int8.max))) },
-            int16: { Int16(Faker().number.randomInt(min: 0, max: Int(Int16.max))) },
-            int32: { Int32(Faker().number.randomInt(min: 0, max: Int(Int32.max))) },
-            int64: { Int64(Faker().number.randomInt(min: 0, max: Int(Int64.max))) },
-            uint: { UInt(Faker().number.randomInt()) },
-            uint8: { UInt8(Faker().number.randomInt(min: 0, max: Int(UInt8.max))) },
-            uint16: { UInt16(Faker().number.randomInt(min: 0, max: Int(UInt16.max))) },
-            uint32: { UInt32(Faker().number.randomInt()) },
-            uint64: { UInt64(Faker().number.randomInt()) },
-            float: { Faker().number.randomFloat() },
-            float32: { Float32(Faker().number.randomFloat()) },
-            float64: { Float64(Faker().number.randomFloat()) },
+            int: { Provider().randomInt(min: 0, max: 1000) },
+            int8: { Int8(Provider().randomInt(min: 0, max: 1000)) },
+            int16: { Int16(Provider().randomInt(min: 0, max: 1000)) },
+            int32: { Int32(Provider().randomInt(min: 0, max: 1000)) },
+            int64: { Int64(Provider().randomInt(min: 0, max: 1000)) },
+            uint: { UInt(Provider().randomInt(min: 0, max: 1000) ) },
+            uint8: { UInt8(Provider().randomInt(min: 0, max: 1000)) },
+            uint16: { UInt16(Provider().randomInt(min: 0, max: 1000)) },
+            uint32: { UInt32(Provider().randomInt(min: 0, max: 1000)) },
+            uint64: { UInt64(Provider().randomInt(min: 0, max: 1000)) },
+            float: { Provider().randomFloat(min: 0, max: 1000) },
+            float32: { Float32(Provider().randomFloat(min: 0, max: 1000)) },
+            float64: { Float64(Provider().randomFloat(min: 0, max: 1000)) },
             double: {
                 guard case .builtInValue(let value) = dataCategory?.category
                 else {
-                    return Faker().number.randomDouble()
+                    return Provider().randomDouble(min: 0, max: 1000)
                 }
                 
-                return value == .price ? Faker().commerce.price() : Faker().number.randomDouble()
+                return if value == .price {
+                    Provider().price()
+                } else {
+                    Provider().randomDouble(min: 0, max: 1000)
+                }
             },
             string: {
                 let stringCollection: [String] = [
-                    Faker().name.firstName(),
-                    Faker().name.lastName(),
-                    Faker().name.name(),
-                    Faker().internet.email(),
-                    "\(Faker().address.streetAddress(includeSecondary: true)), \(Faker().address.city()), \(Faker().address.stateAbbreviation()) \(Faker().address.postcode())",
-                    Faker().app.version(),
-                    Faker().business.creditCardNumber(),
-                    Faker().company.name(),
-                    Faker().internet.username()
+                    Provider().firstName(),
+                    Provider().lastName(),
+                    Provider().fullName(),
+                    Provider().email(),
+                    Provider().address(),
+                    Provider().appVersion(),
+                    Provider().creditCardNumber(),
+                    Provider().companyName(),
+                    Provider().username()
                 ]
                 
                 guard case .builtInValue(let value) = dataCategory?.category
@@ -109,30 +114,30 @@ public extension DataGenerator {
                 
                 return switch value {
                 case .firstName:
-                    Faker().name.firstName()
+                    Provider().firstName()
                 case .lastName:
-                    Faker().name.lastName()
+                    Provider().lastName()
                 case .fullName:
-                    Faker().name.name()
+                    Provider().fullName()
                 case .email:
-                    Faker().internet.email()
+                    Provider().email()
                 case .address:
-                    "\(Faker().address.streetAddress(includeSecondary: true)), \(Faker().address.city()), \(Faker().address.stateAbbreviation()) \(Faker().address.postcode())"
+                    Provider().address()
                 case .appVersion:
-                    Faker().app.version()
+                    Provider().appVersion()
                 case .creditCardNumber:
-                    Faker().business.creditCardNumber()
+                    Provider().creditCardNumber()
                 case .companyName:
-                    Faker().company.name()
+                    Provider().companyName()
                 case .username:
-                    Faker().internet.username()
+                    Provider().username()
                 case .url, .price:
                     stringCollection.randomElement()!
                 }
             },
-            bool: { Faker().number.randomBool() },
+            bool: { Provider().randomBool() },
             data: { Data() },
-            date: { Faker.Date().backward(days: Faker().number.randomInt(min: 0, max: 100)) },
+            date: { Provider().date() },
             uuid: { UUID() },
             cgpoint: { CGPoint() },
             cgrect: { CGRect() },
@@ -142,10 +147,10 @@ public extension DataGenerator {
             url: {
                 guard case .image(let width, let height) = dataCategory?.category
                 else {
-                    return URL(string: Faker().internet.url())!
+                    return Provider().url()
                 }
                 
-                return URL(string: "https://picsum.photos/\(width)/\(height)")!
+                return Provider().image(width: width, height: height)
             }
         )
     }
