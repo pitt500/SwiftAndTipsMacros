@@ -167,7 +167,7 @@ The current supported list includes:
 - `CGSize`
 - `CGVector`
 
-\* It includes nested types too!
+> \* It includes nested types too!
 
 More types will be supported soon.
 
@@ -243,20 +243,20 @@ If you want to customize your sample data even further for `.random` generator, 
 
 The following list shows the supported categories:
 * String:
-        - `firstName`
-        - `lastName`
-        - `fullName`
-        - `email`
-        - `address`
-        - `appVersion`
-        - `creditCardNumber`
-        - `companyName`
-        - `username`
+    - `firstName`
+    - `lastName`
+    - `fullName`
+    - `email`
+    - `address`
+    - `appVersion`
+    - `creditCardNumber`
+    - `companyName`
+    - `username`
 * Double:
-        - `price`
+    - `price`
 * URL:
-        - `url` (generic web link)
-        - `image` (image url)
+    - `url` (generic web link)
+    - `image` (image url)
 
 More category will be added soon.
 
