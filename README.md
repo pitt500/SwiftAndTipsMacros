@@ -236,6 +236,8 @@ enum MyEnum {
 }
 ```
 
+To generate the sample for enums, we are adding each case to sample array one by one and starting over if `numberOfItems` is larger than the number of cases.
+
 ### @SampleBuilderItem
 If you want to customize your sample data even further for `.random` generator, you can use `@SampleBuilderItem` to specify the type of data you want to generate.
 
