@@ -1,23 +1,48 @@
 import SwiftAndTipsMacros
 import Foundation
-import DataCategory
 import DataGenerator
 
 let x = #binaryString(10)
 
 print(x)
 
-@SampleBuilder(numberOfItems: 100, dataGeneratorType: .random)
+@SampleBuilder(numberOfItems: 10, dataGeneratorType: .random)
 struct Example {
-    //@SampleBuilderItem(category: .image(width: 300, height: 523))
-    //let item1: URL
-    
-    @SampleBuilderItem(category: .fullName)
     let item1: String
+    let item2: Int
 }
 
 for element in Example.sample {
-    print(element.item1)
+    print(element.item1, element.item2)
+}
+
+@SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+struct Review {
+    let rating: Int
+    let time: Date
+    let product: Product
+}
+
+@SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+struct Product {
+    var price: Int
+    var description: String
+}
+
+@SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+struct Profile {
+    @SampleBuilderItem(category: .firstName)
+    let firstName: String
+    
+    @SampleBuilderItem(category: .lastName)
+    let lastName: String
+    
+    @SampleBuilderItem(category: .image(width: 300, height: 300))
+    let profileImage: URL
+}
+
+for profile in Profile.sample {
+    print(profile.firstName, profile.lastName, profile.profileImage)
 }
 
 //@SampleBuilder(numberOfItems: 5)
@@ -145,13 +170,13 @@ for element in Example.sample {
 //}
 
 
-//@SampleBuilder(numberOfItems: 6)
-//enum MyEnum {
-//    indirect case case1(String, Int, String, [String])
-//    case case2
-//    case case3(Product)
-//    case case4([String: Product])
-//}
+@SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
+enum MyEnum {
+    indirect case case1(String, Int, String, [String])
+    case case2
+    case case3(Product)
+    case case4([String: Product])
+}
 //
 //@SampleBuilder(numberOfItems: 6)
 //struct Test {
