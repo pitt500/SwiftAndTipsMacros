@@ -311,9 +311,9 @@ TBD
 * Adding more macros useful for your development.
 
 ## Contributing
-There are a lot of work to do, if you want to contribute adding a new macro or fixing an existing one, follow these rules:
-1. Create unit tests for all the PRs you submit (unless is just fixing a typo).
-2. Please describe in your PR the purpose of your change or new macro.
+There are a lot of work to do, if you want to contribute adding a new macro or fixing an existing one, feel free to fork this project and follow these rules before creating a PR:
+1. Include unit tests in your PR (unless is just to fix a typo).
+2. Please add a description in your PR with the purpose of your change or new macro.
 
 ## Contact
 If you have any feedback, I would love to hear from you. Please feel free to reach out to me through any of my social media channels:
