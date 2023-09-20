@@ -20,6 +20,7 @@ This repository contains a list of Swift Macros to make your coding live on Appl
   - [Future Work](#future-work)
   - [Contributing](#contributing)
   - [Contact](#contact)
+  - [License](#license)
 
 <!-- /code_chunk_output -->
 
@@ -300,12 +301,19 @@ TBD
 
 ## Limitations
 * Conflict with #Preview and expanded sample code.
+* Both `SwiftAndTipsMacros` and `DataGenerator` are required to be imported in order to make `@SampleBuilder` work. I've explored another alternative using `@_exported` that will reimport `DataGenerator` directly from `SwiftAndTipsMacros`, allowing you to just requiring one import, however, using [underscored attributes](https://github.com/apple/swift/blob/main/docs/ReferenceGuides/UnderscoredAttributes.md) is not recommended because it may break your code after a new Swift release. 
+> If you want more information about `@_exported`, watch this [video](https://youtu.be/xU6btygja5Y).
 
 ## Future Work
-* Adding support to CGPoint and more types in random generator mode.
+- @SampleBuilder
+    * Adding support to CGPoint and more types in random generator mode.
+    * Remove the importing of DataGeneration once `@_exported` can be used publicly.
+* Adding more macros useful for your development.
 
 ## Contributing
-TBD
+There are a lot of work to do, if you want to contribute adding a new macro or fixing an existing one, follow these rules:
+1. Create unit tests for all the PRs you submit (unless is just fixing a typo).
+2. Please describe in your PR the purpose of your change or new macro.
 
 ## Contact
 If you have any feedback, I would love to hear from you. Please feel free to reach out to me through any of my social media channels:
@@ -316,3 +324,6 @@ If you have any feedback, I would love to hear from you. Please feel free to rea
 * [Mastodon](https://iosdev.space/@swiftandtips)
 
 Thanks you, and have a great day! 😄
+
+## License
+TBD
