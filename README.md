@@ -1,26 +1,23 @@
 # SwiftAndTipsMacros
 This repository contains a list of Swift Macros to make your coding live on Apple ecosystem simpler and more productive.
 
-## Content
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [SwiftAndTipsMacros](#swiftandtipsmacros)
-  - [Content](#content)
-  - [#binaryString](#binarystring)
-  - [@SampleBuilder](#samplebuilder)
-    - [How to use it?](#how-to-use-it)
-    - [Supported Foundation Types](#supported-foundation-types)
-    - [Custom Types](#custom-types)
-    - [Enums](#enums)
-    - [@SampleBuilderItem](#samplebuilderitem)
-  - [Add the package to your project](#add-the-package-to-your-project)
-  - [Limitations](#limitations)
-  - [Future Work](#future-work)
-  - [Contributing](#contributing)
-  - [Contact](#contact)
-  - [License](#license)
+- [#binaryString](#binarystring)
+- [@SampleBuilder](#samplebuilder)
+  - [How to use it?](#how-to-use-it)
+  - [Supported Foundation Types](#supported-foundation-types)
+  - [Custom Types](#custom-types)
+  - [Enums](#enums)
+  - [@SampleBuilderItem](#samplebuilderitem)
+- [Add the package to your project](#add-the-package-to-your-project)
+- [Limitations](#limitations)
+- [Future Work](#future-work)
+- [Contributing](#contributing)
+- [Contact](#contact)
+- [License](#license)
 
 <!-- /code_chunk_output -->
 
