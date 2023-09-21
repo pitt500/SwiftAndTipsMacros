@@ -5,6 +5,7 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 
 <!-- code_chunk_output -->
 
+- [Requirements](#requirements)
 - [#binaryString](#binarystring)
 - [@SampleBuilder](#samplebuilder)
   - [How to use it?](#how-to-use-it)
@@ -13,7 +14,7 @@ This repository contains a list of Swift Macros to make your coding live on Appl
   - [Custom Types](#custom-types)
   - [Enums](#enums)
   - [@SampleBuilderItem](#samplebuilderitem)
-- [Add SwiftAndTipsMacros to your project](#add-swiftandtipsmacros-to-your-project)
+- [Installation](#installation)
 - [Limitations](#limitations)
 - [Future Work](#future-work)
 - [Contributing](#contributing)
@@ -22,6 +23,9 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 
 <!-- /code_chunk_output -->
 
+## Requirements
+- Xcode 15 or above.
+- Swift 5.9 or above.
 
 ## #binaryString
 **\#binaryString** is a freestanding macro that will convert an Integer literal into a binary string representation:
@@ -321,8 +325,19 @@ Nyasia Tromp https://picsum.photos/300/300
 > @SampleBuilderItem only works with `random` generator in structs. If you use this macro within `default` generator, a warning will appear indicating that macro is redundand.
 
 
-## Add SwiftAndTipsMacros to your project
-TBD
+## Installation
+```swift
+import PackageDescription
+
+let package = Package(
+  name: "<TARGET_NAME>",
+  dependencies: [
+  	// ...
+    .package(url: "https://github.com/pitt500/SwiftAndTipsMacros.git", branch: "main")
+  	// ...
+  ]
+)
+```
 
 ## Limitations
 * Conflict with #Preview and expanded sample code.
