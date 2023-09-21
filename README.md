@@ -366,6 +366,7 @@ let contentView = ContentView(people: Person.sample)
 > If you want more information about `@_exported`, watch this [video](https://youtu.be/xU6btygja5Y).
 
 ## Future Work
+* Create documentation to all functions, structs and enums needed and export it usind DocC.
 
 ### @SampleBuilder
 * Adding support to CGPoint and more types in random generator mode.
@@ -376,6 +377,15 @@ let contentView = ContentView(people: Person.sample)
 There are a lot of work to do, if you want to contribute adding a new macro or fixing an existing one, feel free to fork this project and follow these rules before creating a PR:
 1. Include unit tests in your PR (unless is just to fix a typo).
 2. Please add a description in your PR with the purpose of your change or new macro.
+3. Add the following header to all your code files:
+```swift
+/*
+ This source file is part of SwiftAndTipsMacros
+
+ Copyright (c) 2023 Pedro Rojas and project authors
+ Licensed under MIT License
+*/
+```
 
 ## Contact
 If you have any feedback, I would love to hear from you. Please feel free to reach out to me through any of my social media channels:
