@@ -1,8 +1,10 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+/*
+ This source file is part of SwiftAndTipsMacros
 
-//@_exported
-// Should we use @_exported here?
+ Copyright (c) 2023 Pedro Rojas and project authors
+ Licensed under MIT License
+*/
+
 import DataGenerator
 
 /// A macro that transform an Int into a binary representation and returned

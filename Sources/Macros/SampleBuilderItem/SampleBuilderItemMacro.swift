@@ -1,6 +1,13 @@
+/*
+ This source file is part of SwiftAndTipsMacros
+
+ Copyright (c) 2023 Pedro Rojas and project authors
+ Licensed under MIT License
+*/
+
 //
-//  File.swift
-//  
+//  SampleBuilderItemMacro.swift
+//
 //
 //  Created by Pedro Rojas on 23/08/23.
 //

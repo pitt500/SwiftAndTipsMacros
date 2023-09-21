@@ -1,3 +1,10 @@
+/*
+ This source file is part of SwiftAndTipsMacros
+
+ Copyright (c) 2023 Pedro Rojas and project authors
+ Licensed under MIT License
+*/
+
 //
 //  SampleBuilderItemCategory.swift
 //
