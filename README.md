@@ -345,15 +345,31 @@ let package = Package(
 
 ## Limitations
 ### @SampleBuilder
-* Conflict with #Preview and expanded sample code.
+* Conflict with `#Preview` and expanded `sample` property:
+For some reason, if you call `sample` property directly within a `#Preview` macro, the project will not compile.
+```swift
+#Preview {
+    ContentView(people: Person.sample) 
+    //Error: Type 'Person' has no member 'sample'
+}
+```
+**Workaround**: Just create an instance that holds the view and use it inside `#Preview` instead of directly calling the View and `sample`:
+```swift
+#Preview {
+    contentView
+}
+
+let contentView = ContentView(people: Person.sample)
+```
+
 * Both `SwiftAndTipsMacros` and `DataGenerator` are required to be imported in order to make `@SampleBuilder` work. I've explored another alternative using `@_exported` that will reimport `DataGenerator` directly from `SwiftAndTipsMacros`, allowing you to just requiring one import, however, using [underscored attributes](https://github.com/apple/swift/blob/main/docs/ReferenceGuides/UnderscoredAttributes.md) is not recommended because it may break your code after a new Swift release. 
 > If you want more information about `@_exported`, watch this [video](https://youtu.be/xU6btygja5Y).
 
 ## Future Work
 
 ### @SampleBuilder
-    * Adding support to CGPoint and more types in random generator mode.
-    * Remove the importing of DataGeneration once `@_exported` can be used publicly.
+* Adding support to CGPoint and more types in random generator mode.
+* Remove the importing of DataGeneration once `@_exported` can be used publicly.
 * Adding more macros useful for your development.
 
 ## Contributing
