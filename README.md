@@ -17,7 +17,9 @@ This repository contains a list of Swift Macros to make your coding live on Appl
   - [@SampleBuilderItem](#samplebuilderitem)
 - [Installation](#installation)
 - [Limitations](#limitations)
+  - [@SampleBuilder](#samplebuilder-1)
 - [Future Work](#future-work)
+  - [@SampleBuilder](#samplebuilder-2)
 - [Contributing](#contributing)
 - [Contact](#contact)
 - [License](#license)
@@ -342,12 +344,14 @@ let package = Package(
 ```
 
 ## Limitations
+### @SampleBuilder
 * Conflict with #Preview and expanded sample code.
 * Both `SwiftAndTipsMacros` and `DataGenerator` are required to be imported in order to make `@SampleBuilder` work. I've explored another alternative using `@_exported` that will reimport `DataGenerator` directly from `SwiftAndTipsMacros`, allowing you to just requiring one import, however, using [underscored attributes](https://github.com/apple/swift/blob/main/docs/ReferenceGuides/UnderscoredAttributes.md) is not recommended because it may break your code after a new Swift release. 
 > If you want more information about `@_exported`, watch this [video](https://youtu.be/xU6btygja5Y).
 
 ## Future Work
-- @SampleBuilder
+
+### @SampleBuilder
     * Adding support to CGPoint and more types in random generator mode.
     * Remove the importing of DataGeneration once `@_exported` can be used publicly.
 * Adding more macros useful for your development.
