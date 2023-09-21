@@ -6,13 +6,14 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 <!-- code_chunk_output -->
 
 - [Requirements](#requirements)
-- [#binaryString](#binarystring)
-- [@SampleBuilder](#samplebuilder)
-  - [How to use it?](#how-to-use-it)
-  - [Supported Foundation Types](#supported-foundation-types)
-  - [`.default` Generator Values](#default-generator-values)
-  - [Custom Types](#custom-types)
-  - [Enums](#enums)
+- [Macros](#macros)
+  - [#binaryString](#binarystring)
+  - [@SampleBuilder](#samplebuilder)
+    - [How to use it?](#how-to-use-it)
+    - [Supported Foundation Types](#supported-foundation-types)
+    - [`.default` Generator Values](#default-generator-values)
+    - [Custom Types](#custom-types)
+    - [Enums](#enums)
   - [@SampleBuilderItem](#samplebuilderitem)
 - [Installation](#installation)
 - [Limitations](#limitations)
@@ -27,7 +28,8 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 - Xcode 15 or above.
 - Swift 5.9 or above.
 
-## #binaryString
+## Macros
+### #binaryString
 **\#binaryString** is a freestanding macro that will convert an Integer literal into a binary string representation:
 ```swift
 let x = #binaryString(10)
@@ -39,10 +41,10 @@ print(x) // Output: "1010"
 ```
 > This macro was created as a tutorial to explain how macros work. It would be simpler to create a function to do this instead :). Learn more here: TBD
 
-## @SampleBuilder
+### @SampleBuilder
 The goal of @SampleBuilder is simple: Create an array of sample data from your models to be used in SwiftUI previews, unit tests or anything that requires mock data without the paying of write it donw from scratch.
 
-### How to use it?
+#### How to use it?
 1. Import `SwiftAndTipsMacros` and `DataGenerator`.
 2. Attach `@SampleBuilder` to an `struct` or `enum`.
 3. Provide the number of items you want for your sample.
@@ -143,7 +145,7 @@ myrtismcdermott@example.net 859
 */
 ``````
 
-### Supported Foundation Types
+#### Supported Foundation Types
 The current supported list includes:
 - `UUID`
 - `Array`*
@@ -174,7 +176,7 @@ The current supported list includes:
 
 More types will be supported soon.
 
-### `.default` Generator Values
+#### `.default` Generator Values
 | Type | Value |
 | - | - |
 | `UUID` | 00000000-0000-0000-0000-000000000000 (auto increasing) |
@@ -201,7 +203,7 @@ More types will be supported soon.
 | `CGVector` | `CGVector()` |
 
 
-### Custom Types
+#### Custom Types
 You can add `@SampleBuilder` to all your custom types to generate sample data from those types. Here's an example:
 
 ```swift
@@ -240,7 +242,7 @@ struct Product {
 ```
 > To generate the sample property in structs, we always take the initialize with the longest number of parameters available. If there are no initializers available, we use the memberwise init.
 
-### Enums
+#### Enums
 Enums are also supported by `@SampleBuilder`.
 ```swift
 @SampleBuilder(numberOfItems: 6, dataGeneratorType: .random)
