@@ -388,4 +388,4 @@ If you have any feedback, I would love to hear from you. Please feel free to rea
 Thanks you, and have a great day! 😄
 
 ## License
-TBD
+Licensed under MIT License, see [LICENSE](./LICENSE) for more information.
