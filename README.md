@@ -12,7 +12,7 @@ This repository contains a list of Swift Macros to make your coding live on Appl
   - [Custom Types](#custom-types)
   - [Enums](#enums)
   - [@SampleBuilderItem](#samplebuilderitem)
-- [Add the package to your project](#add-the-package-to-your-project)
+- [Add SwiftAndTipsMacros to your project](#add-swiftandtipsmacros-to-your-project)
 - [Limitations](#limitations)
 - [Future Work](#future-work)
 - [Contributing](#contributing)
@@ -293,7 +293,7 @@ Nyasia Tromp https://picsum.photos/300/300
 > @SampleBuilderItem only works with `random` generator in structs. If you use this macro within `default` generator, a warning will appear indicating that macro is redundand.
 
 
-## Add the package to your project
+## Add SwiftAndTipsMacros to your project
 TBD
 
 ## Limitations
