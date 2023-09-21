@@ -6,9 +6,9 @@ let x = #binaryString(10)
 
 print(x)
 
-@SampleBuilder(numberOfItems: 10, dataGeneratorType: .random)
+@SampleBuilder(numberOfItems: 10, dataGeneratorType: .default)
 struct Example {
-    let item1: String
+    let item1: UUID
     let item2: Int
 }
 

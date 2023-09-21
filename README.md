@@ -9,6 +9,7 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 - [@SampleBuilder](#samplebuilder)
   - [How to use it?](#how-to-use-it)
   - [Supported Foundation Types](#supported-foundation-types)
+  - [`.default` Generator Values](#default-generator-values)
   - [Custom Types](#custom-types)
   - [Enums](#enums)
   - [@SampleBuilderItem](#samplebuilderitem)
@@ -168,6 +169,33 @@ The current supported list includes:
 > \* It includes nested types too!
 
 More types will be supported soon.
+
+### `.default` Generator Values
+| Type | Value |
+| - | - |
+| `UUID` | 00000000-0000-0000-0000-000000000000 (auto increasing) |
+| `String` | "Hello World" |
+| `Int` | 0 |
+| `Bool` | `true` |
+| `Data` | Data() |
+| `Date` | Date(timeIntervalSinceReferenceDate: 0) |
+| `Double` | 0.0 |
+| `Float` | 0.0 |
+| `Int8` | 0 |
+| `Int16` | 0 |
+| `Int32` | 0 |
+| `Int64` | 0 |
+| `UInt8` | 0 |
+| `UInt16` | 0 |
+| `UInt32` | 0 |
+| `UInt64` | 0 |
+| `URL` | URL(string: "https://www.apple.com")! |
+| `CGPoint` | `CGPoint()` |
+| `CGFloat` | `CGFloat()` |
+| `CGRect` | `CGRect()` |
+| `CGSize` | `CGSize()` |
+| `CGVector` | `CGVector()` |
+
 
 ### Custom Types
 You can add `@SampleBuilder` to all your custom types to generate sample data from those types. Here's an example:
