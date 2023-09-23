@@ -29,6 +29,12 @@ This repository contains a list of Swift Macros to make your coding live on Appl
 ## Requirements
 - Xcode 15 or above.
 - Swift 5.9 or above.
+- Platforms:
+    - macOS 10.15 or above.
+    - iOS 13.0 or above.
+    - tvOS 13.0 or above.
+    - watchOS 6.0 or above.
+    - macCatalyst 13.0 or above.
 
 ## Macros
 ### #binaryString
