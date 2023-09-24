@@ -75,6 +75,7 @@ struct Example {
     let item2: Int
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .init(item1: DataGenerator.default.string(), item2: DataGenerator.default.int()),
@@ -89,6 +90,7 @@ struct Example {
             .init(item1: DataGenerator.default.string(), item2: DataGenerator.default.int()),
         ]
     }
+    #endif
     */
 }
 ...
@@ -118,6 +120,7 @@ struct Example {
     let item2: Int
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .init(item1: DataGenerator.random().string(), item2: DataGenerator.random().int()),
@@ -132,6 +135,7 @@ struct Example {
             .init(item1: DataGenerator.random().string(), item2: DataGenerator.random().int()),
         ]
     }
+    #endif
     */
 }
 ...
@@ -222,6 +226,7 @@ struct Review {
     let product: Product
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .init(rating: DataGenerator.random().int(), time: DataGenerator.random().date(), product: Product.sample.first!),
@@ -229,6 +234,7 @@ struct Review {
             .init(rating: DataGenerator.random().int(), time: DataGenerator.random().date(), product: Product.sample.first!),
         ]
     }
+    #endif
     */
 }
 
@@ -238,6 +244,7 @@ struct Product {
     var description: String
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .init(price: DataGenerator.random().int(), description: DataGenerator.random().string()),
@@ -245,6 +252,7 @@ struct Product {
             .init(price: DataGenerator.random().int(), description: DataGenerator.random().string()),
         ]
     }
+    #endif
     */
 }
 ```
@@ -262,6 +270,7 @@ enum MyEnum {
 
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .case1(DataGenerator.random().string(), DataGenerator.random().int(), DataGenerator.random().string(), [DataGenerator.random().string()]),
@@ -272,6 +281,7 @@ enum MyEnum {
             .case2,
         ]
     }
+    #endif
     */
 }
 ```
@@ -314,6 +324,7 @@ struct Profile {
     let profileImage: URL
     /*
     expanded code:
+    #if DEBUG
     static var sample: [Self] {
         [
             .init(firstName: DataGenerator.random(dataCategory: .init(rawValue: "firstName")).string(), lastName: DataGenerator.random(dataCategory: .init(rawValue: "lastName")).string(), profileImage: DataGenerator.random(dataCategory: .init(rawValue: "image(width:300,height:300)")).url()),
@@ -321,6 +332,7 @@ struct Profile {
             .init(firstName: DataGenerator.random(dataCategory: .init(rawValue: "firstName")).string(), lastName: DataGenerator.random(dataCategory: .init(rawValue: "lastName")).string(), profileImage: DataGenerator.random(dataCategory: .init(rawValue: "image(width:300,height:300)")).url()),
         ]
     }
+    #endif
     */
 }
 
