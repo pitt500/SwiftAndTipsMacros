@@ -70,7 +70,7 @@ extension SampleBuilderMacro {
     
     static func generateSampleCodeSyntax(
         sampleData: ArrayElementListSyntax
-    ) -> VariableDeclSyntax {
+    ) -> IfConfigDeclSyntax {
         let returnType = ArrayTypeSyntax(
             leftSquare: .leftSquareToken(),
             element: IdentifierTypeSyntax(
@@ -79,7 +79,7 @@ extension SampleBuilderMacro {
             rightSquare: .rightSquareToken()
         )
         
-        return VariableDeclSyntax(
+        let sampleCode = VariableDeclSyntax(
             modifiers: DeclModifierListSyntax {
                 DeclModifierSyntax(name: .keyword(.static))
             },
@@ -111,6 +111,23 @@ extension SampleBuilderMacro {
                             }
                         ),
                         rightBrace: .rightBraceToken()
+                    )
+                )
+            }
+        )
+        
+        // This will make the code available only on DEBUG mode
+        return IfConfigDeclSyntax(
+            clauses: IfConfigClauseListSyntax {
+                IfConfigClauseSyntax(
+                    poundKeyword: .poundIfToken(),
+                    condition: DeclReferenceExprSyntax(
+                        baseName: .identifier("DEBUG")
+                    ),
+                    elements: .decls(
+                        MemberBlockItemListSyntax {
+                            MemberBlockItemSyntax(decl: sampleCode)
+                        }
                     )
                 )
             }
