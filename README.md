@@ -111,6 +111,7 @@ Hello World 0
 Hello World 0
 */
 ``````
+> To optimize your production code, the sample property is available only in DEBUG mode. Ensure you use the #if DEBUG condition or any other custom flag specific to debug mode before archiving your app.
 
 Now, if you need a more realistic data, you can use `random` generator type:
 ```swift
