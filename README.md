@@ -50,7 +50,9 @@ print(x) // Output: "1010"
 > This macro was created as a tutorial to explain how macros work. It would be simpler to create a function to do this instead :). Learn more here: TBD
 
 ### @SampleBuilder
-The goal of @SampleBuilder is simple: Create an array of sample data from your models to be used in SwiftUI previews, unit tests or anything that requires mock data without the paying of write it down from scratch.
+The aim of @SampleBuilder is straightforward: Generate an array of sample data from your models for use in SwiftUI previews, unit tests, or any scenario that needs mock data—without the hassle of crafting it from scratch.
+
+> Interested in a demonstration? Check out this [video](https://youtu.be/qE1P26C2ZIQ)
 
 #### How to use it?
 1. Import `SwiftAndTipsMacros` and `DataGenerator`.
