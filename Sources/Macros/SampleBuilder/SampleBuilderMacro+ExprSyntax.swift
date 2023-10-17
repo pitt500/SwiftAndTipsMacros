@@ -34,6 +34,12 @@ extension SampleBuilderMacro {
                 generatorType: generatorType, 
                 category: category
             )
+        } else if type.isOptional {
+            getOptionalExprSyntax(
+                optionalType: type.as(OptionalTypeSyntax.self)!,
+                generatorType: generatorType,
+                category: category
+            )
         } else {
             getSimpleExprSyntax(
                 simpleType: type.as(IdentifierTypeSyntax.self)!,
@@ -102,6 +108,18 @@ extension SampleBuilderMacro {
                     )
                 }
             }
+        )
+    }
+    
+    static func getOptionalExprSyntax(
+        optionalType: OptionalTypeSyntax,
+        generatorType: DataGeneratorType,
+        category: DataCategory?
+    ) -> ExprSyntax {
+        return getExpressionSyntax(
+            from: optionalType.wrappedType,
+            generatorType: generatorType,
+            category: category
         )
     }
     

@@ -165,6 +165,7 @@ The current supported list includes:
 - `UUID`
 - `Array`*
 - `Dictionary`*
+- `Optional`*
 - `String`
 - `Int`
 - `Bool`

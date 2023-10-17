@@ -587,6 +587,122 @@ final class SampleBuilderTests: XCTestCase {
         #endif
     }
     
+    // MARK: - Optionals
+    func testSampleBuilderMacro_optionals_supported_types() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                let item1: Int?
+                let item2: String??
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item1: Int?
+                let item2: String??
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(item1: DataGenerator.random().int(), item2: DataGenerator.random().string()),
+                        .init(item1: DataGenerator.random().int(), item2: DataGenerator.random().string()),
+                        .init(item1: DataGenerator.random().int(), item2: DataGenerator.random().string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_optionals_supported_custom_types() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                let item1: Int?
+                let item2: Product?
+            }
+            
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Product {
+                var price: Int
+                var description: String
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item1: Int?
+                let item2: Product?
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(item1: DataGenerator.random().int(), item2: Product.sample.first!),
+                        .init(item1: DataGenerator.random().int(), item2: Product.sample.first!),
+                        .init(item1: DataGenerator.random().int(), item2: Product.sample.first!),
+                    ]
+                }
+                #endif
+            }
+            struct Product {
+                var price: Int
+                var description: String
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.random().int(), description: DataGenerator.random().string()),
+                        .init(price: DataGenerator.random().int(), description: DataGenerator.random().string()),
+                        .init(price: DataGenerator.random().int(), description: DataGenerator.random().string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_optionals_nested() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .random)
+            struct Example {
+                let item1: Int????????
+            }
+            """#,
+            expandedSource: """
+            struct Example {
+                let item1: Int????????
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(item1: DataGenerator.random().int()),
+                        .init(item1: DataGenerator.random().int()),
+                        .init(item1: DataGenerator.random().int()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
     // MARK: - Enums
     func testSampleBuilderMacro_enum() throws{
         #if canImport(Macros)

@@ -26,4 +26,8 @@ extension TypeSyntax {
     var isDictionary: Bool {
         self.as(DictionaryTypeSyntax.self) != nil
     }
+    
+    var isOptional: Bool {
+        self.as(OptionalTypeSyntax.self) != nil
+    }
 }
