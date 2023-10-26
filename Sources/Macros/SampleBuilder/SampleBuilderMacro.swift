@@ -57,6 +57,16 @@ public struct SampleBuilderMacro: MemberMacro {
             )
         }
         
+        if let classDecl = declaration.as(ClassDeclSyntax.self) {
+            return SampleBuilderMacroForClass(
+                classDecl: classDecl,
+                numberOfItems: numberOfItems,
+                generatorType: generatorType,
+                context: context)
+        }
+        
+        
+        
         SampleBuilderDiagnostic.report(
             diagnostic: .notAnStructOrEnum,
             node: Syntax(declaration),
