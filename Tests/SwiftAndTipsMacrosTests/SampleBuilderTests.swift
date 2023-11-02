@@ -31,7 +31,7 @@ fileprivate let testMacros: [String: Macro.Type] = [
 
 final class SampleBuilderTests: XCTestCase {
     // MARK: - Structs
-    func testSampleBuilderMacro_Int_and_String() throws{
+    func testSampleBuilderMacro_struct_Int_and_String() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -63,7 +63,7 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    func testSampleBuilderMacro_supportedType() throws{
+    func testSampleBuilderMacro_struct_supportedType() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -191,7 +191,7 @@ final class SampleBuilderTests: XCTestCase {
         #endif
     }
     
-    func testSampleBuilderMacro_array() throws{
+    func testSampleBuilderMacro_struct_array() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -225,7 +225,7 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    func testSampleBuilderMacro_ignore_static_variable() throws{
+    func testSampleBuilderMacro_struct_ignore_static_variable() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -264,7 +264,7 @@ final class SampleBuilderTests: XCTestCase {
         #endif
     }
     
-    func testSampleBuilderMacro_ignore_not_stored_properties() throws{
+    func testSampleBuilderMacro_struct_ignore_not_stored_properties() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -494,7 +494,7 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    func testSampleBuilderMacro_dictionary_property() throws{
+    func testSampleBuilderMacro_struct_dictionary_property() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -528,7 +528,7 @@ final class SampleBuilderTests: XCTestCase {
         throw XCTSkip("macros are only supported when running tests for the host platform")
         #endif
     }
-    func testSampleBuilderMacro_multiple_dictionary_properties() throws{
+    func testSampleBuilderMacro_struct_multiple_dictionary_properties() throws{
         #if canImport(Macros)
         assertMacroExpansion(
             #"""
@@ -568,6 +568,715 @@ final class SampleBuilderTests: XCTestCase {
                 var dict1: [String: Int]
                 var dict2: [String: [Int]]
                 var dict3: [String: [String: Example]]
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict1: [DataGenerator.default.string(): DataGenerator.default.int()], dict2: [DataGenerator.default.string(): [DataGenerator.default.int()]], dict3: [DataGenerator.default.string(): [DataGenerator.default.string(): Example.sample.first!]]),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    // MARK: - Classes
+    func testSampleBuilderMacro_class_Int_and_String() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Example {
+                let x: Int
+                let y: String
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            }
+            """#,
+            expandedSource: """
+            class Example {
+                let x: Int
+                let y: String
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_supportedType() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Person {
+                let id: UUID
+                let item1: String
+                let item2: Int
+                let item3: Bool
+                let item4: Data
+                let item5: Date
+                let item6: Double
+                let item7: Float
+                let item8: Int8
+                let item9: Int16
+                let item10: Int32
+                let item11: Int64
+                let item12: UInt8
+                let item13: UInt16
+                let item14: UInt32
+                let item15: UInt64
+                let item16: URL
+                let item17: CGPoint
+                let item18: CGFloat
+                let item19: CGRect
+                let item20: CGSize
+                let item21: CGVector
+            
+                init(id: UUID, item1: String, item2: Int, item3: Bool, item4: Data, item5: Date, item6: Double, item7: Float, item8: Int8, item9: Int16, item10: Int32, item11: Int64, item12: UInt8, item13: UInt16, item14: UInt32, item15: UInt64, item16: URL, item17: CGPoint, item18: CGFloat, item19: CGRect, item20: CGSize, item21: CGVector) {
+                    self.id = id
+                    self.item1 = item1
+                    self.item2 = item2
+                    self.item3 = item3
+                    self.item4 = item4
+                    self.item5 = item5
+                    self.item6 = item6
+                    self.item7 = item7
+                    self.item8 = item8
+                    self.item9 = item9
+                    self.item10 = item10
+                    self.item11 = item11
+                    self.item12 = item12
+                    self.item13 = item13
+                    self.item14 = item14
+                    self.item15 = item15
+                    self.item16 = item16
+                    self.item17 = item17
+                    self.item18 = item18
+                    self.item19 = item19
+                    self.item20 = item20
+                    self.item21 = item21
+                }
+            }
+            """#,
+            expandedSource: """
+            class Person {
+                let id: UUID
+                let item1: String
+                let item2: Int
+                let item3: Bool
+                let item4: Data
+                let item5: Date
+                let item6: Double
+                let item7: Float
+                let item8: Int8
+                let item9: Int16
+                let item10: Int32
+                let item11: Int64
+                let item12: UInt8
+                let item13: UInt16
+                let item14: UInt32
+                let item15: UInt64
+                let item16: URL
+                let item17: CGPoint
+                let item18: CGFloat
+                let item19: CGRect
+                let item20: CGSize
+                let item21: CGVector
+            
+                init(id: UUID, item1: String, item2: Int, item3: Bool, item4: Data, item5: Date, item6: Double, item7: Float, item8: Int8, item9: Int16, item10: Int32, item11: Int64, item12: UInt8, item13: UInt16, item14: UInt32, item15: UInt64, item16: URL, item17: CGPoint, item18: CGFloat, item19: CGRect, item20: CGSize, item21: CGVector) {
+                    self.id = id
+                    self.item1 = item1
+                    self.item2 = item2
+                    self.item3 = item3
+                    self.item4 = item4
+                    self.item5 = item5
+                    self.item6 = item6
+                    self.item7 = item7
+                    self.item8 = item8
+                    self.item9 = item9
+                    self.item10 = item10
+                    self.item11 = item11
+                    self.item12 = item12
+                    self.item13 = item13
+                    self.item14 = item14
+                    self.item15 = item15
+                    self.item16 = item16
+                    self.item17 = item17
+                    self.item18 = item18
+                    self.item19 = item19
+                    self.item20 = item20
+                    self.item21 = item21
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                        .init(id: DataGenerator.default.uuid(), item1: DataGenerator.default.string(), item2: DataGenerator.default.int(), item3: DataGenerator.default.bool(), item4: DataGenerator.default.data(), item5: DataGenerator.default.date(), item6: DataGenerator.default.double(), item7: DataGenerator.default.float(), item8: DataGenerator.default.int8(), item9: DataGenerator.default.int16(), item10: DataGenerator.default.int32(), item11: DataGenerator.default.int64(), item12: DataGenerator.default.uint8(), item13: DataGenerator.default.uint16(), item14: DataGenerator.default.uint32(), item15: DataGenerator.default.uint64(), item16: DataGenerator.default.url(), item17: DataGenerator.default.cgpoint(), item18: DataGenerator.default.cgfloat(), item19: DataGenerator.default.cgrect(), item20: DataGenerator.default.cgsize(), item21: DataGenerator.default.cgvector()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_customClass() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Review {
+                let rating: Int
+                let time: Date
+                let product: Product
+            
+                init(rating: Int, time: Date, product: Product) {
+                    self.rating = rating
+                    self.time = time
+                    self.product = product
+                }
+            }
+
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int, description: String) {
+                    self.price = price
+                    self.description = description
+                }
+            }
+            """#,
+            expandedSource: """
+            class Review {
+                let rating: Int
+                let time: Date
+                let product: Product
+            
+                init(rating: Int, time: Date, product: Product) {
+                    self.rating = rating
+                    self.time = time
+                    self.product = product
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
+                        .init(rating: DataGenerator.default.int(), time: DataGenerator.default.date(), product: Product.sample.first!),
+                    ]
+                }
+                #endif
+            }
+            class Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int, description: String) {
+                    self.price = price
+                    self.description = description
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_class_array() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+                let array: [Int]
+            
+                init(price: Int, description: String, array: [Int]) {
+                    self.price = price
+                    self.description = description
+                    self.array = array
+                }
+            }
+            """#,
+            expandedSource: """
+            class Product {
+                var price: Int
+                var description: String
+                let array: [Int]
+            
+                init(price: Int, description: String, array: [Int]) {
+                    self.price = price
+                    self.description = description
+                    self.array = array
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), array: [DataGenerator.default.int()]),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_ignore_static_variable() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Example {
+                let x: Int
+                private var y: String
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            }
+            """#,
+            expandedSource: """
+            class Example {
+                let x: Int
+                private var y: String
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testSampleBuilderMacro_class_ignore_not_stored_properties() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Example {
+                let x: Int
+                private var y: String {
+                    didSet {
+                        print("didSet called")
+                    }
+                    willSet {
+                        print("willSet called")
+                    }
+                }
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+                var z: String {
+                    get { y }
+                }
+                var w: String {
+                    get {
+                        y
+                    }
+                    set {
+                        y = newValue
+                    }
+                }
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            }
+            """#,
+            expandedSource: """
+            class Example {
+                let x: Int
+                private var y: String {
+                    didSet {
+                        print("didSet called")
+                    }
+                    willSet {
+                        print("willSet called")
+                    }
+                }
+                static var asd: Self {
+                    .init(x: 0, y: "Hello World")
+                }
+                var z: String {
+                    get { y }
+                }
+                var w: String {
+                    get {
+                        y
+                    }
+                    set {
+                        y = newValue
+                    }
+                }
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_with_custom_init_one_parameter() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int) {
+                    self.price = price
+                    self.description = ""
+                }
+            }
+            """#,
+            expandedSource: """
+            class Product {
+                var price: Int
+                var description: String
+            
+                init(price: Int) {
+                    self.price = price
+                    self.description = ""
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int()),
+                        .init(price: DataGenerator.default.int()),
+                        .init(price: DataGenerator.default.int()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_with_custom_init_many_parameter() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            }
+            """#,
+            expandedSource: """
+            class Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_with_many_inits() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            
+                init(price: Int, date: Date, id: UUID, description: String) {
+                    self.price = price
+                    self.description = description
+                    self.date = date
+                    self.id = id
+                }
+            }
+            """#,
+            expandedSource: """
+            class Product {
+                var price: Int
+                var description: String
+                var date: Date
+                var id: UUID
+            
+                init(price: Int, date: Date) {
+                    self.price = price
+                    self.description = ""
+                    self.date = date
+                    self.id = UUID()
+                }
+            
+                init(price: Int, date: Date, id: UUID, description: String) {
+                    self.price = price
+                    self.description = description
+                    self.date = date
+                    self.id = id
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
+                        .init(price: DataGenerator.default.int(), date: DataGenerator.default.date(), id: DataGenerator.default.uuid(), description: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_dictionary_property() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+                var dict: [String: Int]
+            
+                init(price: Int, description: String, dict: [String: Int]) {
+                    self.price = price
+                    self.description = description
+                    self.dict = dict
+                }
+            }
+            """#,
+            expandedSource: """
+            class Product {
+                var price: Int
+                var description: String
+                var dict: [String: Int]
+            
+                init(price: Int, description: String, dict: [String: Int]) {
+                    self.price = price
+                    self.description = description
+                    self.dict = dict
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
+                        .init(price: DataGenerator.default.int(), description: DataGenerator.default.string(), dict: [DataGenerator.default.string(): DataGenerator.default.int()]),
+                    ]
+                }
+                #endif
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    func testSampleBuilderMacro_class_multiple_dictionary_properties() throws{
+        #if canImport(Macros)
+        assertMacroExpansion(
+            #"""
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Example {
+                let x: Int
+                let y: String
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            }
+
+            @SampleBuilder(numberOfItems: 3, dataGeneratorType: .default)
+            class Product {
+                var price: Int
+                var description: String
+                var dict1: [String: Int]
+                var dict2: [String: [Int]]
+                var dict3: [String: [String: Example]]
+            
+                init(price: Int, description: String, dict1: [String: Int], dict2: [String: [Int]], dict3: [String: [String: Example]]) {
+                    self.price = price
+                    self.description = description
+                    self.dict1 = dict1
+                    self.dict2 = dict2
+                    self.dict3 = dict3
+                }
+            }
+            """#,
+            expandedSource: """
+            class Example {
+                let x: Int
+                let y: String
+            
+                init(x: Int, y: String) {
+                    self.x = x
+                    self.y = y
+                }
+            
+                #if DEBUG
+                static var sample: [Self] {
+                    [
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                        .init(x: DataGenerator.default.int(), y: DataGenerator.default.string()),
+                    ]
+                }
+                #endif
+            }
+            class Product {
+                var price: Int
+                var description: String
+                var dict1: [String: Int]
+                var dict2: [String: [Int]]
+                var dict3: [String: [String: Example]]
+            
+                init(price: Int, description: String, dict1: [String: Int], dict2: [String: [Int]], dict3: [String: [String: Example]]) {
+                    self.price = price
+                    self.description = description
+                    self.dict1 = dict1
+                    self.dict2 = dict2
+                    self.dict3 = dict3
+                }
             
                 #if DEBUG
                 static var sample: [Self] {

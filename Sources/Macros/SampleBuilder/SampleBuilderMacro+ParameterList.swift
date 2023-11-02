@@ -13,6 +13,7 @@
 
 import SwiftSyntax
 import DataGenerator
+import DataCategory
 import SwiftSyntaxMacros
 
 typealias declSyntax = DeclSyntaxProtocol & SyntaxHashable

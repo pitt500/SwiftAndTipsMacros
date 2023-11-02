@@ -13,7 +13,6 @@
 
 import SwiftSyntax
 import DataGenerator
-import DataCategory
 import SwiftSyntaxMacros
 
 extension SampleBuilderMacro {
