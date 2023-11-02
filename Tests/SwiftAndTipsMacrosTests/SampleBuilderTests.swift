@@ -1756,36 +1756,6 @@ final class SampleBuilderTests: XCTestCase {
         #endif
     }
     
-    // MARK: - Errors In Classes
-    #warning("Should be removed and Add class support")
-//    func testSampleBuilderMacro_error_classes() throws{
-//        #if canImport(Macros)
-//        assertMacroExpansion(
-//            #"""
-//            @SampleBuilder(numberOfItems: 1, dataGeneratorType: .default)
-//            class MyClass {
-//                
-//            }
-//            """#,
-//            expandedSource: """
-//            class MyClass {
-//                
-//            }
-//            """,
-//            diagnostics: [
-//                DiagnosticSpec(
-//                    message: "@SampleBuilder can only be applied to Structs and Enums",
-//                    line: 1,
-//                    column: 1
-//                )
-//            ],
-//            macros: testMacros
-//        )
-//        #else
-//        throw XCTSkip("macros are only supported when running tests for the host platform")
-//        #endif
-//    }
-    
     // MARK: - Errors In Number of Items Parameter
     func testSampleBuilderMacro_error_numberOfItems_equal_to_zero() throws{
         #if canImport(Macros)
