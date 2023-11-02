@@ -57,6 +57,16 @@ public struct SampleBuilderMacro: MemberMacro {
             )
         }
         
+        if let classDecl = declaration.as(ClassDeclSyntax.self) {
+            return SampleBuilderMacroForClass(
+                classDecl: classDecl,
+                numberOfItems: numberOfItems,
+                generatorType: generatorType,
+                context: context)
+        }
+        
+        
+        
         SampleBuilderDiagnostic.report(
             diagnostic: .notAnStructOrEnum,
             node: Syntax(declaration),
@@ -223,5 +233,39 @@ extension SampleBuilderMacro {
         }
         
         return parameterList
+    }
+    
+    static func generateSampleData(
+        parameters: [ParameterItem],
+        numberOfItems: Int,
+        generatorType: DataGeneratorType
+    ) -> ArrayElementListSyntax {
+        let parameterList = getParameterListForSampleElement(
+            parameters: parameters,
+            generatorType: generatorType
+        )
+        
+        var arrayElementListSyntax = ArrayElementListSyntax()
+        
+        for _ in 1...numberOfItems {
+            arrayElementListSyntax
+                .append(
+                    ArrayElementSyntax(
+                        leadingTrivia: .newline,
+                        expression: FunctionCallExprSyntax(
+                            calledExpression: MemberAccessExprSyntax(
+                                period: .periodToken(),
+                                name: .keyword(.`init`)
+                            ),
+                            leftParen: .leftParenToken(),
+                            arguments: parameterList,
+                            rightParen: .rightParenToken()
+                        ),
+                        trailingComma: .commaToken()
+                    )
+                )
+        }
+        
+        return arrayElementListSyntax
     }
 }

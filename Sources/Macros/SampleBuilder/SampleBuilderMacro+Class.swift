@@ -1,15 +1,14 @@
 /*
  This source file is part of SwiftAndTipsMacros
-
+ 
  Copyright (c) 2023 Pedro Rojas and project authors
  Licensed under MIT License
-*/
-
+ */
 //
-//  SampleBuilderMacro+Struct.swift
-//  
+//  SampleBuilderMacro+Class.swift
 //
-//  Created by Pedro Rojas on 19/08/23.
+//
+//  Created by Philip Eram on 10/26/23.
 //
 
 import SwiftSyntax
@@ -17,17 +16,16 @@ import DataGenerator
 import SwiftSyntaxMacros
 
 extension SampleBuilderMacro {
-    static func SampleBuilderMacroForStruct(
-        structDecl: StructDeclSyntax,
+    static func SampleBuilderMacroForClass(
+        classDecl: ClassDeclSyntax,
         numberOfItems: Int,
         generatorType: DataGeneratorType,
         context: MacroExpansionContext
     ) -> [SwiftSyntax.DeclSyntax] {
-        let validParameters = getValidParameterList(
-            from: structDecl.memberBlock,
+        let validParameters = getValidParameterListFromClass(
+            from: classDecl,
             generatorType: generatorType,
-            context: context
-        )
+            context: context)
         
         let sampleCode = generateSampleCodeSyntax(
             sampleData: generateSampleData(
@@ -40,12 +38,12 @@ extension SampleBuilderMacro {
         return [DeclSyntax(sampleCode)]
     }
     
-    static func getValidParameterList(
-        from structDecl: StructDeclSyntax,
+    static func getValidParameterListFromClass(
+        from classDecl: ClassDeclSyntax,
         generatorType: DataGeneratorType,
         context: MacroExpansionContext
     ) -> [ParameterItem] {
-        getValidParameterList(from: structDecl.memberBlock,
+        getValidParameterList(from: classDecl.memberBlock,
                               generatorType: generatorType,
                               context: context)
     }
