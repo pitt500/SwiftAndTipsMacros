@@ -234,4 +234,38 @@ extension SampleBuilderMacro {
         
         return parameterList
     }
+    
+    static func generateSampleData(
+        parameters: [ParameterItem],
+        numberOfItems: Int,
+        generatorType: DataGeneratorType
+    ) -> ArrayElementListSyntax {
+        let parameterList = getParameterListForSampleElement(
+            parameters: parameters,
+            generatorType: generatorType
+        )
+        
+        var arrayElementListSyntax = ArrayElementListSyntax()
+        
+        for _ in 1...numberOfItems {
+            arrayElementListSyntax
+                .append(
+                    ArrayElementSyntax(
+                        leadingTrivia: .newline,
+                        expression: FunctionCallExprSyntax(
+                            calledExpression: MemberAccessExprSyntax(
+                                period: .periodToken(),
+                                name: .keyword(.`init`)
+                            ),
+                            leftParen: .leftParenToken(),
+                            arguments: parameterList,
+                            rightParen: .rightParenToken()
+                        ),
+                        trailingComma: .commaToken()
+                    )
+                )
+        }
+        
+        return arrayElementListSyntax
+    }
 }
