@@ -125,8 +125,8 @@ extension SampleBuilderMacro {
         if let simpleCategoryString = attribute // All categories except image
             .arguments?
             .as(LabeledExprListSyntax.self)?
-            .first?.as(LabeledExprSyntax.self)?
-            .expression.as(MemberAccessExprSyntax.self)?
+            .first?.expression
+            .as(MemberAccessExprSyntax.self)?
             .declName.baseName.text {
             
             return DataCategory(rawValue: simpleCategoryString)
@@ -134,8 +134,7 @@ extension SampleBuilderMacro {
         
         if let imageCategoryExpression = attribute
             .arguments?
-            .as(LabeledExprListSyntax.self)?
-            .first?.as(LabeledExprSyntax.self)?
+            .as(LabeledExprListSyntax.self)?.first?
             .expression.as(FunctionCallExprSyntax.self),
            
             imageCategoryExpression

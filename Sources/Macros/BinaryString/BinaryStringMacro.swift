@@ -30,7 +30,8 @@ public struct BinaryStringMacro: ExpressionMacro {
         of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
         in context: some SwiftSyntaxMacros.MacroExpansionContext
     ) throws -> SwiftSyntax.ExprSyntax {
-        guard let argument = node.argumentList.first?.expression else {
+        guard let argument = node.arguments.first?.expression 
+        else {
             fatalError("compiler bug: the macro does not have any arguments")
         }
         

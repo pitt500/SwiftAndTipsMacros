@@ -142,7 +142,9 @@ extension SampleBuilderMacro {
             fatalError("Compiler bug: Argument must exist")
         }
 
-        guard let generatorArgument = argumentTuple.first(where: { $0.as(LabeledExprSyntax.self)?.label?.text == "dataGeneratorType" }),
+        guard let generatorArgument = argumentTuple.first(
+            where: { $0.label?.text == "dataGeneratorType" }
+        ),
               let argumentValue = generatorArgument.expression.as(MemberAccessExprSyntax.self)?.declName.baseName,
               let generatorType = DataGeneratorType(rawValue: argumentValue.text)
         else {
